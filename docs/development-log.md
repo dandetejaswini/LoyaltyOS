@@ -101,8 +101,31 @@
   - **Workflow F (Expiries)**: Implemented idempotent `ExpiryService.process_expiries` creating batch headers/items and debiting unconsumed points for expired lots.
   - **Workflow G (Tiers)**: Implemented `TierService.evaluate_account_tier` calculating 365-day rolling qualifying spend and executing tier upgrades.
   - **Security Patch**: Authored `scripts/002_security_hardening_patch.sql` to idempotently ensure all 5 triggers and 9 RLS policies exist on Supabase.
-- **Commit**: Pending commit.
+- **Commit**: `a5a06d4` — `feat(workflows): implement core loyalty business workflows A-G and ledger integrity`
 - **Verification Performed**:
   - Backend Test Suite: 16 new business workflow tests added (`test_workflows.py`); full suite expanded to 70 tests passing with 0 warnings (`pytest -v`).
   - Frontend Production Build: `tsc` typecheck and `vite build` bundled 1,572 modules cleanly in 6.63s with 0 errors.
-- **Remaining Work**: Phase 5 (Advanced Ledger Integrity, Event Bus & Point Expiration Automation).
+- **Remaining Work**: Phase 5 (LLIRE: Loyalty Ledger Intelligence & Reconciliation Engine).
+
+---
+
+### Phase 5 — LLIRE: Loyalty Ledger Intelligence & Reconciliation Engine
+- **Date**: 2026-11-15
+- **Feature / Milestone**: Explainable Anomaly Detection, Forensic Intelligence Engine & Ground-Truth Evaluation
+- **Brief Description**:
+  - **Detector 1 (Account Balance Mismatch)**: Implemented `BalanceMismatchDetector` identifying discrepancies between stored `loyalty_accounts.current_balance` and the sum of immutable `points_transactions` journal records, as well as active lots drift. Assigned severity based on financial drift direction and magnitude.
+  - **Detector 2 (Over-Redemption)**: Implemented `OverRedemptionDetector` auditing redemptions that drove running balances into unauthorized deficits or lacked backing `points_lot_allocations`. Correctly distinguishes legitimate post-return negative balances from over-redemptions.
+  - **Detector 3 (Unreversed Return)**: Implemented `UnreversedReturnDetector` checking completed order returns for missing or insufficient points reversals, respecting original accrual caps and partial refund proportionality.
+  - **Detector 4 (Double Expiry)**: Implemented `DoubleExpiryDetector` flagging points lots processed across multiple expiry batches or deducting excess points beyond initial lot allocations, guaranteeing idempotency compliance.
+  - **Detector 5 (Incorrect Tier)**: Implemented `IncorrectTierDetector` identifying accounts assigned to tiers exceeding their reconstructed 365-day qualifying net merchandise spend (detecting gross revenue inflation via sales tax and shipping inclusion).
+  - **Explainability & Forensic Evidence**: Formatted all findings to provide 7 mandatory explainability answers: what happened, rule violated, affected entity, supporting evidence, discrepancy calculation, severity rationale, and recommended operator investigation checklist.
+  - **Idempotency & Incident Persistence**: Integrated `IntelligenceEngine` with SHA-256 fingerprinting to prevent duplicate incident creation in `anomaly_incidents` across repeated runs.
+  - **REST API & RBAC**: Implemented 6 REST endpoints (`POST /api/v1/intelligence/detect`, `POST /api/v1/intelligence/detect/{name}`, `GET /api/v1/intelligence/anomalies`, `GET /api/v1/intelligence/anomalies/{id}`, `GET /api/v1/intelligence/summary`, `GET /api/v1/intelligence/evaluate`) with RBAC scoping and customer data isolation.
+  - **Ground-Truth Evaluation**: Built `IntelligenceEvaluator` measuring True Positives, False Positives, False Negatives, Precision, Recall, and F1 score against Phase 3's ground truth manifest.
+  - **Frontend Preparation**: Authored TypeScript type contracts in `frontend/src/types/intelligence.ts`.
+- **Commit**: `feat(intelligence): implement explainable LLIRE anomaly detection engine`
+- **Verification Performed**:
+  - Backend Test Suite: 18 new intelligence and API tests added (`test_intelligence.py`); total test suite expanded to 88 tests passing with 0 failures and 0 warnings (`pytest -v` in 1.18s).
+  - Ground-Truth Evaluation Benchmark: Verified on synthetic dataset: Precision = 1.0, Recall = 1.0, F1 Score = 1.0 across all 5 detector categories with 0 false positives.
+  - Frontend Production Build: `tsc && vite build` bundled 1,572 modules cleanly in 7.73s with 0 errors.
+- **Remaining Work**: Phase 6 (Dual-Key Operator Remediation & Compensating Ledger Workflows).
