@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  Wallet, 
-  Award, 
-  Clock, 
-  Gift, 
-  History, 
-  CheckCircle2, 
-  AlertCircle, 
+import {
+  Wallet,
+  Award,
+  Clock,
+  Gift,
+  History,
+  CheckCircle2,
+  AlertCircle,
   RefreshCw,
   Copy,
   Check
@@ -209,17 +209,15 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ user }) =>
         <div className="bg-white p-5 rounded-xl border border-platinum-200 shadow-sm">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-semibold text-platinum-500 uppercase tracking-wider">Ledger Health</span>
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-              reconciliation?.is_reconciled ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
-            }`}>
+            <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${reconciliation?.is_reconciled ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+              }`}>
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border ${
-            reconciliation?.is_reconciled
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-              : 'bg-amber-50 text-amber-800 border-amber-200'
-          }`}>
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border ${reconciliation?.is_reconciled
+            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
+            : 'bg-amber-50 text-amber-800 border-amber-200'
+            }`}>
             {reconciliation?.is_reconciled ? '100% Balanced' : 'Variance Detected'}
           </span>
           <span className="text-[11px] text-platinum-500 block mt-2 font-mono">
@@ -311,11 +309,10 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ user }) =>
                 <button
                   disabled={!canAfford || isRedeeming}
                   onClick={() => handleRedeem(reward)}
-                  className={`w-full py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${
-                    canAfford
-                      ? 'bg-navy-900 hover:bg-navy-800 text-white shadow-sm'
-                      : 'bg-platinum-200 text-platinum-400 cursor-not-allowed'
-                  }`}
+                  className={`w-full py-2.5 px-3 rounded-lg text-xs font-bold transition flex items-center justify-center gap-2 ${canAfford
+                    ? 'bg-navy-900 hover:bg-navy-800 text-white shadow-sm'
+                    : 'bg-platinum-200 text-platinum-400 cursor-not-allowed'
+                    }`}
                 >
                   <Gift className="w-3.5 h-3.5" />
                   {canAfford ? 'Redeem Voucher' : 'Insufficient Points'}
@@ -360,19 +357,17 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ user }) =>
                         {new Date(tx.created_at).toLocaleDateString()}
                       </td>
                       <td className="py-2.5">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${
-                          tx.entry_type === 'ACCRUAL' || tx.entry_type === 'ADJUSTMENT_CREDIT'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : tx.entry_type === 'REDEMPTION'
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${tx.entry_type === 'ACCRUAL' || tx.entry_type === 'ADJUSTMENT_CREDIT'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                          : tx.entry_type === 'REDEMPTION'
                             ? 'bg-indigo-50 text-indigo-700 border border-indigo-200'
                             : 'bg-rose-50 text-rose-700 border border-rose-200'
-                        }`}>
+                          }`}>
                           {tx.entry_type}
                         </span>
                       </td>
-                      <td className={`py-2.5 font-mono font-bold text-right ${
-                        tx.points > 0 ? 'text-emerald-600' : 'text-rose-600'
-                      }`}>
+                      <td className={`py-2.5 font-mono font-bold text-right ${tx.points > 0 ? 'text-emerald-600' : 'text-rose-600'
+                        }`}>
                         {tx.points > 0 ? `+${tx.points}` : tx.points}
                       </td>
                       <td className="py-2.5 font-mono text-right text-platinum-700">

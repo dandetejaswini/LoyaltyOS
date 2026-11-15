@@ -35,13 +35,12 @@ export interface PointsTransaction {
   points: number;
   running_balance: number;
   balance_after?: number;
-  reference_type?: string;
-  reference_id?: string;
+  reference_type?: string | null;
+  reference_id?: string | null;
   idempotency_key: string;
   notes?: string | null;
   created_at: string;
 }
-
 export interface TransactionHistoryPage {
   items: PointsTransaction[];
   total_count: number;
@@ -82,23 +81,19 @@ export interface Redemption {
   status: string;
   created_at: string;
 }
-
 export interface ReconciliationReport {
   account_id: string;
   customer_id: string;
   stored_balance: number;
-  current_balance?: number;
   ledger_derived_balance: number;
-  sum_active_lots?: number;
-  sum_ledger_credits?: number;
-  sum_ledger_debits?: number;
   discrepancy_amount: number;
-  discrepancy_lots?: number;
   is_reconciled: boolean;
-  status: 'RECONCILED' | 'DISCREPANCY_DETECTED' | string;
+  status: 'RECONCILED' | 'DISCREPANCY_DETECTED';
   breakdown: Record<string, number>;
   evaluation_time: string;
   reconciled_at?: string;
+  sum_ledger_credits?: number;
+  sum_ledger_debits?: number;
 }
 
 export interface OrderLine {

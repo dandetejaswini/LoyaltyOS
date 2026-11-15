@@ -1,7 +1,12 @@
 # Environment and secrets
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+!backend/.env.example
+!frontend/.env.example
+!deployment/*.example
+*.env
+deployment/vercel-frontend.env
 *.pem
 *.key
 serviceAccountKey.json
@@ -53,4 +58,6 @@ frontend/dist-ssr/
 Thumbs.db
 
 # Reports and temporary scratch
+reports/*.html
 reports/*.tmp
+scratch/
