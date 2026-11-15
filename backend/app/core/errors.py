@@ -32,6 +32,11 @@ class BadRequestError(FastAPIHTTPException):
         super().__init__(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
 
 
+class UnprocessableEntityError(FastAPIHTTPException):
+    def __init__(self, detail: str = "Unprocessable entity"):
+        super().__init__(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=detail)
+
+
 def register_exception_handlers(app: FastAPI) -> None:
     async def common_http_handler(request: Request, exc: StarletteHTTPException | FastAPIHTTPException):
         logger.warning(f"HTTP {exc.status_code} on {request.method} {request.url.path}: {exc.detail}")

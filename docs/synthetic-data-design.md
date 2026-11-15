@@ -12,7 +12,10 @@ The pipeline is pinned to master random seed `20261022`, guaranteeing bit-exact 
 
 The data generator strictly adheres to the core Phase 0 business rules (BR-01 through BR-12):
 
-### 2.1 Double-Entry Ledger Invariant (BR-01)
+### 2.1 Ledger Journal Balance Reconciliation Invariant (BR-01)
+
+> [!NOTE] Accounting Model Specification
+> While enterprise loyalty architectures frequently invoke "double-entry" terminology colloquially, the LoyaltyOS ledger operates on an **Append-Only Signed Transaction Journal with Cumulative Balance Reconciliation**. Every balance mutation is an immutable journal transaction ($t \in T$), and the customer's balance is a pure mathematical derivative of this journal. Dual-legged balancing (e.g. debiting Points Liability Reserve vs crediting Marketing Expense) is maintained at the corporate ERP layer, while the loyalty ledger enforces strict journal-to-balance reconciliation with zero allowable drift.
 
 Every customer account balance is an exact derivative of its journal transactions. Direct modification of `loyalty_accounts.current_balance` without a corresponding `points_transactions` journal entry is strictly prohibited:
 
@@ -88,7 +91,7 @@ flowchart TD
 
 ### Anomaly Category Specifications
 
-1. **`BALANCE_MISMATCH`**: Direct database drift injected by modifying an account's `current_balance` without a corresponding transaction, violating BR-01 double-entry invariant.
+1. **`BALANCE_MISMATCH`**: Direct database drift injected by modifying an account's `current_balance` without a corresponding transaction, violating BR-01 ledger reconciliation invariant.
 2. **`OVER_REDEMPTION`**: An unauthorized redemption transaction created where `points_redeemed` exceeds the customer's available positive balance, violating BR-08.
 3. **`UNREVERSED_RETURN`**: An order return recorded with a full monetary refund, but `points_reversed = 0`, violating BR-10.
 4. **`DOUBLE_EXPIRY`**: A previously expired points lot is processed a second time in an expiry batch, deducting points twice, violating BR-11 idempotency.

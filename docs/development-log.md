@@ -79,9 +79,30 @@
   - Implemented `DatasetValidator` verifying referential integrity, double-entry mathematical reconciliation, and audit anomaly detection.
   - Generated cryptographic SHA-256 manifests (`ground_truth_manifest.json`) and exported full JSON entity sets to `data/generated/` and `data/ground_truth/`.
   - Built operator CLI `scripts/seed_data.py` with safe database loading safeguards (`--load-db`, `--confirm-production-seed`).
-- **Commit**: Pending commit.
+- **Commit**: `75dd0f2` — `feat(seed): implement deterministic synthetic data generator and ground truth engine`
 - **Verification Performed**:
   - Test Suite: 12 new seed engine tests added (`test_seed.py`), total test suite expanded to 54 tests passing in 0.92s (`pytest -v`).
   - Baseline Validation: Zero balance drift, 100% invariant compliance across 1,000 customers, 5,000 orders, and 5,686 points transactions.
+  - Benchmark Note: FULL-scale benchmark execution was stopped/canceled and is recorded accurately as incomplete per operator instructions. TEST and MEDIUM scales remain 100% verified and operational.
   - Frontend Build: `npm run build` bundled 1,572 modules cleanly in 6.27s with 0 errors.
-- **Remaining Work**: Phase 4 (Transaction Processing APIs, Returns Workflows & LLIRE Engine) — strictly awaiting user authorization.
+- **Remaining Work**: Phase 4 Core Loyalty Business Workflows.
+
+---
+
+### Phase 4 — Core Loyalty Business Workflows
+- **Date**: 2026-11-15
+- **Feature / Milestone**: Core Business Transaction Engine (Workflows A–G), Audit Logging & Security Scoping
+- **Brief Description**:
+  - **Workflow A (Provisioning)**: Implemented idempotent `CustomerService.provision_customer` establishing 1:1 `LoyaltyAccount` with Bronze tier, zero starting balance, and `CUSTOMER_PROVISIONED` audit logging.
+  - **Workflow B (Accruals)**: Implemented atomic `AccrualService.process_order_accrual` calculating eligible net spend (excluding tax, shipping, and gift cards), applying tier multipliers, floor rounding (BR-02), and generating FIFO points lot with 365-day expiry.
+  - **Workflow C (Reconciliation)**: Implemented `LedgerService.reconcile_account_balance` computing ledger-derived balance against stored balance, reporting multi-point balance drift transparently without silent data corruption.
+  - **Workflow D (Redemptions)**: Implemented concurrency-safe `RedemptionService.redeem_reward` using `SELECT FOR UPDATE` locking, checking positive balance, and allocating points in strict FIFO order (`expires_at ASC, created_at ASC`).
+  - **Workflow E (Returns)**: Implemented `ReturnService.process_return` for partial/full returns, capping reversals at original accrual, and supporting negative balance states (BR-10) with automatic redemption freezing.
+  - **Workflow F (Expiries)**: Implemented idempotent `ExpiryService.process_expiries` creating batch headers/items and debiting unconsumed points for expired lots.
+  - **Workflow G (Tiers)**: Implemented `TierService.evaluate_account_tier` calculating 365-day rolling qualifying spend and executing tier upgrades.
+  - **Security Patch**: Authored `scripts/002_security_hardening_patch.sql` to idempotently ensure all 5 triggers and 9 RLS policies exist on Supabase.
+- **Commit**: Pending commit.
+- **Verification Performed**:
+  - Backend Test Suite: 16 new business workflow tests added (`test_workflows.py`); full suite expanded to 70 tests passing with 0 warnings (`pytest -v`).
+  - Frontend Production Build: `tsc` typecheck and `vite build` bundled 1,572 modules cleanly in 6.63s with 0 errors.
+- **Remaining Work**: Phase 5 (Advanced Ledger Integrity, Event Bus & Point Expiration Automation).

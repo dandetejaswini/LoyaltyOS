@@ -143,15 +143,16 @@ class DatasetValidator:
                     "variance": acc.current_balance - tx_sum,
                 })
 
-        # Audit 2: Over-redemption
-        redemptions = anomalous_dataset["redemptions"]
-        for rdm in redemptions:
-            if "ANOM" in rdm.redemption_id:
+        # Audit 2: Over-redemption (BR-08: Redemptions cannot exceed available positive balance)
+        # Genuine domain invariant: Any REDEMPTION transaction that drives running balance negative or exceeds pre-balance
+        for tx in transactions:
+            if tx.entry_type == "REDEMPTION" and tx.running_balance < 0:
                 detected.append({
                     "category": "OVER_REDEMPTION",
-                    "redemption_id": rdm.redemption_id,
-                    "account_id": rdm.account_id,
-                    "points_redeemed": rdm.points_redeemed,
+                    "transaction_id": tx.transaction_id,
+                    "account_id": tx.account_id,
+                    "points_redeemed": -tx.points,
+                    "resulting_running_balance": tx.running_balance,
                 })
 
         # Audit 3: Unreversed Returns

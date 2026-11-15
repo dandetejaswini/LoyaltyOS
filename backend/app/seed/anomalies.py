@@ -36,10 +36,14 @@ class AnomalyInjector:
 
     def inject_anomalies(self, baseline_dataset: Dict[str, Any]) -> Tuple[Dict[str, Any], List[InjectedAnomaly]]:
         """
-        Creates an isolated deep-copy of the baseline dataset and injects controlled anomalies.
+        Creates an isolated anomalous dataset with copy-on-write semantics to avoid
+        unnecessarily duplicating hundreds of thousands of objects in memory.
         Returns (anomalous_dataset, ground_truth_anomalies).
         """
-        dataset = copy.deepcopy(baseline_dataset)
+        dataset = {
+            k: list(v) if isinstance(v, list) else v
+            for k, v in baseline_dataset.items()
+        }
         self.anomalies = []
         self._anomaly_counter = 0
 
@@ -58,7 +62,7 @@ class AnomalyInjector:
 
     def _inject_balance_mismatch(self, dataset: Dict[str, Any]):
         """
-        Category 1: Balance Mismatch (BR-01 Double-Entry Bookkeeping Violation)
+        Category 1: Balance Mismatch (BR-01 Ledger Reconciliation Invariant Violation)
         Tamper with an account balance directly without creating a ledger transaction.
         """
         accounts = dataset["loyalty_accounts"]
@@ -70,17 +74,22 @@ class AnomalyInjector:
         expected_balance = target_acc.current_balance
         variance = self.rng.choice([150, 250, 500, -100])
         tampered_balance = expected_balance + variance
-        target_acc.current_balance = tampered_balance
+
+        # Copy-on-write clone of target account
+        target_idx = accounts.index(target_acc)
+        cloned_acc = copy.copy(target_acc)
+        cloned_acc.current_balance = tampered_balance
+        accounts[target_idx] = cloned_acc
 
         anomaly = InjectedAnomaly(
             anomaly_id=self._next_anomaly_id(),
             category="BALANCE_MISMATCH",
-            affected_entities={"account_id": target_acc.account_id, "customer_id": target_acc.customer_id},
+            affected_entities={"account_id": cloned_acc.account_id, "customer_id": cloned_acc.customer_id},
             expected_value=expected_balance,
             injected_value=tampered_balance,
             rule_violated="BR-01: Ledger Balance Invariant (Account balance must equal sum of journal transactions)",
             severity="CRITICAL",
-            explanation=f"Direct database drift injected: account {target_acc.account_id} balance was modified by {variance} points without a matching journal transaction.",
+            explanation=f"Direct database drift injected: account {cloned_acc.account_id} balance was modified by {variance} points without a matching journal transaction.",
         )
         self.anomalies.append(anomaly)
 
@@ -129,7 +138,12 @@ class AnomalyInjector:
             created_at=target_acc.updated_at,
         )
         dataset["points_transactions"].append(anom_tx)
-        target_acc.current_balance -= excess_points
+
+        # Copy-on-write clone of target account
+        target_idx = accounts.index(target_acc)
+        cloned_acc = copy.copy(target_acc)
+        cloned_acc.current_balance -= excess_points
+        accounts[target_idx] = cloned_acc
 
         anomaly = InjectedAnomaly(
             anomaly_id=self._next_anomaly_id(),
@@ -210,8 +224,11 @@ class AnomalyInjector:
 
         acc = next((a for a in dataset["loyalty_accounts"] if a.account_id == target_lot.account_id), None)
         if acc:
-            acc.current_balance -= double_deduct_pts
-            running_bal = acc.current_balance
+            acc_idx = dataset["loyalty_accounts"].index(acc)
+            cloned_acc = copy.copy(acc)
+            cloned_acc.current_balance -= double_deduct_pts
+            dataset["loyalty_accounts"][acc_idx] = cloned_acc
+            running_bal = cloned_acc.current_balance
         else:
             running_bal = -double_deduct_pts
 
@@ -255,17 +272,21 @@ class AnomalyInjector:
         target_acc = self.rng.choice(accounts)
         original_qual_spend = Decimal(target_acc.qualifying_spend)
 
-        # Elevate to Gold prematurely
-        target_acc.tier_id = "TIER-GOLD"
+        # Copy-on-write clone of target account
+        all_accounts = dataset["loyalty_accounts"]
+        target_idx = all_accounts.index(target_acc)
+        cloned_acc = copy.copy(target_acc)
+        cloned_acc.tier_id = "TIER-GOLD"
+        all_accounts[target_idx] = cloned_acc
 
         anomaly = InjectedAnomaly(
             anomaly_id=self._next_anomaly_id(),
             category="GROSS_SPEND_TIER_CALCULATION",
-            affected_entities={"account_id": target_acc.account_id, "customer_id": target_acc.customer_id},
+            affected_entities={"account_id": cloned_acc.account_id, "customer_id": cloned_acc.customer_id},
             expected_value="TIER-BRONZE (Qualifying spend < $500.00)",
             injected_value="TIER-GOLD (Calculated using gross revenue including tax/shipping)",
             rule_violated="BR-05: Qualifying Spend vs Gross Spend (Tier upgrades must evaluate net merchandise spend only)",
             severity="MEDIUM",
-            explanation=f"Customer {target_acc.customer_id} upgraded to TIER-GOLD with qualifying spend of only ${original_qual_spend} due to tax/shipping gross inflation.",
+            explanation=f"Customer {cloned_acc.customer_id} upgraded to TIER-GOLD with qualifying spend of only ${original_qual_spend} due to tax/shipping gross inflation.",
         )
         self.anomalies.append(anomaly)

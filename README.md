@@ -3,7 +3,7 @@
 > **"Accrue, redeem, expire and reverse points with a fully auditable loyalty ledger."**
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-54%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-70%20passed-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.14-blue.svg)]()
 [![React](https://img.shields.io/badge/react-18.3-61dafb.svg)]()
@@ -271,9 +271,9 @@ Set-Location frontend; npm run build; Set-Location ..
 | **Phase 1** | Project Setup & Architecture | **Completed** | Three-tier foundation, health probes, CORS hardening |
 | **Phase 2** | Database & Authentication | **Completed** | 21 tables, immutability trigger, Supabase + Firebase auth, RBAC |
 | **Phase 3** | Synthetic Data & Seed Engine | **Completed** | Deterministic generator, 5 anomaly categories, SHA-256 manifest, CLI |
-| **Phase 4** | Core Loyalty Business Workflows| *Pending* | Accrual rules, tier upgrades, returns & reversals |
-| **Phase 5** | Ledger & Points Expiration | *Pending* | FIFO lot allocation, atomic redemptions, expiry batches |
-| **Phase 6** | Forensic Reconciliation Engine | *Pending* | LLI-RE anomaly detection and drift identification |
+| **Phase 4** | Core Loyalty Business Workflows| **Completed** | Workflows A–G, atomic accrual, FIFO redemptions, returns, expiries |
+| **Phase 5** | Ledger & Points Expiration | *Pending* | Event bus, worker scheduling, distributed locking |
+| **Phase 6** | Forensic Reconciliation Engine | *Pending* | LLIRE anomaly detection, reconciliation pipeline |
 | **Phase 7** | Frontend Role Portals | *Pending* | Customer dashboard, operator return portal, manager ledger |
 | **Phase 8** | End-to-End Verification | *Pending* | Full scenario test suite and performance audit |
 
