@@ -91,7 +91,15 @@ class ApiClient {
   private authToken: string | null = null;
 
   constructor() {
-    this.baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+    const envUrl = import.meta.env.VITE_API_BASE_URL;
+    if (envUrl) {
+      this.baseUrl = envUrl;
+    } else if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      // In production deployment (e.g. Vercel), route via relative same-origin /api/v1
+      this.baseUrl = '/api/v1';
+    } else {
+      this.baseUrl = 'http://localhost:8000/api/v1';
+    }
   }
 
   public setAuthToken(token: string | null) {
