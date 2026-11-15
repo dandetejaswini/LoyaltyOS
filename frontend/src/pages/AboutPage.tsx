@@ -211,7 +211,7 @@ export const AboutPage: React.FC = () => {
             </div>
             <div className="p-4 rounded-xl bg-pastel-ivory border border-pastel-border">
               <div className="font-bold text-pastel-dark mb-1">Deployment</div>
-              <div className="text-pastel-muted">Vercel Global Edge Network &bull; Edge Functions (Deno)</div>
+              <div className="text-pastel-muted">Vercel Global Edge Network &bull; High-Availability Cloud Infrastructure</div>
             </div>
           </div>
         </section>

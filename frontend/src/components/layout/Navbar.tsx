@@ -85,8 +85,9 @@ export const Navbar: React.FC = () => {
             {user ? (
               <div className="flex items-center gap-2.5">
                 <Link
-                  to="/settings"
+                  to="/workspace"
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-pastel-ivory hover:bg-pastel-sage/50 text-pastel-dark border border-pastel-border text-xs transition"
+                  title="Operational Workspace"
                 >
                   <UserIcon className="w-3.5 h-3.5 text-pastel-muted" />
                   <span className="truncate max-w-[130px] font-medium">{user.full_name || user.email}</span>

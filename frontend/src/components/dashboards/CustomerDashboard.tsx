@@ -288,7 +288,7 @@ export const CustomerDashboard: React.FC<CustomerDashboardProps> = ({ user }) =>
               Member Loyalty Portal
             </span>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-pastel-dark">
-              Welcome back, {user.full_name || 'Alice Walker'}
+              Welcome back, {user.full_name || user.email?.split('@')[0] || 'Member'}
             </h2>
             <p className="text-xs text-pastel-muted mt-1 font-mono">
               Account ID: {account?.account_id || accountId} &bull; Customer: {user.customer?.customer_id || 'CUST-000001'}

@@ -15,6 +15,7 @@ import { OperatorDashboard } from '@/components/dashboards/OperatorDashboard';
 import { AnalystDashboard } from '@/components/dashboards/AnalystDashboard';
 import { OpsManagerDashboard } from '@/components/dashboards/OpsManagerDashboard';
 import { Role } from '@/types/auth';
+import { UserProfileResponse } from '@/services/apiClient';
 
 export const DashboardPage: React.FC = () => {
   const { user, role, simulatePersona, isLoading } = useAuth();
@@ -82,23 +83,49 @@ export const DashboardPage: React.FC = () => {
     simulatePersona('OPERATIONS_MANAGER', idx);
   };
 
-  // Provide fallback user profile for UI presentation
-  const effectiveUser = user || {
+  // Provide fallback user profile for UI presentation if no real user is signed in
+  const effectiveUser: UserProfileResponse = user ? {
+    ...user,
+    id: user.id || 'USR-AUTH-001',
+    email: user.email || 'user@loyaltyos.internal',
+    full_name: user.full_name || user.email?.split('@')[0] || 'Loyalty Member',
+    role: (activeTab === 'customer' ? 'CUSTOMER' :
+          activeTab === 'operator' ? 'OPERATOR' :
+          activeTab === 'analyst' ? 'ANALYST' : 'OPERATIONS_MANAGER') as Role,
+    is_active: true,
+    created_at: user.created_at || new Date().toISOString(),
+    customer: user.customer || {
+      customer_id: 'CUST-' + (user.id || '001').substring(0, 8).toUpperCase(),
+      email: user.email,
+      first_name: (user.full_name || 'Member').split(' ')[0],
+      last_name: (user.full_name || '').split(' ').slice(1).join(' ') || '',
+      status: 'ACTIVE',
+      loyalty_account: {
+        account_id: 'LOY-' + (user.id || '001').substring(0, 8).toUpperCase(),
+        tier_id: 'TIER-GOLD',
+        current_balance: 1450,
+        lifetime_accrued: 2200,
+        lifetime_redeemed: 750,
+        qualifying_spend: 1450.00,
+        status: 'ACTIVE',
+      }
+    }
+  } : {
     id: activeTab === 'customer' ? 'USR-CUST-001' :
         activeTab === 'operator' ? 'USR-OPR-001' :
         activeTab === 'analyst' ? 'USR-ANA-001' :
         opsMgrIndex === 1 ? 'USR-MGR-001' : 'USR-MGR-002',
-    email: activeTab === 'customer' ? 'alice@example.com' :
-           activeTab === 'operator' ? 'marcus@loyaltyos.internal' :
-           activeTab === 'analyst' ? 'sarah@loyaltyos.internal' :
+    email: activeTab === 'customer' ? 'member@loyaltyos.internal' :
+           activeTab === 'operator' ? 'operator@loyaltyos.internal' :
+           activeTab === 'analyst' ? 'analyst@loyaltyos.internal' :
            opsMgrIndex === 1 ? 'eleanor@loyaltyos.internal' : 'david@loyaltyos.internal',
-    full_name: activeTab === 'customer' ? 'Alice Walker' :
-               activeTab === 'operator' ? 'Marcus Brody' :
-               activeTab === 'analyst' ? 'Sarah Chen' :
+    full_name: activeTab === 'customer' ? 'Loyalty Member' :
+               activeTab === 'operator' ? 'Store Operator' :
+               activeTab === 'analyst' ? 'Risk Analyst' :
                opsMgrIndex === 1 ? 'Eleanor Vance' : 'David Ross',
-    role: activeTab === 'customer' ? 'CUSTOMER' :
+    role: (activeTab === 'customer' ? 'CUSTOMER' :
           activeTab === 'operator' ? 'OPERATOR' :
-          activeTab === 'analyst' ? 'ANALYST' : 'OPERATIONS_MANAGER',
+          activeTab === 'analyst' ? 'ANALYST' : 'OPERATIONS_MANAGER') as Role,
     is_active: true,
     created_at: new Date().toISOString()
   };
@@ -123,7 +150,15 @@ export const DashboardPage: React.FC = () => {
             <div className="flex items-center gap-2 text-xs">
               <span className="inline-block w-2 h-2 rounded-full bg-pastel-sageDark"></span>
               <span className="text-pastel-dark font-medium">
-                Active Perspective: <strong className="text-pastel-dark font-bold">{currentPerspective?.persona}</strong> &bull; <span className="text-pastel-muted">{currentPerspective?.roleDesc}</span>
+                {user ? (
+                  <span>
+                    Authenticated Session: <strong className="text-pastel-dark font-bold">{user.full_name || user.email}</strong> &bull; Viewing <span className="text-pastel-muted">{currentPerspective?.label}</span>
+                  </span>
+                ) : (
+                  <span>
+                    Interactive Persona: <strong className="text-pastel-dark font-bold">{currentPerspective?.persona}</strong> &bull; <span className="text-pastel-muted">{currentPerspective?.roleDesc}</span>
+                  </span>
+                )}
               </span>
             </div>
           </div>

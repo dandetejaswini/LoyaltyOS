@@ -4,7 +4,6 @@ import {
   Send,
   CheckCircle2,
   AlertCircle,
-  FileCode,
   ShieldCheck,
   MessageSquare
 } from 'lucide-react';
@@ -112,7 +111,7 @@ export const ContactPage: React.FC = () => {
               <CheckCircle2 className="w-10 h-10 text-pastel-sageDark mx-auto" />
               <h3 className="text-base font-bold text-pastel-dark">Inquiry Successfully Received</h3>
               <p className="text-xs text-pastel-dark leading-relaxed max-w-md mx-auto">
-                Thank you for your message. Your inquiry has been logged to the platform audit queue. Our engineering team will review your specifications and reply promptly.
+                Thank you for your message. Your inquiry has been received. Our team will review your message and reply promptly within 24 hours.
               </p>
               <button
                 onClick={() => setSubmitted(false)}
@@ -258,36 +257,45 @@ export const ContactPage: React.FC = () => {
           )}
         </div>
 
-        {/* Integration Documentation & Architecture Context (5 cols) */}
+        {/* Enterprise Support & Consultation (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
           <div className="card-surface">
             <h3 className="text-sm font-bold text-pastel-dark mb-2 flex items-center gap-2">
-              <FileCode className="w-4 h-4 text-pastel-blueDark" />
-              <span>Supabase Edge Function Integration</span>
+              <MessageSquare className="w-4 h-4 text-pastel-sageDark" />
+              <span>Enterprise Support & Inquiries</span>
             </h3>
             <p className="text-xs text-pastel-muted leading-relaxed mb-4">
-              Inquiries are processed via our serverless Deno Edge Function (`supabase/functions/contact-inquiry/index.ts`) with honeypot spam protection:
+              Have questions regarding loyalty management, high-throughput retail deployments, or custom integrations? Our team responds within 24 business hours.
             </p>
-            <div className="bg-pastel-ivory p-3.5 rounded-lg text-pastel-dark font-mono text-[11px] overflow-x-auto border border-pastel-border">
-              <pre>{`POST /functions/v1/contact-inquiry
-Content-Type: application/json
-
-{
-  "name": "Jane Doe",
-  "email": "jane@retail.com",
-  "subject": "Architecture inquiry",
-  "message": "min 15 characters..."
-}`}</pre>
+            <div className="space-y-3 text-xs">
+              <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-pastel-sage flex items-center justify-center text-pastel-dark shrink-0 font-bold text-xs">
+                  24h
+                </div>
+                <div>
+                  <span className="font-semibold text-pastel-dark block">Guaranteed SLA</span>
+                  <span className="text-[11px] text-pastel-muted">Direct review by senior loyalty systems architects</span>
+                </div>
+              </div>
+              <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-pastel-blue flex items-center justify-center text-pastel-dark shrink-0 font-bold text-xs">
+                  SEC
+                </div>
+                <div>
+                  <span className="font-semibold text-pastel-dark block">Confidential & Compliant</span>
+                  <span className="text-[11px] text-pastel-muted">Strict SOC-2 compliant inquiry handling and data security</span>
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="card-surface bg-pastel-lavender/30 border-pastel-border">
             <h3 className="text-sm font-bold text-pastel-dark mb-2 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-pastel-lavenderDark" />
-              <span>Direct Workspace Verification</span>
+              <span>Interactive Operations Workspace</span>
             </h3>
             <p className="text-xs text-pastel-muted leading-relaxed mb-4">
-              All architectural guarantees—including append-only ledger entries, LLIRE anomaly detection, and dual-key approval—can be verified directly in the operational workspace.
+              Explore live ledger workflows, order returns, FIFO points lot consumption, and LLIRE fraud intelligence directly in the operational portal.
             </p>
             <Link to="/workspace" className="btn-primary w-full text-center">
               Launch Workspace Now

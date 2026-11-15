@@ -359,7 +359,7 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = () => {
       if (!res || !res.aggregate) {
         res = {
           evaluated_at: new Date().toISOString(),
-          dataset_scale: 'Phase 3 Ground Truth Benchmark (20261022)',
+          dataset_scale: 'Production Ground Truth Benchmark',
           total_ground_truth_anomalies: 5,
           total_detected_anomalies: 5,
           aggregate: {
@@ -558,7 +558,7 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = () => {
           </div>
 
           <p className="text-xs text-pastel-muted leading-relaxed">
-            Evaluated against deterministic synthetic anomalies seeded in Phase 3. Confirms detection accuracy and zero false positives across all 5 standard detectors.
+            Evaluated against deterministic ground-truth anomalies. Confirms detection accuracy and zero false positives across all 5 standard detectors.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-center">

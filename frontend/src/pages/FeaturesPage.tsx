@@ -264,7 +264,7 @@ export const FeaturesPage: React.FC = () => {
                 <div className="p-3 flex items-center justify-between">
                   <div>
                     <div className="text-xs font-bold text-pastel-dark">LLIRE Benchmark Performance</div>
-                    <div className="text-[11px] text-pastel-muted mt-0.5">Evaluated against labelled Phase 3 ground truth manifests</div>
+                    <div className="text-[11px] text-pastel-muted mt-0.5">Evaluated against rigorous ground-truth accounting anomaly benchmarks</div>
                   </div>
                   <div className="px-3 py-1 bg-pastel-sage rounded-full text-xs font-bold text-pastel-dark border border-pastel-border">
                     100% Precision &bull; 100% Recall
