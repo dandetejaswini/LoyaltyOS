@@ -41,7 +41,7 @@ def register_exception_handlers(app: FastAPI) -> None:
     async def common_http_handler(request: Request, exc: StarletteHTTPException | FastAPIHTTPException):
         logger.warning(f"HTTP {exc.status_code} on {request.method} {request.url.path}: {exc.detail}")
         problem = ProblemDetails(
-            type="https://yottaflex.io/errors/http-error",
+            type="https://loyaltyos.io/errors/http-error",
             title=exc.detail if isinstance(exc.detail, str) else "HTTP Exception",
             status=exc.status_code,
             detail=str(exc.detail),
@@ -62,7 +62,7 @@ def register_exception_handlers(app: FastAPI) -> None:
     async def validation_exception_handler(request: Request, exc: RequestValidationError):
         logger.warning(f"Validation error on {request.method} {request.url.path}: {exc.errors()}")
         problem = ProblemDetails(
-            type="https://yottaflex.io/errors/validation-error",
+            type="https://loyaltyos.io/errors/validation-error",
             title="Request Validation Failed",
             status=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail="The incoming request failed schema validation rules.",
@@ -86,7 +86,7 @@ def register_exception_handlers(app: FastAPI) -> None:
     async def unhandled_exception_handler(request: Request, exc: Exception):
         logger.exception(f"Unhandled internal error on {request.method} {request.url.path}: {str(exc)}")
         problem = ProblemDetails(
-            type="https://yottaflex.io/errors/internal-server-error",
+            type="https://loyaltyos.io/errors/internal-server-error",
             title="Internal Server Error",
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An unexpected internal server error occurred. Please contact system support.",

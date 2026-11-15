@@ -4,6 +4,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { AppLayout } from '@/layouts/AppLayout';
 import { HomePage } from '@/pages/HomePage';
 import { AboutPage } from '@/pages/AboutPage';
+import { ContactPage } from '@/pages/ContactPage';
 import { SignInPage } from '@/pages/SignInPage';
 import { SignUpPage } from '@/pages/SignUpPage';
 import { ForgotPasswordPage } from '@/pages/ForgotPasswordPage';
@@ -19,10 +20,12 @@ export const App: React.FC = () => {
           <Route path="/" element={<AppLayout />}>
             <Route index element={<HomePage />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="workspace" element={<DashboardPage />} />
+            <Route path="dashboard" element={<DashboardPage />} />
             <Route path="sign-in" element={<SignInPage />} />
             <Route path="sign-up" element={<SignUpPage />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="dashboard" element={<DashboardPage />} />
             <Route path="settings" element={<SettingsPage />} />
             <Route path="404" element={<NotFoundPage />} />
             <Route path="*" element={<Navigate to="/404" replace />} />

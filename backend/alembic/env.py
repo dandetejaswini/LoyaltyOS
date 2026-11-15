@@ -21,7 +21,7 @@ def get_url():
     url = settings.DATABASE_URL
     if not url:
         # Default placeholder for configuration check
-        return "postgresql+asyncpg://postgres:postgres@localhost:5432/yottaflex"
+        return "postgresql+asyncpg://postgres:postgres@localhost:5432/loyaltyos"
     if url.startswith("postgresql://") and not url.startswith("postgresql+asyncpg://"):
         return url.replace("postgresql://", "postgresql+asyncpg://", 1)
     return url

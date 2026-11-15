@@ -23,4 +23,4 @@ def setup_logging():
         logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
 
 
-logger = logging.getLogger("yottaflex")
+logger = logging.getLogger("loyaltyos")

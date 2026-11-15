@@ -150,7 +150,7 @@ class ApiClient {
         throw error;
       }
       throw new ApiError({
-        type: 'https://yottaflex.io/errors/network-error',
+        type: 'https://loyaltyos.io/errors/network-error',
         title: 'Network Communication Error',
         status: 0,
         detail: error instanceof Error ? error.message : 'Failed to reach API server.',

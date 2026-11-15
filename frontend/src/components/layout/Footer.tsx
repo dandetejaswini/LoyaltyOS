@@ -1,60 +1,88 @@
 import React from 'react';
-import { Shield, BookOpen, Layers } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-navy-950 border-t border-navy-800 text-platinum-400 py-10 mt-auto text-xs">
+    <footer className="bg-navy-950 border-t border-navy-800 text-platinum-400 py-12 mt-auto text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Brand info */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 text-white font-semibold text-sm mb-2">
-              <span className="w-5 h-5 rounded bg-lavender-600 flex items-center justify-center text-[10px] text-white font-bold">LO</span>
-              LoyaltyOS — Intelligent Loyalty & Ledger Management Platform
-            </div>
-            <p className="text-platinum-400 max-w-sm leading-relaxed text-xs">
-              Financial-grade, append-only loyalty points ledger supporting atomic accruals, FIFO lot-based redemptions, proportional return reversals, and idempotent batch expiration.
+            <Link to="/" className="flex items-center gap-2.5 text-white font-bold text-base mb-3 group">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-lavender-500 to-navy-900 border border-lavender-400/30 flex items-center justify-center text-xs text-white font-bold">
+                LO
+              </div>
+              Loyalty<span className="text-lavender-400">OS</span>
+            </Link>
+            <p className="text-platinum-400 max-w-sm leading-relaxed text-xs mb-4">
+              Enterprise customer loyalty platform built with financial double-entry bookkeeping. Guarantees 100% auditable points accrual, FIFO lot redemption, explainable anomaly detection, and dual-key remediation.
             </p>
+            <div className="flex items-center gap-2 text-platinum-300 text-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>All Ledger Integrity Invariants Guaranteed</span>
+            </div>
           </div>
 
-          {/* Quick specs */}
+          {/* Quick Navigation */}
           <div>
-            <h4 className="text-platinum-200 font-semibold text-xs tracking-wider uppercase mb-3">Core Invariants</h4>
-            <ul className="space-y-2">
-              <li className="flex items-center gap-1.5 text-platinum-400">
-                <Shield className="w-3.5 h-3.5 text-lavender-400" />
-                Append-only ledger journal
+            <h4 className="text-platinum-200 font-semibold text-xs tracking-wider uppercase mb-3.5">Platform</h4>
+            <ul className="space-y-2.5">
+              <li>
+                <Link to="/" className="hover:text-lavender-300 transition">
+                  Platform Overview
+                </Link>
               </li>
-              <li className="flex items-center gap-1.5 text-platinum-400">
-                <Layers className="w-3.5 h-3.5 text-lavender-400" />
-                FIFO lot allocation
+              <li>
+                <Link to="/about" className="hover:text-lavender-300 transition">
+                  About & Architecture
+                </Link>
               </li>
-              <li className="flex items-center gap-1.5 text-platinum-400">
-                <BookOpen className="w-3.5 h-3.5 text-lavender-400" />
-                100% balance reconciliation
+              <li>
+                <Link to="/workspace" className="hover:text-lavender-300 transition font-medium text-lavender-400 flex items-center gap-1">
+                  Enterprise Workspace <ArrowRight className="w-3 h-3" />
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-lavender-300 transition">
+                  Contact & Support
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* System metadata */}
+          {/* Core Guarantees */}
           <div>
-            <h4 className="text-platinum-200 font-semibold text-xs tracking-wider uppercase mb-3">Engineering Spec</h4>
-            <div className="space-y-1 font-mono text-[11px] text-platinum-400">
-              <p>Platform: LoyaltyOS Core</p>
-              <p>Architecture: Three-Tier</p>
-              <p>Frontend: React 18 / TS / Vite</p>
-              <p>Application: FastAPI / Python 3.14</p>
-              <p>Context: YottaFlex Hackathon</p>
-            </div>
+            <h4 className="text-platinum-200 font-semibold text-xs tracking-wider uppercase mb-3.5">Core Guarantees</h4>
+            <ul className="space-y-2.5 font-mono text-[11px] text-platinum-400">
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
+                <span>Immutable Journal</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
+                <span>365-Day FIFO Expiry</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
+                <span>LLIRE Forensic Engine</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle2 className="w-3.5 h-3.5 text-lavender-400 shrink-0" />
+                <span>Dual-Key Remediation</span>
+              </li>
+            </ul>
           </div>
         </div>
 
         <div className="pt-6 border-t border-navy-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-platinum-500">
-          <p>© 2026 LoyaltyOS. Built for YottaFlex AI Forward Deployed Engineer Hackathon.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-lavender-400">Free-Tier & Open-Source Stack</span>
+          <p>© {new Date().getFullYear()} LoyaltyOS. Intelligent Loyalty & Ledger Management Platform. All rights reserved.</p>
+          <div className="flex items-center gap-4 text-[11px]">
+            <Link to="/about" className="hover:text-platinum-400 transition">Architecture</Link>
             <span>•</span>
-            <span>Vercel-Ready SPA</span>
+            <Link to="/contact" className="hover:text-platinum-400 transition">Contact Us</Link>
+            <span>•</span>
+            <span className="text-lavender-400 font-medium">Enterprise Edition</span>
           </div>
         </div>
       </div>
