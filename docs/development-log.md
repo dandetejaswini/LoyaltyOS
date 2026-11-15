@@ -63,6 +63,25 @@
 - **Date**: 2026-11-15
 - **Feature / Milestone**: Anti-Takeover Account Linking, Strict JWT/JWKS Verification & Ledger Immutability Triggers
 - **Brief Description**: Prohibited automatic cross-provider account merging based solely on matching email address. Implemented explicit authenticated account linking (POST /api/v1/auth/link-identity) with verified ownership and role non-elevation. Hardened Supabase JWT verification with algorithm whitelist (HS256 secret & RS256/ES256 JWKS) and removed all unverified decoding fallbacks. Added comprehensive Firebase RS256 tests. Implemented 5 PostgreSQL engine-level immutability triggers and documented table-by-table RLS policies.
-- **Commit**: Pending commit.
+- **Commit**: `2a632d2` — `fix(security): enforce explicit identity linking, strict token verification and immutability triggers`
 - **Verification Performed**: Full backend test suite expanded from 23 to 42 tests, 100% passing (`pytest -v`); frontend typecheck and production build passing (`npm run build`).
 - **Remaining Work**: Phase 3 (Synthetic Data Generation & Ground-Truth Dataset Engine).
+
+---
+
+### Phase 3 — Synthetic Data Generation & Deterministic Seed Engine
+- **Date**: 2026-11-15
+- **Feature / Milestone**: Deterministic Synthetic Data Generator, Controlled Anomaly Injector & Manifest Engine
+- **Brief Description**:
+  - Authored deterministic `SyntheticDataGenerator` pinned to random seed `20261022` supporting TEST, MEDIUM, and FULL scales.
+  - Implemented core business rules: double-entry balance continuity (BR-01), floor rounding on points accrual (BR-02), eligible net merchandise spend calculations (BR-05), FIFO points lot allocations (BR-06), redemption validation (BR-08), negative balance support on returns/reversals (BR-10), and 365-day batch lot expirations (BR-11).
+  - Built `AnomalyInjector` injecting 5 controlled forensic anomaly categories into an isolated ground truth dataset: `BALANCE_MISMATCH`, `OVER_REDEMPTION`, `UNREVERSED_RETURN`, `DOUBLE_EXPIRY`, and `GROSS_SPEND_TIER_CALCULATION`.
+  - Implemented `DatasetValidator` verifying referential integrity, double-entry mathematical reconciliation, and audit anomaly detection.
+  - Generated cryptographic SHA-256 manifests (`ground_truth_manifest.json`) and exported full JSON entity sets to `data/generated/` and `data/ground_truth/`.
+  - Built operator CLI `scripts/seed_data.py` with safe database loading safeguards (`--load-db`, `--confirm-production-seed`).
+- **Commit**: Pending commit.
+- **Verification Performed**:
+  - Test Suite: 12 new seed engine tests added (`test_seed.py`), total test suite expanded to 54 tests passing in 0.92s (`pytest -v`).
+  - Baseline Validation: Zero balance drift, 100% invariant compliance across 1,000 customers, 5,000 orders, and 5,686 points transactions.
+  - Frontend Build: `npm run build` bundled 1,572 modules cleanly in 6.27s with 0 errors.
+- **Remaining Work**: Phase 4 (Transaction Processing APIs, Returns Workflows & LLIRE Engine) — strictly awaiting user authorization.

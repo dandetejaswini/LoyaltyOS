@@ -1,0 +1,102 @@
+{
+  "dataset_seed": 20261022,
+  "scale": "TEST",
+  "generator_version": "1.0.0",
+  "generated_at": "2026-11-15T09:43:33.829545+00:00",
+  "entity_counts": {
+    "customers": 100,
+    "loyalty_accounts": 100,
+    "orders": 500,
+    "order_lines": 1247,
+    "points_transactions": 600,
+    "points_lots": 480,
+    "redemptions": 39,
+    "points_lot_allocations": 121,
+    "order_returns": 24,
+    "order_return_lines": 24,
+    "expiry_batches": 1,
+    "expiry_batch_items": 57
+  },
+  "total_anomalies_injected": 5,
+  "anomaly_counts_by_category": {
+    "BALANCE_MISMATCH": 1,
+    "OVER_REDEMPTION": 1,
+    "UNREVERSED_RETURN": 1,
+    "DOUBLE_EXPIRY": 1,
+    "GROSS_SPEND_TIER_CALCULATION": 1
+  },
+  "checksums": {
+    "baseline_sha256": "f251c28ff59698949cd4ea77139237f980630e55b04b47d841d587d0cd8e91c0",
+    "anomalies_sha256": "10dfa2ea51d1c62ed52828f56a7f183aefbaef91b72f4c9822c6b48b25372e5f"
+  },
+  "ground_truth_anomalies": [
+    {
+      "anomaly_id": "ANOM-2026-00001",
+      "category": "BALANCE_MISMATCH",
+      "affected_entities": {
+        "account_id": "LOY-CUST-000026",
+        "customer_id": "CUST-000026"
+      },
+      "expected_value": 1159,
+      "injected_value": 1409,
+      "rule_violated": "BR-01: Ledger Balance Invariant (Account balance must equal sum of journal transactions)",
+      "severity": "CRITICAL",
+      "explanation": "Direct database drift injected: account LOY-CUST-000026 balance was modified by 250 points without a matching journal transaction."
+    },
+    {
+      "anomaly_id": "ANOM-2026-00002",
+      "category": "OVER_REDEMPTION",
+      "affected_entities": {
+        "account_id": "LOY-CUST-000099",
+        "redemption_id": "RDM-ANOM-0002",
+        "transaction_id": "PTS-ANOM-0002"
+      },
+      "expected_value": "Points requested <= 265",
+      "injected_value": 1265,
+      "rule_violated": "BR-08: Points Redemption Validation (Redemption cannot exceed available positive balance)",
+      "severity": "CRITICAL",
+      "explanation": "Over-redemption allowed 1265 points on account LOY-CUST-000099 which only had 265 available."
+    },
+    {
+      "anomaly_id": "ANOM-2026-00003",
+      "category": "UNREVERSED_RETURN",
+      "affected_entities": {
+        "order_id": "ORD-2026-000433",
+        "return_id": "RET-ANOM-0003",
+        "customer_id": "CUST-000045"
+      },
+      "expected_value": "Reversal of 397 points",
+      "injected_value": 0,
+      "rule_violated": "BR-10: Points Reversal on Return (Returned merchandise points must be reversed)",
+      "severity": "HIGH",
+      "explanation": "Return RET-ANOM-0003 for order ORD-2026-000433 refunded $397.80 but reversed 0 points."
+    },
+    {
+      "anomaly_id": "ANOM-2026-00004",
+      "category": "DOUBLE_EXPIRY",
+      "affected_entities": {
+        "lot_id": "LOT-2026-00000453",
+        "account_id": "LOY-CUST-000044",
+        "batch_id": "EXP-ANOM-0004"
+      },
+      "expected_value": "Lot already expired; 0 points deducted",
+      "injected_value": "Second deduction of 553 points",
+      "rule_violated": "BR-11: Points Expiry Idempotency (Expired lots cannot be processed a second time)",
+      "severity": "HIGH",
+      "explanation": "Lot LOT-2026-00000453 was expired a second time in batch EXP-ANOM-0004, deducting 553 extra points."
+    },
+    {
+      "anomaly_id": "ANOM-2026-00005",
+      "category": "GROSS_SPEND_TIER_CALCULATION",
+      "affected_entities": {
+        "account_id": "LOY-CUST-000070",
+        "customer_id": "CUST-000070"
+      },
+      "expected_value": "TIER-BRONZE (Qualifying spend < $500.00)",
+      "injected_value": "TIER-GOLD (Calculated using gross revenue including tax/shipping)",
+      "rule_violated": "BR-05: Qualifying Spend vs Gross Spend (Tier upgrades must evaluate net merchandise spend only)",
+      "severity": "MEDIUM",
+      "explanation": "Customer CUST-000070 upgraded to TIER-GOLD with qualifying spend of only $0.00 due to tax/shipping gross inflation."
+    }
+  ]
+}

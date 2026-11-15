@@ -1,0 +1,458 @@
+[
+  {
+    "item_id": "EITEM-2026-00000001",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000010",
+    "transaction_id": "PTS-2026-00000544",
+    "points_expired": 149,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000002",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000012",
+    "transaction_id": "PTS-2026-00000545",
+    "points_expired": 265,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000003",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000168",
+    "transaction_id": "PTS-2026-00000546",
+    "points_expired": 731,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000004",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000016",
+    "transaction_id": "PTS-2026-00000547",
+    "points_expired": 101,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000005",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000021",
+    "transaction_id": "PTS-2026-00000548",
+    "points_expired": 515,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000006",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000293",
+    "transaction_id": "PTS-2026-00000549",
+    "points_expired": 483,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000007",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000027",
+    "transaction_id": "PTS-2026-00000550",
+    "points_expired": 487,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000008",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000030",
+    "transaction_id": "PTS-2026-00000551",
+    "points_expired": 367,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000009",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000050",
+    "transaction_id": "PTS-2026-00000552",
+    "points_expired": 31,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000010",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000177",
+    "transaction_id": "PTS-2026-00000553",
+    "points_expired": 169,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000011",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000051",
+    "transaction_id": "PTS-2026-00000554",
+    "points_expired": 210,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000012",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000211",
+    "transaction_id": "PTS-2026-00000555",
+    "points_expired": 460,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000013",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000056",
+    "transaction_id": "PTS-2026-00000556",
+    "points_expired": 479,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000014",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000061",
+    "transaction_id": "PTS-2026-00000557",
+    "points_expired": 743,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000015",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000092",
+    "transaction_id": "PTS-2026-00000558",
+    "points_expired": 760,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000016",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000169",
+    "transaction_id": "PTS-2026-00000559",
+    "points_expired": 355,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000017",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000176",
+    "transaction_id": "PTS-2026-00000560",
+    "points_expired": 359,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000018",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000337",
+    "transaction_id": "PTS-2026-00000561",
+    "points_expired": 461,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000019",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000069",
+    "transaction_id": "PTS-2026-00000562",
+    "points_expired": 399,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000020",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000442",
+    "transaction_id": "PTS-2026-00000563",
+    "points_expired": 862,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000021",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000086",
+    "transaction_id": "PTS-2026-00000564",
+    "points_expired": 149,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000022",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000248",
+    "transaction_id": "PTS-2026-00000565",
+    "points_expired": 158,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000023",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000122",
+    "transaction_id": "PTS-2026-00000566",
+    "points_expired": 256,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000024",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000453",
+    "transaction_id": "PTS-2026-00000567",
+    "points_expired": 553,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000025",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000172",
+    "transaction_id": "PTS-2026-00000568",
+    "points_expired": 185,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000026",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000199",
+    "transaction_id": "PTS-2026-00000569",
+    "points_expired": 168,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000027",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000315",
+    "transaction_id": "PTS-2026-00000570",
+    "points_expired": 63,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000028",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000206",
+    "transaction_id": "PTS-2026-00000571",
+    "points_expired": 95,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000029",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000214",
+    "transaction_id": "PTS-2026-00000572",
+    "points_expired": 375,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000030",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000260",
+    "transaction_id": "PTS-2026-00000573",
+    "points_expired": 587,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000031",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000236",
+    "transaction_id": "PTS-2026-00000574",
+    "points_expired": 348,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000032",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000265",
+    "transaction_id": "PTS-2026-00000575",
+    "points_expired": 463,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000033",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000312",
+    "transaction_id": "PTS-2026-00000576",
+    "points_expired": 540,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000034",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000338",
+    "transaction_id": "PTS-2026-00000577",
+    "points_expired": 121,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000035",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000346",
+    "transaction_id": "PTS-2026-00000578",
+    "points_expired": 478,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000036",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000358",
+    "transaction_id": "PTS-2026-00000579",
+    "points_expired": 416,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000037",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000383",
+    "transaction_id": "PTS-2026-00000580",
+    "points_expired": 1689,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000038",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000390",
+    "transaction_id": "PTS-2026-00000581",
+    "points_expired": 443,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000039",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000473",
+    "transaction_id": "PTS-2026-00000582",
+    "points_expired": 869,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000040",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000243",
+    "transaction_id": "PTS-2026-00000583",
+    "points_expired": 634,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000041",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000429",
+    "transaction_id": "PTS-2026-00000584",
+    "points_expired": 224,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000042",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000245",
+    "transaction_id": "PTS-2026-00000585",
+    "points_expired": 644,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000043",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000255",
+    "transaction_id": "PTS-2026-00000586",
+    "points_expired": 643,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000044",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000269",
+    "transaction_id": "PTS-2026-00000587",
+    "points_expired": 164,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000045",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000479",
+    "transaction_id": "PTS-2026-00000588",
+    "points_expired": 905,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000046",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000275",
+    "transaction_id": "PTS-2026-00000589",
+    "points_expired": 455,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000047",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000292",
+    "transaction_id": "PTS-2026-00000590",
+    "points_expired": 69,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000048",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000350",
+    "transaction_id": "PTS-2026-00000591",
+    "points_expired": 869,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000049",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000353",
+    "transaction_id": "PTS-2026-00000592",
+    "points_expired": 599,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000050",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000411",
+    "transaction_id": "PTS-2026-00000593",
+    "points_expired": 171,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000051",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000431",
+    "transaction_id": "PTS-2026-00000594",
+    "points_expired": 664,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000052",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000339",
+    "transaction_id": "PTS-2026-00000595",
+    "points_expired": 674,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000053",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000364",
+    "transaction_id": "PTS-2026-00000596",
+    "points_expired": 864,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000054",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000432",
+    "transaction_id": "PTS-2026-00000597",
+    "points_expired": 42,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000055",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000376",
+    "transaction_id": "PTS-2026-00000598",
+    "points_expired": 56,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000056",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000395",
+    "transaction_id": "PTS-2026-00000599",
+    "points_expired": 263,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  },
+  {
+    "item_id": "EITEM-2026-00000057",
+    "batch_id": "EXP-2026-0001",
+    "lot_id": "LOT-2026-00000409",
+    "transaction_id": "PTS-2026-00000600",
+    "points_expired": 260,
+    "created_at": "2026-11-15T00:00:00+00:00"
+  }
+]

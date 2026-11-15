@@ -1,0 +1,10 @@
+[
+  {
+    "batch_id": "EXP-2026-0001",
+    "cutoff_date": "2026-11-15T00:00:00+00:00",
+    "total_lots_processed": 57,
+    "total_points_expired": 24542,
+    "status": "COMPLETED",
+    "created_at": "2026-11-15T00:00:00+00:00"
+  }
+]

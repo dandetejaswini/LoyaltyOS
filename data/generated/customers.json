@@ -1,0 +1,1002 @@
+[
+  {
+    "customer_id": "CUST-000001",
+    "email": "daniel.jackson.1@example.com",
+    "first_name": "Daniel",
+    "last_name": "Jackson",
+    "phone": "+14893894889",
+    "status": "ACTIVE",
+    "created_at": "2025-09-05T07:51:00+00:00",
+    "updated_at": "2025-09-05T07:51:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000002",
+    "email": "jessica.smith.2@example.com",
+    "first_name": "Jessica",
+    "last_name": "Smith",
+    "phone": "+19303209056",
+    "status": "ACTIVE",
+    "created_at": "2025-07-18T10:31:00+00:00",
+    "updated_at": "2025-07-18T10:31:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000003",
+    "email": "michelle.brown.3@example.com",
+    "first_name": "Michelle",
+    "last_name": "Brown",
+    "phone": "+19574245300",
+    "status": "ACTIVE",
+    "created_at": "2026-06-05T03:57:00+00:00",
+    "updated_at": "2026-06-05T03:57:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000004",
+    "email": "susan.jackson.4@example.com",
+    "first_name": "Susan",
+    "last_name": "Jackson",
+    "phone": "+16611085464",
+    "status": "ACTIVE",
+    "created_at": "2026-01-12T04:48:00+00:00",
+    "updated_at": "2026-01-12T04:48:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000005",
+    "email": "donna.lopez.5@example.com",
+    "first_name": "Donna",
+    "last_name": "Lopez",
+    "phone": "+16861957158",
+    "status": "ACTIVE",
+    "created_at": "2025-06-01T05:00:00+00:00",
+    "updated_at": "2025-06-01T05:00:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000006",
+    "email": "sandra.williams.6@example.com",
+    "first_name": "Sandra",
+    "last_name": "Williams",
+    "phone": "+13104758589",
+    "status": "ACTIVE",
+    "created_at": "2026-06-10T11:23:00+00:00",
+    "updated_at": "2026-06-10T11:23:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000007",
+    "email": "michael.clark.7@example.com",
+    "first_name": "Michael",
+    "last_name": "Clark",
+    "phone": "+13818327299",
+    "status": "ACTIVE",
+    "created_at": "2026-03-03T03:02:00+00:00",
+    "updated_at": "2026-03-03T03:02:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000008",
+    "email": "margaret.anderson.8@example.com",
+    "first_name": "Margaret",
+    "last_name": "Anderson",
+    "phone": "+19271768590",
+    "status": "ACTIVE",
+    "created_at": "2026-01-31T18:01:00+00:00",
+    "updated_at": "2026-01-31T18:01:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000009",
+    "email": "susan.harris.9@example.com",
+    "first_name": "Susan",
+    "last_name": "Harris",
+    "phone": "+12592211318",
+    "status": "ACTIVE",
+    "created_at": "2025-11-01T17:13:00+00:00",
+    "updated_at": "2025-11-01T17:13:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000010",
+    "email": "richard.smith.10@example.com",
+    "first_name": "Richard",
+    "last_name": "Smith",
+    "phone": "+13032260733",
+    "status": "ACTIVE",
+    "created_at": "2026-05-14T16:22:00+00:00",
+    "updated_at": "2026-05-14T16:22:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000011",
+    "email": "robert.white.11@example.com",
+    "first_name": "Robert",
+    "last_name": "White",
+    "phone": "+17452001407",
+    "status": "ACTIVE",
+    "created_at": "2026-01-23T00:10:00+00:00",
+    "updated_at": "2026-01-23T00:10:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000012",
+    "email": "donald.johnson.12@example.com",
+    "first_name": "Donald",
+    "last_name": "Johnson",
+    "phone": "+14431478351",
+    "status": "ACTIVE",
+    "created_at": "2025-06-15T10:23:00+00:00",
+    "updated_at": "2025-06-15T10:23:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000013",
+    "email": "kimberly.taylor.13@example.com",
+    "first_name": "Kimberly",
+    "last_name": "Taylor",
+    "phone": "+19559674624",
+    "status": "ACTIVE",
+    "created_at": "2025-02-13T10:31:00+00:00",
+    "updated_at": "2025-02-13T10:31:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000014",
+    "email": "sandra.smith.14@example.com",
+    "first_name": "Sandra",
+    "last_name": "Smith",
+    "phone": "+13221524245",
+    "status": "ACTIVE",
+    "created_at": "2025-02-21T01:31:00+00:00",
+    "updated_at": "2025-02-21T01:31:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000015",
+    "email": "steven.harris.15@example.com",
+    "first_name": "Steven",
+    "last_name": "Harris",
+    "phone": "+12147479896",
+    "status": "ACTIVE",
+    "created_at": "2026-03-19T00:40:00+00:00",
+    "updated_at": "2026-03-19T00:40:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000016",
+    "email": "sandra.white.16@example.com",
+    "first_name": "Sandra",
+    "last_name": "White",
+    "phone": "+15474373680",
+    "status": "ACTIVE",
+    "created_at": "2025-11-20T21:52:00+00:00",
+    "updated_at": "2025-11-20T21:52:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000017",
+    "email": "joshua.moore.17@example.com",
+    "first_name": "Joshua",
+    "last_name": "Moore",
+    "phone": "+19059582828",
+    "status": "ACTIVE",
+    "created_at": "2026-05-12T09:33:00+00:00",
+    "updated_at": "2026-05-12T09:33:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000018",
+    "email": "thomas.hernandez.18@example.com",
+    "first_name": "Thomas",
+    "last_name": "Hernandez",
+    "phone": "+17267662890",
+    "status": "ACTIVE",
+    "created_at": "2025-12-30T12:12:00+00:00",
+    "updated_at": "2025-12-30T12:12:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000019",
+    "email": "barbara.jones.19@example.com",
+    "first_name": "Barbara",
+    "last_name": "Jones",
+    "phone": "+17133545434",
+    "status": "ACTIVE",
+    "created_at": "2025-10-26T15:24:00+00:00",
+    "updated_at": "2025-10-26T15:24:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000020",
+    "email": "elizabeth.lee.20@example.com",
+    "first_name": "Elizabeth",
+    "last_name": "Lee",
+    "phone": "+12081641688",
+    "status": "ACTIVE",
+    "created_at": "2026-04-16T23:37:00+00:00",
+    "updated_at": "2026-04-16T23:37:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000021",
+    "email": "donna.rodriguez.21@example.com",
+    "first_name": "Donna",
+    "last_name": "Rodriguez",
+    "phone": "+18899577002",
+    "status": "ACTIVE",
+    "created_at": "2025-05-07T16:38:00+00:00",
+    "updated_at": "2025-05-07T16:38:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000022",
+    "email": "margaret.perez.22@example.com",
+    "first_name": "Margaret",
+    "last_name": "Perez",
+    "phone": "+17743478587",
+    "status": "ACTIVE",
+    "created_at": "2025-09-09T19:20:00+00:00",
+    "updated_at": "2025-09-09T19:20:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000023",
+    "email": "mary.martin.23@example.com",
+    "first_name": "Mary",
+    "last_name": "Martin",
+    "phone": "+16419426682",
+    "status": "ACTIVE",
+    "created_at": "2025-04-02T06:18:00+00:00",
+    "updated_at": "2025-04-02T06:18:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000024",
+    "email": "betty.hernandez.24@example.com",
+    "first_name": "Betty",
+    "last_name": "Hernandez",
+    "phone": "+12576253526",
+    "status": "ACTIVE",
+    "created_at": "2025-04-22T20:43:00+00:00",
+    "updated_at": "2025-04-22T20:43:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000025",
+    "email": "richard.smith.25@example.com",
+    "first_name": "Richard",
+    "last_name": "Smith",
+    "phone": "+19505527145",
+    "status": "ACTIVE",
+    "created_at": "2026-01-24T20:36:00+00:00",
+    "updated_at": "2026-01-24T20:36:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000026",
+    "email": "paul.anderson.26@example.com",
+    "first_name": "Paul",
+    "last_name": "Anderson",
+    "phone": "+12641362148",
+    "status": "ACTIVE",
+    "created_at": "2026-05-18T06:53:00+00:00",
+    "updated_at": "2026-05-18T06:53:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000027",
+    "email": "betty.williams.27@example.com",
+    "first_name": "Betty",
+    "last_name": "Williams",
+    "phone": "+13004421825",
+    "status": "ACTIVE",
+    "created_at": "2025-06-01T13:44:00+00:00",
+    "updated_at": "2025-06-01T13:44:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000028",
+    "email": "margaret.lopez.28@example.com",
+    "first_name": "Margaret",
+    "last_name": "Lopez",
+    "phone": "+13917547160",
+    "status": "ACTIVE",
+    "created_at": "2025-11-09T01:44:00+00:00",
+    "updated_at": "2025-11-09T01:44:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000029",
+    "email": "patricia.brown.29@example.com",
+    "first_name": "Patricia",
+    "last_name": "Brown",
+    "phone": "+18698612663",
+    "status": "ACTIVE",
+    "created_at": "2026-05-01T04:18:00+00:00",
+    "updated_at": "2026-05-01T04:18:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000030",
+    "email": "patricia.martinez.30@example.com",
+    "first_name": "Patricia",
+    "last_name": "Martinez",
+    "phone": "+13829027478",
+    "status": "ACTIVE",
+    "created_at": "2026-01-10T13:28:00+00:00",
+    "updated_at": "2026-01-10T13:28:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000031",
+    "email": "christopher.johnson.31@example.com",
+    "first_name": "Christopher",
+    "last_name": "Johnson",
+    "phone": "+18104753701",
+    "status": "ACTIVE",
+    "created_at": "2025-08-16T13:17:00+00:00",
+    "updated_at": "2025-08-16T13:17:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000032",
+    "email": "steven.moore.32@example.com",
+    "first_name": "Steven",
+    "last_name": "Moore",
+    "phone": "+16702172748",
+    "status": "ACTIVE",
+    "created_at": "2026-06-13T02:59:00+00:00",
+    "updated_at": "2026-06-13T02:59:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000033",
+    "email": "barbara.clark.33@example.com",
+    "first_name": "Barbara",
+    "last_name": "Clark",
+    "phone": "+12932276168",
+    "status": "ACTIVE",
+    "created_at": "2026-04-18T01:20:00+00:00",
+    "updated_at": "2026-04-18T01:20:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000034",
+    "email": "joseph.moore.34@example.com",
+    "first_name": "Joseph",
+    "last_name": "Moore",
+    "phone": "+18766237668",
+    "status": "ACTIVE",
+    "created_at": "2025-12-12T08:35:00+00:00",
+    "updated_at": "2025-12-12T08:35:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000035",
+    "email": "barbara.taylor.35@example.com",
+    "first_name": "Barbara",
+    "last_name": "Taylor",
+    "phone": "+14806859201",
+    "status": "ACTIVE",
+    "created_at": "2025-02-10T01:52:00+00:00",
+    "updated_at": "2025-02-10T01:52:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000036",
+    "email": "emily.moore.36@example.com",
+    "first_name": "Emily",
+    "last_name": "Moore",
+    "phone": "+14765050004",
+    "status": "ACTIVE",
+    "created_at": "2025-10-19T12:12:00+00:00",
+    "updated_at": "2025-10-19T12:12:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000037",
+    "email": "daniel.perez.37@example.com",
+    "first_name": "Daniel",
+    "last_name": "Perez",
+    "phone": "+12663225347",
+    "status": "ACTIVE",
+    "created_at": "2025-06-08T14:36:00+00:00",
+    "updated_at": "2025-06-08T14:36:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000038",
+    "email": "andrew.garcia.38@example.com",
+    "first_name": "Andrew",
+    "last_name": "Garcia",
+    "phone": "+15158569273",
+    "status": "ACTIVE",
+    "created_at": "2025-11-22T13:14:00+00:00",
+    "updated_at": "2025-11-22T13:14:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000039",
+    "email": "richard.sanchez.39@example.com",
+    "first_name": "Richard",
+    "last_name": "Sanchez",
+    "phone": "+17434365631",
+    "status": "ACTIVE",
+    "created_at": "2025-05-06T20:05:00+00:00",
+    "updated_at": "2025-05-06T20:05:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000040",
+    "email": "daniel.gonzalez.40@example.com",
+    "first_name": "Daniel",
+    "last_name": "Gonzalez",
+    "phone": "+15619060567",
+    "status": "ACTIVE",
+    "created_at": "2025-05-14T11:32:00+00:00",
+    "updated_at": "2025-05-14T11:32:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000041",
+    "email": "michelle.miller.41@example.com",
+    "first_name": "Michelle",
+    "last_name": "Miller",
+    "phone": "+14569100963",
+    "status": "ACTIVE",
+    "created_at": "2026-01-11T04:06:00+00:00",
+    "updated_at": "2026-01-11T04:06:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000042",
+    "email": "michelle.sanchez.42@example.com",
+    "first_name": "Michelle",
+    "last_name": "Sanchez",
+    "phone": "+18479269389",
+    "status": "ACTIVE",
+    "created_at": "2025-01-18T09:56:00+00:00",
+    "updated_at": "2025-01-18T09:56:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000043",
+    "email": "charles.brown.43@example.com",
+    "first_name": "Charles",
+    "last_name": "Brown",
+    "phone": "+15415714989",
+    "status": "SUSPENDED",
+    "created_at": "2026-01-25T09:11:00+00:00",
+    "updated_at": "2026-01-25T09:11:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000044",
+    "email": "john.martinez.44@example.com",
+    "first_name": "John",
+    "last_name": "Martinez",
+    "phone": "+13173431105",
+    "status": "ACTIVE",
+    "created_at": "2025-05-17T04:56:00+00:00",
+    "updated_at": "2025-05-17T04:56:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000045",
+    "email": "michael.harris.45@example.com",
+    "first_name": "Michael",
+    "last_name": "Harris",
+    "phone": "+12626805653",
+    "status": "ACTIVE",
+    "created_at": "2025-04-16T08:51:00+00:00",
+    "updated_at": "2025-04-16T08:51:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000046",
+    "email": "charles.white.46@example.com",
+    "first_name": "Charles",
+    "last_name": "White",
+    "phone": "+17883936508",
+    "status": "ACTIVE",
+    "created_at": "2026-02-03T00:32:00+00:00",
+    "updated_at": "2026-02-03T00:32:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000047",
+    "email": "lisa.brown.47@example.com",
+    "first_name": "Lisa",
+    "last_name": "Brown",
+    "phone": "+19656935196",
+    "status": "ACTIVE",
+    "created_at": "2026-04-11T10:13:00+00:00",
+    "updated_at": "2026-04-11T10:13:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000048",
+    "email": "david.hernandez.48@example.com",
+    "first_name": "David",
+    "last_name": "Hernandez",
+    "phone": "+15627283009",
+    "status": "ACTIVE",
+    "created_at": "2025-12-07T12:21:00+00:00",
+    "updated_at": "2025-12-07T12:21:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000049",
+    "email": "donald.johnson.49@example.com",
+    "first_name": "Donald",
+    "last_name": "Johnson",
+    "phone": "+13056876816",
+    "status": "ACTIVE",
+    "created_at": "2025-09-23T22:38:00+00:00",
+    "updated_at": "2025-09-23T22:38:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000050",
+    "email": "lisa.lopez.50@example.com",
+    "first_name": "Lisa",
+    "last_name": "Lopez",
+    "phone": "+14526746236",
+    "status": "ACTIVE",
+    "created_at": "2025-02-07T07:48:00+00:00",
+    "updated_at": "2025-02-07T07:48:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000051",
+    "email": "joshua.sanchez.51@example.com",
+    "first_name": "Joshua",
+    "last_name": "Sanchez",
+    "phone": "+14844535017",
+    "status": "ACTIVE",
+    "created_at": "2025-11-14T17:32:00+00:00",
+    "updated_at": "2025-11-14T17:32:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000052",
+    "email": "patricia.davis.52@example.com",
+    "first_name": "Patricia",
+    "last_name": "Davis",
+    "phone": "+16072565979",
+    "status": "ACTIVE",
+    "created_at": "2025-06-17T04:06:00+00:00",
+    "updated_at": "2025-06-17T04:06:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000053",
+    "email": "james.davis.53@example.com",
+    "first_name": "James",
+    "last_name": "Davis",
+    "phone": "+16737924064",
+    "status": "ACTIVE",
+    "created_at": "2025-01-05T17:04:00+00:00",
+    "updated_at": "2025-01-05T17:04:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000054",
+    "email": "patricia.lee.54@example.com",
+    "first_name": "Patricia",
+    "last_name": "Lee",
+    "phone": "+18501883787",
+    "status": "ACTIVE",
+    "created_at": "2025-12-08T14:05:00+00:00",
+    "updated_at": "2025-12-08T14:05:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000055",
+    "email": "daniel.lee.55@example.com",
+    "first_name": "Daniel",
+    "last_name": "Lee",
+    "phone": "+13735654950",
+    "status": "ACTIVE",
+    "created_at": "2025-08-21T09:46:00+00:00",
+    "updated_at": "2025-08-21T09:46:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000056",
+    "email": "mark.martin.56@example.com",
+    "first_name": "Mark",
+    "last_name": "Martin",
+    "phone": "+18239633516",
+    "status": "ACTIVE",
+    "created_at": "2026-02-24T18:29:00+00:00",
+    "updated_at": "2026-02-24T18:29:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000057",
+    "email": "karen.garcia.57@example.com",
+    "first_name": "Karen",
+    "last_name": "Garcia",
+    "phone": "+15875294904",
+    "status": "ACTIVE",
+    "created_at": "2025-05-04T00:00:00+00:00",
+    "updated_at": "2025-05-04T00:00:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000058",
+    "email": "david.williams.58@example.com",
+    "first_name": "David",
+    "last_name": "Williams",
+    "phone": "+19446429209",
+    "status": "ACTIVE",
+    "created_at": "2025-08-20T04:05:00+00:00",
+    "updated_at": "2025-08-20T04:05:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000059",
+    "email": "patricia.lewis.59@example.com",
+    "first_name": "Patricia",
+    "last_name": "Lewis",
+    "phone": "+12438903175",
+    "status": "ACTIVE",
+    "created_at": "2025-10-22T00:49:00+00:00",
+    "updated_at": "2025-10-22T00:49:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000060",
+    "email": "andrew.thompson.60@example.com",
+    "first_name": "Andrew",
+    "last_name": "Thompson",
+    "phone": "+14037227658",
+    "status": "ACTIVE",
+    "created_at": "2025-06-28T20:05:00+00:00",
+    "updated_at": "2025-06-28T20:05:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000061",
+    "email": "sandra.jones.61@example.com",
+    "first_name": "Sandra",
+    "last_name": "Jones",
+    "phone": "+19948600835",
+    "status": "ACTIVE",
+    "created_at": "2025-11-23T04:39:00+00:00",
+    "updated_at": "2025-11-23T04:39:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000062",
+    "email": "linda.garcia.62@example.com",
+    "first_name": "Linda",
+    "last_name": "Garcia",
+    "phone": "+17822265541",
+    "status": "ACTIVE",
+    "created_at": "2025-08-11T01:59:00+00:00",
+    "updated_at": "2025-08-11T01:59:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000063",
+    "email": "betty.johnson.63@example.com",
+    "first_name": "Betty",
+    "last_name": "Johnson",
+    "phone": "+15143803662",
+    "status": "ACTIVE",
+    "created_at": "2025-06-21T01:39:00+00:00",
+    "updated_at": "2025-06-21T01:39:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000064",
+    "email": "jennifer.lewis.64@example.com",
+    "first_name": "Jennifer",
+    "last_name": "Lewis",
+    "phone": "+14537114015",
+    "status": "ACTIVE",
+    "created_at": "2025-04-05T01:07:00+00:00",
+    "updated_at": "2025-04-05T01:07:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000065",
+    "email": "david.miller.65@example.com",
+    "first_name": "David",
+    "last_name": "Miller",
+    "phone": "+16085456234",
+    "status": "ACTIVE",
+    "created_at": "2026-02-07T06:25:00+00:00",
+    "updated_at": "2026-02-07T06:25:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000066",
+    "email": "jessica.moore.66@example.com",
+    "first_name": "Jessica",
+    "last_name": "Moore",
+    "phone": "+14179741900",
+    "status": "ACTIVE",
+    "created_at": "2025-10-22T23:12:00+00:00",
+    "updated_at": "2025-10-22T23:12:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000067",
+    "email": "james.johnson.67@example.com",
+    "first_name": "James",
+    "last_name": "Johnson",
+    "phone": "+19448176121",
+    "status": "ACTIVE",
+    "created_at": "2025-10-02T04:42:00+00:00",
+    "updated_at": "2025-10-02T04:42:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000068",
+    "email": "sandra.clark.68@example.com",
+    "first_name": "Sandra",
+    "last_name": "Clark",
+    "phone": "+14066322431",
+    "status": "ACTIVE",
+    "created_at": "2025-12-12T05:20:00+00:00",
+    "updated_at": "2025-12-12T05:20:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000069",
+    "email": "steven.johnson.69@example.com",
+    "first_name": "Steven",
+    "last_name": "Johnson",
+    "phone": "+17562510684",
+    "status": "ACTIVE",
+    "created_at": "2025-09-24T06:51:00+00:00",
+    "updated_at": "2025-09-24T06:51:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000070",
+    "email": "kimberly.jackson.70@example.com",
+    "first_name": "Kimberly",
+    "last_name": "Jackson",
+    "phone": "+18569383462",
+    "status": "ACTIVE",
+    "created_at": "2025-05-10T21:29:00+00:00",
+    "updated_at": "2025-05-10T21:29:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000071",
+    "email": "donald.jones.71@example.com",
+    "first_name": "Donald",
+    "last_name": "Jones",
+    "phone": "+15093429480",
+    "status": "ACTIVE",
+    "created_at": "2026-05-15T03:09:00+00:00",
+    "updated_at": "2026-05-15T03:09:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000072",
+    "email": "christopher.thomas.72@example.com",
+    "first_name": "Christopher",
+    "last_name": "Thomas",
+    "phone": "+15727833338",
+    "status": "ACTIVE",
+    "created_at": "2025-08-26T11:33:00+00:00",
+    "updated_at": "2025-08-26T11:33:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000073",
+    "email": "jennifer.davis.73@example.com",
+    "first_name": "Jennifer",
+    "last_name": "Davis",
+    "phone": "+17764778640",
+    "status": "ACTIVE",
+    "created_at": "2026-03-09T13:13:00+00:00",
+    "updated_at": "2026-03-09T13:13:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000074",
+    "email": "james.johnson.74@example.com",
+    "first_name": "James",
+    "last_name": "Johnson",
+    "phone": "+12893008750",
+    "status": "ACTIVE",
+    "created_at": "2025-11-27T17:20:00+00:00",
+    "updated_at": "2025-11-27T17:20:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000075",
+    "email": "joshua.lewis.75@example.com",
+    "first_name": "Joshua",
+    "last_name": "Lewis",
+    "phone": "+17325041474",
+    "status": "ACTIVE",
+    "created_at": "2025-09-02T03:49:00+00:00",
+    "updated_at": "2025-09-02T03:49:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000076",
+    "email": "elizabeth.martinez.76@example.com",
+    "first_name": "Elizabeth",
+    "last_name": "Martinez",
+    "phone": "+18171655169",
+    "status": "ACTIVE",
+    "created_at": "2025-10-28T09:27:00+00:00",
+    "updated_at": "2025-10-28T09:27:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000077",
+    "email": "david.davis.77@example.com",
+    "first_name": "David",
+    "last_name": "Davis",
+    "phone": "+16125637124",
+    "status": "ACTIVE",
+    "created_at": "2026-06-22T16:36:00+00:00",
+    "updated_at": "2026-06-22T16:36:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000078",
+    "email": "david.harris.78@example.com",
+    "first_name": "David",
+    "last_name": "Harris",
+    "phone": "+12223824276",
+    "status": "ACTIVE",
+    "created_at": "2025-10-01T22:09:00+00:00",
+    "updated_at": "2025-10-01T22:09:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000079",
+    "email": "emily.thompson.79@example.com",
+    "first_name": "Emily",
+    "last_name": "Thompson",
+    "phone": "+14325567702",
+    "status": "ACTIVE",
+    "created_at": "2026-02-19T08:26:00+00:00",
+    "updated_at": "2026-02-19T08:26:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000080",
+    "email": "patricia.davis.80@example.com",
+    "first_name": "Patricia",
+    "last_name": "Davis",
+    "phone": "+19757869515",
+    "status": "ACTIVE",
+    "created_at": "2025-09-12T00:20:00+00:00",
+    "updated_at": "2025-09-12T00:20:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000081",
+    "email": "david.walker.81@example.com",
+    "first_name": "David",
+    "last_name": "Walker",
+    "phone": "+17435525336",
+    "status": "ACTIVE",
+    "created_at": "2025-04-18T13:04:00+00:00",
+    "updated_at": "2025-04-18T13:04:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000082",
+    "email": "joseph.taylor.82@example.com",
+    "first_name": "Joseph",
+    "last_name": "Taylor",
+    "phone": "+16157576160",
+    "status": "ACTIVE",
+    "created_at": "2026-03-12T07:32:00+00:00",
+    "updated_at": "2026-03-12T07:32:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000083",
+    "email": "linda.ramirez.83@example.com",
+    "first_name": "Linda",
+    "last_name": "Ramirez",
+    "phone": "+16561741322",
+    "status": "ACTIVE",
+    "created_at": "2025-03-20T12:46:00+00:00",
+    "updated_at": "2025-03-20T12:46:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000084",
+    "email": "robert.thomas.84@example.com",
+    "first_name": "Robert",
+    "last_name": "Thomas",
+    "phone": "+14065298849",
+    "status": "ACTIVE",
+    "created_at": "2025-10-02T11:59:00+00:00",
+    "updated_at": "2025-10-02T11:59:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000085",
+    "email": "sarah.martin.85@example.com",
+    "first_name": "Sarah",
+    "last_name": "Martin",
+    "phone": "+15809800444",
+    "status": "ACTIVE",
+    "created_at": "2025-09-20T15:49:00+00:00",
+    "updated_at": "2025-09-20T15:49:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000086",
+    "email": "andrew.ramirez.86@example.com",
+    "first_name": "Andrew",
+    "last_name": "Ramirez",
+    "phone": "+18919250458",
+    "status": "ACTIVE",
+    "created_at": "2025-05-22T13:55:00+00:00",
+    "updated_at": "2025-05-22T13:55:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000087",
+    "email": "barbara.martinez.87@example.com",
+    "first_name": "Barbara",
+    "last_name": "Martinez",
+    "phone": "+18584641608",
+    "status": "ACTIVE",
+    "created_at": "2025-06-26T23:21:00+00:00",
+    "updated_at": "2025-06-26T23:21:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000088",
+    "email": "joshua.martinez.88@example.com",
+    "first_name": "Joshua",
+    "last_name": "Martinez",
+    "phone": "+18633367365",
+    "status": "ACTIVE",
+    "created_at": "2025-10-11T19:22:00+00:00",
+    "updated_at": "2025-10-11T19:22:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000089",
+    "email": "donald.ramirez.89@example.com",
+    "first_name": "Donald",
+    "last_name": "Ramirez",
+    "phone": "+15833039991",
+    "status": "ACTIVE",
+    "created_at": "2025-08-01T05:30:00+00:00",
+    "updated_at": "2025-08-01T05:30:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000090",
+    "email": "matthew.brown.90@example.com",
+    "first_name": "Matthew",
+    "last_name": "Brown",
+    "phone": "+12989339895",
+    "status": "ACTIVE",
+    "created_at": "2026-06-13T10:16:00+00:00",
+    "updated_at": "2026-06-13T10:16:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000091",
+    "email": "paul.sanchez.91@example.com",
+    "first_name": "Paul",
+    "last_name": "Sanchez",
+    "phone": "+12821168604",
+    "status": "ACTIVE",
+    "created_at": "2025-03-09T12:14:00+00:00",
+    "updated_at": "2025-03-09T12:14:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000092",
+    "email": "susan.jackson.92@example.com",
+    "first_name": "Susan",
+    "last_name": "Jackson",
+    "phone": "+15185051433",
+    "status": "ACTIVE",
+    "created_at": "2025-07-28T06:22:00+00:00",
+    "updated_at": "2025-07-28T06:22:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000093",
+    "email": "nancy.harris.93@example.com",
+    "first_name": "Nancy",
+    "last_name": "Harris",
+    "phone": "+14532323746",
+    "status": "ACTIVE",
+    "created_at": "2025-04-17T02:38:00+00:00",
+    "updated_at": "2025-04-17T02:38:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000094",
+    "email": "charles.martinez.94@example.com",
+    "first_name": "Charles",
+    "last_name": "Martinez",
+    "phone": "+12884314405",
+    "status": "ACTIVE",
+    "created_at": "2025-03-29T13:12:00+00:00",
+    "updated_at": "2025-03-29T13:12:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000095",
+    "email": "michael.rodriguez.95@example.com",
+    "first_name": "Michael",
+    "last_name": "Rodriguez",
+    "phone": "+12946162008",
+    "status": "ACTIVE",
+    "created_at": "2025-02-16T06:37:00+00:00",
+    "updated_at": "2025-02-16T06:37:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000096",
+    "email": "john.robinson.96@example.com",
+    "first_name": "John",
+    "last_name": "Robinson",
+    "phone": "+19505291279",
+    "status": "ACTIVE",
+    "created_at": "2025-03-01T01:28:00+00:00",
+    "updated_at": "2025-03-01T01:28:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000097",
+    "email": "donald.jones.97@example.com",
+    "first_name": "Donald",
+    "last_name": "Jones",
+    "phone": "+19685553693",
+    "status": "ACTIVE",
+    "created_at": "2025-10-09T20:06:00+00:00",
+    "updated_at": "2025-10-09T20:06:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000098",
+    "email": "donald.williams.98@example.com",
+    "first_name": "Donald",
+    "last_name": "Williams",
+    "phone": "+14321359770",
+    "status": "ACTIVE",
+    "created_at": "2026-03-30T12:52:00+00:00",
+    "updated_at": "2026-03-30T12:52:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000099",
+    "email": "linda.rodriguez.99@example.com",
+    "first_name": "Linda",
+    "last_name": "Rodriguez",
+    "phone": "+14677762362",
+    "status": "ACTIVE",
+    "created_at": "2025-05-31T07:59:00+00:00",
+    "updated_at": "2025-05-31T07:59:00+00:00"
+  },
+  {
+    "customer_id": "CUST-000100",
+    "email": "thomas.lewis.100@example.com",
+    "first_name": "Thomas",
+    "last_name": "Lewis",
+    "phone": "+16656029777",
+    "status": "ACTIVE",
+    "created_at": "2025-07-18T11:52:00+00:00",
+    "updated_at": "2025-07-18T11:52:00+00:00"
+  }
+]

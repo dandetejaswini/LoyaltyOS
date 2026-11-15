@@ -1,0 +1,194 @@
+[
+  {
+    "return_line_id": "RLINE-2026-000001-1",
+    "return_id": "RET-2026-000001",
+    "order_line_id": "LINE-2026-00000150",
+    "quantity_returned": 1,
+    "refund_amount": "149.99",
+    "created_at": "2026-02-15T07:26:19+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000002-1",
+    "return_id": "RET-2026-000002",
+    "order_line_id": "LINE-2026-00000195",
+    "quantity_returned": 3,
+    "refund_amount": "81.20",
+    "created_at": "2026-08-20T08:06:12+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000003-1",
+    "return_id": "RET-2026-000003",
+    "order_line_id": "LINE-2026-00000207",
+    "quantity_returned": 3,
+    "refund_amount": "148.50",
+    "created_at": "2026-02-08T00:07:32+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000004-1",
+    "return_id": "RET-2026-000004",
+    "order_line_id": "LINE-2026-00000293",
+    "quantity_returned": 3,
+    "refund_amount": "143.55",
+    "created_at": "2026-06-21T07:19:19+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000005-1",
+    "return_id": "RET-2026-000005",
+    "order_line_id": "LINE-2026-00000294",
+    "quantity_returned": 1,
+    "refund_amount": "44.55",
+    "created_at": "2026-11-26T04:06:41+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000006-1",
+    "return_id": "RET-2026-000006",
+    "order_line_id": "LINE-2026-00000407",
+    "quantity_returned": 1,
+    "refund_amount": "134.99",
+    "created_at": "2026-10-08T01:33:47+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000007-1",
+    "return_id": "RET-2026-000007",
+    "order_line_id": "LINE-2026-00000450",
+    "quantity_returned": 3,
+    "refund_amount": "148.50",
+    "created_at": "2025-08-22T13:41:03+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000008-1",
+    "return_id": "RET-2026-000008",
+    "order_line_id": "LINE-2026-00000452",
+    "quantity_returned": 2,
+    "refund_amount": "158.00",
+    "created_at": "2026-09-29T01:00:29+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000009-1",
+    "return_id": "RET-2026-000009",
+    "order_line_id": "LINE-2026-00000479",
+    "quantity_returned": 2,
+    "refund_amount": "79.80",
+    "created_at": "2026-10-02T03:52:31+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000010-1",
+    "return_id": "RET-2026-000010",
+    "order_line_id": "LINE-2026-00000602",
+    "quantity_returned": 3,
+    "refund_amount": "105.00",
+    "created_at": "2026-03-14T22:27:20+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000011-1",
+    "return_id": "RET-2026-000011",
+    "order_line_id": "LINE-2026-00000622",
+    "quantity_returned": 3,
+    "refund_amount": "348.00",
+    "created_at": "2026-10-25T12:52:43+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000012-1",
+    "return_id": "RET-2026-000012",
+    "order_line_id": "LINE-2026-00000652",
+    "quantity_returned": 1,
+    "refund_amount": "65.00",
+    "created_at": "2026-10-13T18:28:53+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000013-1",
+    "return_id": "RET-2026-000013",
+    "order_line_id": "LINE-2026-00000671",
+    "quantity_returned": 3,
+    "refund_amount": "237.00",
+    "created_at": "2025-10-10T02:44:33+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000014-1",
+    "return_id": "RET-2026-000014",
+    "order_line_id": "LINE-2026-00000843",
+    "quantity_returned": 2,
+    "refund_amount": "299.98",
+    "created_at": "2026-06-08T11:45:20+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000015-1",
+    "return_id": "RET-2026-000015",
+    "order_line_id": "LINE-2026-00000883",
+    "quantity_returned": 3,
+    "refund_amount": "237.00",
+    "created_at": "2026-01-01T21:37:28+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000016-1",
+    "return_id": "RET-2026-000016",
+    "order_line_id": "LINE-2026-00000967",
+    "quantity_returned": 2,
+    "refund_amount": "99.00",
+    "created_at": "2025-12-13T15:06:11+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000017-1",
+    "return_id": "RET-2026-000017",
+    "order_line_id": "LINE-2026-00001011",
+    "quantity_returned": 3,
+    "refund_amount": "84.00",
+    "created_at": "2025-11-07T15:46:44+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000018-1",
+    "return_id": "RET-2026-000018",
+    "order_line_id": "LINE-2026-00001043",
+    "quantity_returned": 2,
+    "refund_amount": "240.00",
+    "created_at": "2026-07-18T15:11:46+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000019-1",
+    "return_id": "RET-2026-000019",
+    "order_line_id": "LINE-2026-00001083",
+    "quantity_returned": 2,
+    "refund_amount": "84.00",
+    "created_at": "2026-03-27T21:24:58+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000020-1",
+    "return_id": "RET-2026-000020",
+    "order_line_id": "LINE-2026-00001129",
+    "quantity_returned": 2,
+    "refund_amount": "70.00",
+    "created_at": "2026-02-05T18:21:30+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000021-1",
+    "return_id": "RET-2026-000021",
+    "order_line_id": "LINE-2026-00001148",
+    "quantity_returned": 3,
+    "refund_amount": "360.00",
+    "created_at": "2025-08-17T21:21:33+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000022-1",
+    "return_id": "RET-2026-000022",
+    "order_line_id": "LINE-2026-00001188",
+    "quantity_returned": 3,
+    "refund_amount": "195.00",
+    "created_at": "2026-06-01T04:17:15+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000023-1",
+    "return_id": "RET-2026-000023",
+    "order_line_id": "LINE-2026-00001198",
+    "quantity_returned": 1,
+    "refund_amount": "149.99",
+    "created_at": "2026-09-30T14:17:38+00:00"
+  },
+  {
+    "return_line_id": "RLINE-2026-000024-1",
+    "return_id": "RET-2026-000024",
+    "order_line_id": "LINE-2026-00001234",
+    "quantity_returned": 1,
+    "refund_amount": "95.00",
+    "created_at": "2026-05-07T14:05:05+00:00"
+  }
+]

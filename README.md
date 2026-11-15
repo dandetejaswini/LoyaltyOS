@@ -3,7 +3,7 @@
 > **"Accrue, redeem, expire and reverse points with a fully auditable loyalty ledger."**
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-42%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-54%20passed-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.14-blue.svg)]()
 [![React](https://img.shields.io/badge/react-18.3-61dafb.svg)]()
@@ -227,12 +227,31 @@ npm run dev
 
 ---
 
-## 11. Automated Testing & Verification
+## 11. Synthetic Data & Deterministic Seed Engine
+
+LoyaltyOS provides a fully deterministic synthetic data engine (`backend/app/seed/`) pinned to random seed `20261022`. It generates valid baseline datasets and controlled anomaly injection datasets with cryptographic SHA-256 manifests.
+
+```powershell
+# Run baseline generation & validation at TEST scale (100 customers, 500 orders)
+.\venv\Scripts\python scripts/seed_data.py --scale TEST --export-dir data
+
+# Benchmark generation at MEDIUM scale (1,000 customers, 5,000 orders, ~2s)
+.\venv\Scripts\python scripts/seed_data.py --scale MEDIUM --export-dir data
+
+# Safe database loading flag (reports PENDING if DB credentials unconfigured)
+.\venv\Scripts\python scripts/seed_data.py --scale TEST --load-db
+```
+
+Output directory: `data/generated/`, `data/ground_truth/`, and `data/manifests/ground_truth_manifest.json`.
+
+---
+
+## 12. Automated Testing & Verification
 
 Run the full automated test suite:
 
 ```powershell
-# Run backend test suite (All 23 tests pass with 0 warnings)
+# Run backend test suite (All 54 tests pass with 0 warnings in <1s)
 .\venv\Scripts\pytest -v
 
 # Run frontend TypeScript typecheck
@@ -244,14 +263,14 @@ Set-Location frontend; npm run build; Set-Location ..
 
 ---
 
-## 12. Implementation Status & Roadmap
+## 13. Implementation Status & Roadmap
 
 | Phase | Milestone | Status | Key Deliverables |
 |---|---|---|---|
 | **Phase 0** | Problem Analysis & Design | **Completed** | 10 engineering documents in `docs/` |
 | **Phase 1** | Project Setup & Architecture | **Completed** | Three-tier foundation, health probes, CORS hardening |
 | **Phase 2** | Database & Authentication | **Completed** | 21 tables, immutability trigger, Supabase + Firebase auth, RBAC |
-| **Phase 3** | Synthetic Data & Seed Engine | *Pending* | Large-scale synthetic dataset generator & anomaly manifests |
+| **Phase 3** | Synthetic Data & Seed Engine | **Completed** | Deterministic generator, 5 anomaly categories, SHA-256 manifest, CLI |
 | **Phase 4** | Core Loyalty Business Workflows| *Pending* | Accrual rules, tier upgrades, returns & reversals |
 | **Phase 5** | Ledger & Points Expiration | *Pending* | FIFO lot allocation, atomic redemptions, expiry batches |
 | **Phase 6** | Forensic Reconciliation Engine | *Pending* | LLI-RE anomaly detection and drift identification |
@@ -260,13 +279,13 @@ Set-Location frontend; npm run build; Set-Location ..
 
 ---
 
-## 13. Known Limitations
+## 14. Known Limitations
 
 - **Cloud Database Configuration**: In the local development sandbox without an active database password in `.env`, the `/health/ready` endpoint strictly reports `503 Service Unavailable`, as intended by design until live database credentials are supplied.
 - **Email Confirmation**: If Supabase email confirmation is enabled in the dashboard, new email sign-ups require clicking the email link before first login unless toggled off for testing.
 
 ---
 
-## 14. License
+## 15. License
 
 Developed under the MIT License for the **YottaFlex AI Forward Deployed Engineer Hackathon**.
