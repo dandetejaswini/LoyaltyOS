@@ -25,25 +25,30 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     { label: 'Overview', path: '/' },
-    { label: 'About Ledger', path: '/about' },
+    { label: 'Architecture', path: '/about' },
     { label: 'Dashboard', path: '/dashboard' },
     { label: 'Settings', path: '/settings' },
   ];
 
   return (
-    <header className="bg-brand-950 border-b border-brand-900 text-white sticky top-0 z-40">
+    <header className="bg-navy-950 border-b border-navy-800 text-white sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Brand */}
+          {/* Brand Identity */}
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-inner font-bold text-sm tracking-wider">
-                YF
+              <div className="w-8 h-8 rounded-lg bg-navy-900 border border-navy-700 flex items-center justify-center shadow-inner relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-lavender-500/20 to-transparent"></div>
+                <span className="font-extrabold text-sm tracking-tight text-white">
+                  L<span className="text-lavender-400">O</span>
+                </span>
               </div>
-              <div>
-                <span className="font-semibold text-base tracking-tight text-white">YottaFlex</span>
-                <span className="hidden sm:inline-block ml-2 px-1.5 py-0.5 text-[10px] uppercase font-mono tracking-wider bg-brand-900 text-brand-300 rounded border border-brand-800">
-                  Ledger Core
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-base tracking-tight text-white">
+                  Loyalty<span className="text-lavender-400">OS</span>
+                </span>
+                <span className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] uppercase font-mono tracking-wider bg-navy-900 text-lavender-300 rounded border border-navy-700">
+                  YottaFlex
                 </span>
               </div>
             </Link>
@@ -57,10 +62,10 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`px-3 py-1.5 rounded text-xs font-medium transition ${
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition ${
                     active
-                      ? 'bg-brand-900 text-white border border-brand-800'
-                      : 'text-slate-300 hover:text-white hover:bg-brand-900/50'
+                      ? 'bg-navy-800 text-lavender-200 border border-navy-700 shadow-sm'
+                      : 'text-platinum-300 hover:text-white hover:bg-navy-900/60'
                   }`}
                 >
                   {link.label}
@@ -72,7 +77,7 @@ export const Navbar: React.FC = () => {
           {/* Right Action / System Status */}
           <div className="hidden sm:flex items-center gap-4">
             {/* Live Health Status Pill */}
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-brand-900/80 border border-brand-800 text-[11px]">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-navy-900/90 border border-navy-700 text-[11px]">
               <span
                 className={`w-2 h-2 rounded-full ${
                   health?.status === 'healthy'
@@ -82,23 +87,23 @@ export const Navbar: React.FC = () => {
                     : 'bg-rose-500'
                 }`}
               />
-              <span className="text-slate-300 font-mono">
-                {health ? `API v${health.version}` : 'Connecting...'}
+              <span className="text-platinum-300 font-mono">
+                {health ? `Core v${health.version}` : 'Connecting...'}
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               <Link
                 to="/sign-in"
-                className="px-3 py-1.5 text-xs font-medium text-slate-200 hover:text-white transition"
+                className="px-3 py-1.5 text-xs font-medium text-platinum-300 hover:text-white transition"
               >
                 Sign In
               </Link>
               <Link
                 to="/sign-up"
-                className="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-medium rounded transition shadow-sm"
+                className="px-3.5 py-1.5 bg-lavender-600 hover:bg-lavender-500 text-white text-xs font-medium rounded-md transition shadow-sm"
               >
-                Register Account
+                Register
               </Link>
             </div>
           </div>
@@ -107,7 +112,7 @@ export const Navbar: React.FC = () => {
           <div className="flex md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-300 hover:text-white p-2"
+              className="text-platinum-300 hover:text-white p-2"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -118,35 +123,35 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-brand-900 bg-brand-950 px-4 pt-2 pb-4 space-y-1">
+        <div className="md:hidden border-t border-navy-800 bg-navy-950 px-4 pt-2 pb-4 space-y-1">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               onClick={() => setMobileMenuOpen(false)}
-              className={`block px-3 py-2 rounded text-sm font-medium ${
+              className={`block px-3 py-2 rounded-md text-sm font-medium ${
                 location.pathname === link.path
-                  ? 'bg-brand-900 text-white'
-                  : 'text-slate-300 hover:bg-brand-900/50'
+                  ? 'bg-navy-800 text-lavender-200'
+                  : 'text-platinum-300 hover:bg-navy-900/60'
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 border-t border-brand-900 flex flex-col gap-2">
+          <div className="pt-2 border-t border-navy-800 flex flex-col gap-2">
             <Link
               to="/sign-in"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm text-center text-slate-300 hover:text-white"
+              className="block px-3 py-2 text-sm text-center text-platinum-300 hover:text-white"
             >
               Sign In
             </Link>
             <Link
               to="/sign-up"
               onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm text-center bg-brand-600 text-white rounded font-medium"
+              className="block px-3 py-2 text-sm text-center bg-lavender-600 text-white rounded-md font-medium"
             >
-              Register Account
+              Register
             </Link>
           </div>
         </div>

@@ -1,12 +1,13 @@
 import os
-from typing import List, Union
-from pydantic import AnyHttpUrl, field_validator
+from typing import List, Union, Optional
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     # Application Info
-    APP_NAME: str = "YottaFlex Loyalty Ledger"
+    APP_NAME: str = "LoyaltyOS — Intelligent Loyalty & Ledger Management Platform"
+    APP_SHORT_NAME: str = "LoyaltyOS"
     APP_VERSION: str = "1.0.0"
     APP_ENV: str = "development"
     DEBUG: bool = False
@@ -17,12 +18,14 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # CORS Configuration
+    # Explicit allowed origins (no wildcard strings when credentials are enabled)
     ALLOWED_ORIGINS: Union[List[str], str] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost:3000",
-        "https://*.vercel.app"
     ]
+    # Restricted origin regex for Vercel preview/production deployments
+    ALLOW_ORIGIN_REGEX: Optional[str] = r"^https:\/\/.*\.vercel\.app$"
 
     @field_validator("ALLOWED_ORIGINS", mode="before")
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:

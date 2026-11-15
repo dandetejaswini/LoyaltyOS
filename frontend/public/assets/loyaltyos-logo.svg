@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" width="160" height="40">
+  <defs>
+    <linearGradient id="logo-node-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="logo-plat-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E2E8F0"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon Mark -->
+  <rect x="2" y="4" width="32" height="32" rx="8" fill="#0B192C"/>
+  <rect x="2.5" y="4.5" width="31" height="31" rx="7.5" fill="none" stroke="#1E3E62" stroke-width="1"/>
+  <path d="M11 12h4v11h7v4H11V12z" fill="url(#logo-plat-grad)"/>
+  <circle cx="23" cy="15" r="3.5" fill="url(#logo-node-grad)"/>
+  <circle cx="23" cy="15" r="1.5" fill="#FFFFFF"/>
+  
+  <!-- Wordmark -->
+  <text x="44" y="27" font-family="'Inter', -apple-system, sans-serif" font-weight="800" font-size="20" fill="#FFFFFF" letter-spacing="-0.5">Loyalty<tspan fill="#A78BFA">OS</tspan></text>
+</svg>

@@ -18,22 +18,22 @@ export const HomePage: React.FC = () => {
 
   const features = [
     {
-      icon: <Shield className="w-6 h-6 text-brand-600" />,
+      icon: <Shield className="w-5 h-5 text-lavender-600" />,
       title: 'Append-Only Ledger Journal',
       desc: 'All point credits and debits are recorded as immutable financial journal entries. Zero in-place mutations or silent historical deletions.',
     },
     {
-      icon: <RefreshCw className="w-6 h-6 text-brand-600" />,
+      icon: <RefreshCw className="w-5 h-5 text-lavender-600" />,
       title: 'FIFO Lot Tracking & Idempotent Expiry',
       desc: 'Points lots are provisioned with 365-day expiry dates. Redemptions consume lots in strict FIFO order; batch expiration runs idempotently.',
     },
     {
-      icon: <Lock className="w-6 h-6 text-brand-600" />,
+      icon: <Lock className="w-5 h-5 text-lavender-600" />,
       title: 'Concurrency-Safe Atomic Redemptions',
       desc: 'Pessimistic row locking on loyalty accounts prevents double-spending and race conditions under simultaneous traffic.',
     },
     {
-      icon: <Database className="w-6 h-6 text-brand-600" />,
+      icon: <Database className="w-5 h-5 text-lavender-600" />,
       title: 'Proportional Return Reversals',
       desc: 'Order returns reverse earned points strictly proportional to eligible net spend, maintaining foreign-key links to original accruals.',
     },
@@ -42,42 +42,42 @@ export const HomePage: React.FC = () => {
   return (
     <PageContainer>
       {/* Hero Section */}
-      <div className="bg-white border border-slate-200 rounded-xl p-8 sm:p-12 mb-8 shadow-sm">
+      <div className="bg-white border border-platinum-200 rounded-xl p-8 sm:p-12 mb-8 shadow-sm">
         <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-200 text-brand-800 text-xs font-semibold mb-4">
-            <span className="w-2 h-2 rounded-full bg-brand-600"></span>
-            Phase 1 Foundation Operational
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-50 border border-lavender-200 text-lavender-800 text-xs font-semibold mb-4">
+            <span className="w-2 h-2 rounded-full bg-lavender-600"></span>
+            LoyaltyOS Core Platform Active • YottaFlex
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-            Financial-Grade Loyalty Ledger Platform
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-navy-950 tracking-tight leading-tight mb-4">
+            Loyalty<span className="text-lavender-600">OS</span> — Intelligent Loyalty & Ledger Management Platform
           </h1>
-          <p className="text-base sm:text-lg text-slate-600 mb-8 leading-relaxed">
+          <p className="text-base sm:text-lg text-platinum-600 mb-8 leading-relaxed">
             Accrue, redeem, expire, and reverse customer loyalty points with complete auditability, mathematical reconciliation, and automated forensic anomaly detection.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-700 hover:bg-brand-800 text-white rounded-lg text-sm font-semibold transition shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-navy-900 hover:bg-navy-800 text-white rounded-lg text-sm font-semibold transition shadow-sm border border-navy-700"
             >
               Open Operations Dashboard
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-lavender-300" />
             </Link>
             <Link
               to="/about"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-medium transition"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-platinum-300 hover:bg-platinum-50 text-platinum-700 rounded-lg text-sm font-medium transition"
             >
-              Architecture & Rules
+              Architecture & Invariants
             </Link>
           </div>
         </div>
       </div>
 
       {/* Live System Health Diagnostic Card */}
-      <div className="bg-slate-900 text-white rounded-xl p-6 mb-8 border border-slate-800 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="bg-navy-950 text-white rounded-xl p-6 mb-8 border border-navy-800 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-navy-800">
           <div>
-            <h3 className="text-sm font-semibold tracking-wider uppercase text-brand-300">Live Backend Verification</h3>
-            <p className="text-xs text-slate-400 mt-0.5">Real-time status reported by FastAPI Application Tier</p>
+            <h3 className="text-xs font-semibold tracking-wider uppercase text-lavender-400">Live Application Tier Status</h3>
+            <p className="text-xs text-platinum-400 mt-0.5">Real-time status reported by LoyaltyOS FastAPI Core</p>
           </div>
           <div className="flex items-center gap-2">
             <span
@@ -85,23 +85,23 @@ export const HomePage: React.FC = () => {
                 health?.status === 'healthy' ? 'bg-emerald-400 animate-pulse' : 'bg-rose-500'
               }`}
             />
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-200">
+            <span className="text-xs font-mono uppercase tracking-wider text-platinum-200">
               {loading ? 'Checking...' : health?.status || 'Disconnected'}
             </span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-xs font-mono">
-          <div className="bg-slate-850 p-3 rounded border border-slate-800">
-            <span className="text-slate-400 block text-[11px] mb-1">Application Version</span>
-            <span className="text-white font-semibold">{health?.version || 'v1.0.0'}</span>
+          <div className="bg-navy-900 p-3 rounded-lg border border-navy-800">
+            <span className="text-platinum-400 block text-[11px] mb-1">Platform Version</span>
+            <span className="text-white font-semibold">{health?.version ? `v${health.version}` : 'v1.0.0'}</span>
           </div>
-          <div className="bg-slate-850 p-3 rounded border border-slate-800">
-            <span className="text-slate-400 block text-[11px] mb-1">Environment</span>
+          <div className="bg-navy-900 p-3 rounded-lg border border-navy-800">
+            <span className="text-platinum-400 block text-[11px] mb-1">Environment</span>
             <span className="text-white font-semibold">{health?.environment || 'development'}</span>
           </div>
-          <div className="bg-slate-850 p-3 rounded border border-slate-800">
-            <span className="text-slate-400 block text-[11px] mb-1">Database State</span>
+          <div className="bg-navy-900 p-3 rounded-lg border border-navy-800">
+            <span className="text-platinum-400 block text-[11px] mb-1">Database Readiness</span>
             <span className="text-amber-300 font-semibold">
               {health?.database.status || 'not_configured'} (Phase 2 Prep)
             </span>
@@ -112,12 +112,12 @@ export const HomePage: React.FC = () => {
       {/* Core Architectural Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {features.map((f, i) => (
-          <div key={i} className="bg-white border border-slate-200 rounded-lg p-6 shadow-sm">
-            <div className="w-10 h-10 rounded-lg bg-brand-50 flex items-center justify-center mb-4">
+          <div key={i} className="bg-white border border-platinum-200 rounded-lg p-6 shadow-sm hover:border-lavender-200 transition">
+            <div className="w-10 h-10 rounded-lg bg-lavender-50 border border-lavender-100 flex items-center justify-center mb-4">
               {f.icon}
             </div>
-            <h3 className="text-base font-semibold text-slate-900 mb-2">{f.title}</h3>
-            <p className="text-sm text-slate-600 leading-relaxed">{f.desc}</p>
+            <h3 className="text-base font-semibold text-navy-950 mb-2">{f.title}</h3>
+            <p className="text-sm text-platinum-600 leading-relaxed">{f.desc}</p>
           </div>
         ))}
       </div>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="loyaltyos-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="platinum-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F8FAFC"/>
+      <stop offset="100%" stop-color="#CBD5E1"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded squircle -->
+  <rect width="32" height="32" rx="8" fill="#0B192C"/>
+  <rect x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#1E3E62" stroke-width="1"/>
+  <!-- LoyaltyOS Interlocking L and Hexagon Node -->
+  <path d="M9 8h4v11h7v4H9V8z" fill="url(#platinum-grad)"/>
+  <circle cx="21" cy="11" r="3.5" fill="url(#loyaltyos-grad)"/>
+  <circle cx="21" cy="11" r="1.5" fill="#F8FAFC"/>
+</svg>

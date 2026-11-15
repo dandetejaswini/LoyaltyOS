@@ -28,7 +28,7 @@ def create_application() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # Configure CORS
+    # Configure CORS with explicit origins and restricted regex (credentials enabled safely)
     origins = settings.ALLOWED_ORIGINS
     if isinstance(origins, str):
         origins = [origins]
@@ -36,6 +36,7 @@ def create_application() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
+        allow_origin_regex=settings.ALLOW_ORIGIN_REGEX,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -55,6 +56,8 @@ def create_application() -> FastAPI:
             "version": settings.APP_VERSION,
             "docs_url": f"{settings.API_V1_STR}/docs",
             "health_url": f"{settings.API_V1_STR}/health",
+            "liveness_url": f"{settings.API_V1_STR}/health/live",
+            "readiness_url": f"{settings.API_V1_STR}/health/ready",
             "environment": settings.APP_ENV,
         }
 

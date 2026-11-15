@@ -27,6 +27,18 @@ class HealthResponse(BaseModel):
     timestamp: str = Field(default_factory=get_utc_iso)
 
 
+class LivenessResponse(BaseModel):
+    status: str = Field(default="alive", description="Process liveness state")
+    timestamp: str = Field(default_factory=get_utc_iso)
+
+
+class ReadinessResponse(BaseModel):
+    status: str = Field(description="Readiness state: ready | not_ready")
+    ready: bool = Field(description="Boolean indicator of whether service is ready to accept traffic")
+    database: Dict[str, Any] = Field(description="Database connectivity status")
+    timestamp: str = Field(default_factory=get_utc_iso)
+
+
 class StandardResponse(BaseModel):
     success: bool = True
     data: Optional[Any] = None
