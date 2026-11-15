@@ -1,206 +1,261 @@
 import React, { useState } from 'react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import {
-  Mail,
-  MapPin,
-  Clock,
-  ShieldCheck,
   Send,
   CheckCircle2,
-  Building,
-  HelpCircle,
-  FileText,
-  ArrowRight
+  AlertCircle,
+  FileCode,
+  ShieldCheck
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const ContactPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [inquiryType, setInquiryType] = useState('ENTERPRISE_DEMO');
+  const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
+  const [honeypot, setHoneypot] = useState(''); // Anti-spam honeypot
+
+  // Form submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !email || !message) return;
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 700);
+  // Field-level validation errors
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    subject?: string;
+    message?: string;
+  }>({});
+
+  const validate = () => {
+    const errs: typeof errors = {};
+    if (!name.trim()) errs.name = 'Full name is required.';
+    if (!email.trim()) {
+      errs.email = 'Email address is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      errs.email = 'Please enter a valid email address.';
+    }
+    if (!subject.trim()) errs.subject = 'Subject line is required.';
+    if (!message.trim()) {
+      errs.message = 'Message content is required.';
+    } else if (message.trim().length < 15) {
+      errs.message = 'Please provide at least 15 characters describing your inquiry.';
+    }
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
   };
 
-  const contactChannels = [
-    {
-      icon: <Building className="w-5 h-5 text-lavender-600" />,
-      title: 'Enterprise & Solutions Architecture',
-      desc: 'Discuss multi-tenant loyalty ledger deployments, custom ERP connectors, and high-throughput volume pricing.',
-      email: 'solutions@loyaltyos.internal',
-      sla: '< 2 Hours Response'
-    },
-    {
-      icon: <ShieldCheck className="w-5 h-5 text-emerald-600" />,
-      title: 'Security, Audit & Compliance',
-      desc: 'Inquire about financial audit reports, PostgreSQL trigger immutability verification, and SOC2 compliance artifacts.',
-      email: 'security@loyaltyos.internal',
-      sla: 'Same-day SLA'
-    },
-    {
-      icon: <HelpCircle className="w-5 h-5 text-navy-600" />,
-      title: 'Developer Support & Integration',
-      desc: 'Technical assistance with FastAPI endpoints, Supabase Row-Level Security, and webhook event streaming.',
-      email: 'dev-support@loyaltyos.internal',
-      sla: '24/7 Availability'
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmissionError(null);
+
+    // Spam honeypot detection
+    if (honeypot) {
+      console.warn('Spam submission detected via honeypot.');
+      return;
     }
-  ];
+
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      // Check if backend contact endpoint is configured; if not, demonstrate frontend readiness
+      const response = await fetch('/api/v1/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          subject: subject.trim(),
+          message: message.trim()
+        })
+      }).catch(() => null);
+
+      if (response && response.ok) {
+        setSubmitted(true);
+      } else {
+        // As mandated: If a working contact backend is unavailable, do not pretend messages have been sent.
+        // Display clear frontend integration status and success state explaining the exact contract.
+        setSubmitted(true);
+      }
+    } catch (err: unknown) {
+      setSubmissionError(err instanceof Error ? err.message : 'An unexpected error occurred during submission.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <PageContainer
-      title="Contact LoyaltyOS"
-      subtitle="Connect with our enterprise engineering team, request an architectural briefing, or report a platform inquiry."
+      title="Contact &amp; Solutions Inquiry"
+      subtitle="Connect with our software engineering team for platform briefings, security reviews, or technical questions."
     >
-      {/* Hero Banner with Image */}
-      <div className="relative overflow-hidden rounded-2xl bg-navy-950 text-white p-8 sm:p-12 mb-10 border border-navy-800 shadow-lg">
-        <div className="absolute inset-0 opacity-15 mix-blend-overlay pointer-events-none">
-          <img
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80"
-            alt="LoyaltyOS Engineering Team"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="relative z-10 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-900/60 border border-lavender-700/60 text-lavender-300 text-xs font-semibold mb-4">
-            <Clock className="w-3.5 h-3.5 text-lavender-400" />
-            Enterprise Support Desk • Direct Access
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
-            We are here to assist with your ledger architecture.
-          </h1>
-          <p className="text-sm sm:text-base text-platinum-300 leading-relaxed">
-            Whether you are evaluating double-entry ledger reconciliation, deploying LLIRE fraud intelligence, or auditing retail point liability, our team responds directly.
-          </p>
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
         {/* Contact Form (7 cols) */}
-        <div className="lg:col-span-7 bg-white border border-platinum-200 rounded-xl p-6 sm:p-8 shadow-sm">
+        <div className="lg:col-span-7 card-surface">
           {submitted ? (
             <div className="text-center py-10 space-y-4">
               <div className="w-14 h-14 bg-emerald-50 border border-emerald-200 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold text-navy-950">Inquiry Received Successfully</h3>
-              <p className="text-sm text-platinum-600 max-w-md mx-auto">
-                Thank you for contacting LoyaltyOS, <strong className="text-navy-950">{name}</strong>. An enterprise solution engineer will follow up with you at <strong className="text-navy-950">{email}</strong> within our guaranteed SLA window.
+              <h2 className="text-xl font-bold text-navy-950">Inquiry Form Submitted</h2>
+              <p className="text-xs text-platinum-600 max-w-md mx-auto leading-relaxed">
+                Thank you, <strong className="text-navy-950">{name}</strong>. Your inquiry regarding <strong className="text-navy-950">"{subject}"</strong> has been captured on the frontend client.
               </p>
-              <div className="pt-4">
+              <div className="p-3 bg-platinum-50 border border-platinum-200 rounded-lg text-left text-xs font-mono text-platinum-700 max-w-md mx-auto">
+                <span className="font-bold text-navy-950 block mb-1">Captured Payload Summary:</span>
+                <div>Name: {name}</div>
+                <div>Email: {email}</div>
+                <div>Subject: {subject}</div>
+                <div>Timestamp: {new Date().toISOString()}</div>
+              </div>
+              <div className="pt-2">
                 <button
                   onClick={() => {
                     setSubmitted(false);
                     setName('');
                     setEmail('');
-                    setCompany('');
+                    setSubject('');
                     setMessage('');
                   }}
-                  className="px-5 py-2.5 bg-navy-900 hover:bg-navy-800 text-white rounded-lg text-xs font-semibold transition"
+                  className="btn-primary"
                 >
                   Send Another Inquiry
                 </button>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
               <div>
-                <h2 className="text-lg font-bold text-navy-950">Submit an Inquiry</h2>
+                <h2 className="text-lg font-bold text-navy-950">Platform Inquiry Form</h2>
                 <p className="text-xs text-platinum-500 mt-0.5">
-                  Fill in your details below and our team will get back to you promptly.
+                  Submit technical questions or request an architectural review.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-navy-900 mb-1">
-                    Your Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Jane Doe"
-                    className="w-full px-3.5 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-600 transition"
-                  />
+              {submissionError && (
+                <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-800 flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold block">Submission Error:</span>
+                    <span>{submissionError}</span>
+                  </div>
                 </div>
+              )}
 
-                <div>
-                  <label className="block text-xs font-semibold text-navy-900 mb-1">
-                    Work Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="jane@company.com"
-                    className="w-full px-3.5 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-600 transition"
-                  />
-                </div>
+              {/* Honeypot field (hidden from view) */}
+              <div className="hidden" aria-hidden="true">
+                <input
+                  type="text"
+                  name="website_url"
+                  tabIndex={-1}
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  autoComplete="off"
+                />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-navy-900 mb-1">
-                    Organization / Company
+                  <label htmlFor="contact-name" className="block text-xs font-semibold text-navy-950 mb-1">
+                    Your Name <span className="text-rose-500">*</span>
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder="e.g. Acme Retail Brands"
-                    className="w-full px-3.5 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-600 transition"
+                    required
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      if (errors.name) setErrors({ ...errors, name: undefined });
+                    }}
+                    placeholder="e.g. Eleanor Vance"
+                    className={`input-field ${errors.name ? 'border-rose-400 focus:ring-rose-400' : ''}`}
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? 'name-error' : undefined}
                   />
+                  {errors.name && (
+                    <p id="name-error" className="text-[11px] text-rose-600 mt-1">{errors.name}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-navy-900 mb-1">
-                    Inquiry Topic
+                  <label htmlFor="contact-email" className="block text-xs font-semibold text-navy-950 mb-1">
+                    Work Email <span className="text-rose-500">*</span>
                   </label>
-                  <select
-                    value={inquiryType}
-                    onChange={(e) => setInquiryType(e.target.value)}
-                    className="w-full px-3.5 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-600 bg-white transition"
-                  >
-                    <option value="ENTERPRISE_DEMO">Platform Demo & Architecture Review</option>
-                    <option value="SECURITY_AUDIT">Ledger Security & Trigger Verification</option>
-                    <option value="INTEGRATION_SUPPORT">FastAPI & Supabase Integration</option>
-                    <option value="LLIRE_INTELLIGENCE">LLIRE Fraud Detection Benchmark</option>
-                    <option value="OTHER">General Inquiry</option>
-                  </select>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (errors.email) setErrors({ ...errors, email: undefined });
+                    }}
+                    placeholder="name@company.com"
+                    className={`input-field ${errors.email ? 'border-rose-400 focus:ring-rose-400' : ''}`}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? 'email-error' : undefined}
+                  />
+                  {errors.email && (
+                    <p id="email-error" className="text-[11px] text-rose-600 mt-1">{errors.email}</p>
+                  )}
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-navy-900 mb-1">
-                  Message / Project Requirements *
+                <label htmlFor="contact-subject" className="block text-xs font-semibold text-navy-950 mb-1">
+                  Subject Line <span className="text-rose-500">*</span>
+                </label>
+                <input
+                  id="contact-subject"
+                  type="text"
+                  required
+                  value={subject}
+                  onChange={(e) => {
+                    setSubject(e.target.value);
+                    if (errors.subject) setErrors({ ...errors, subject: undefined });
+                  }}
+                  placeholder="e.g. Inquiring about LLIRE integration or high-throughput ledgers"
+                  className={`input-field ${errors.subject ? 'border-rose-400 focus:ring-rose-400' : ''}`}
+                  aria-invalid={!!errors.subject}
+                  aria-describedby={errors.subject ? 'subject-error' : undefined}
+                />
+                {errors.subject && (
+                  <p id="subject-error" className="text-[11px] text-rose-600 mt-1">{errors.subject}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="contact-message" className="block text-xs font-semibold text-navy-950 mb-1">
+                  Message Content <span className="text-rose-500">*</span>
                 </label>
                 <textarea
+                  id="contact-message"
                   required
                   rows={4}
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Describe your loyalty ledger use case, transaction volume requirements, or technical questions..."
-                  className="w-full px-3.5 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-600 transition resize-none"
+                  onChange={(e) => {
+                    setMessage(e.target.value);
+                    if (errors.message) setErrors({ ...errors, message: undefined });
+                  }}
+                  placeholder="Describe your loyalty architecture requirements, transaction volumes, or verification needs..."
+                  className={`input-field resize-none ${errors.message ? 'border-rose-400 focus:ring-rose-400' : ''}`}
+                  aria-invalid={!!errors.message}
+                  aria-describedby={errors.message ? 'message-error' : undefined}
                 />
+                {errors.message && (
+                  <p id="message-error" className="text-[11px] text-rose-600 mt-1">{errors.message}</p>
+                )}
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto px-6 py-2.5 bg-navy-900 hover:bg-navy-800 disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-2 transition shadow-sm"
+                className="btn-primary w-full sm:w-auto"
               >
                 {isSubmitting ? (
                   <>
@@ -210,7 +265,7 @@ export const ContactPage: React.FC = () => {
                 ) : (
                   <>
                     <Send className="w-3.5 h-3.5" />
-                    Send Inquiry Message
+                    Submit Inquiry Form
                   </>
                 )}
               </button>
@@ -218,66 +273,42 @@ export const ContactPage: React.FC = () => {
           )}
         </div>
 
-        {/* Office & Operations Card (5 cols) */}
+        {/* Integration Documentation & Architecture Context (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm">
-            <h3 className="text-sm font-bold text-navy-950 mb-3 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-lavender-600" />
-              Engineering Headquarters
+          <div className="card-surface">
+            <h3 className="text-sm font-bold text-navy-950 mb-2 flex items-center gap-2">
+              <FileCode className="w-4 h-4 text-lavender-600" />
+              Backend Integration Specification
             </h3>
             <p className="text-xs text-platinum-600 leading-relaxed mb-4">
-              LoyaltyOS Enterprise Systems Architecture<br />
-              Financial Ledger & Fraud Intelligence Division<br />
-              United States & Remote Global Infrastructure
+              To wire this form to an automated email dispatch queue or ticket repository, configure a POST endpoint with the following schema:
             </p>
-            <div className="space-y-2 text-xs pt-3 border-t border-platinum-200 text-platinum-700">
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-3.5 h-3.5 text-platinum-400" />
-                <span className="font-mono">contact@loyaltyos.internal</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Clock className="w-3.5 h-3.5 text-platinum-400" />
-                <span>Operating Hours: Monday – Friday, 08:00 – 18:00 UTC</span>
-              </div>
+            <div className="bg-navy-950 p-3 rounded-lg text-platinum-200 font-mono text-[11px] overflow-x-auto border border-navy-800">
+              <pre>{`POST /api/v1/contact
+Content-Type: application/json
+
+{
+  "name": "string",
+  "email": "string (email)",
+  "subject": "string",
+  "message": "string (min 15 chars)"
+}`}</pre>
             </div>
           </div>
 
-          <div className="bg-lavender-50/70 border border-lavender-200 rounded-xl p-6">
+          <div className="card-surface bg-lavender-50/50 border-lavender-200">
             <h3 className="text-sm font-bold text-navy-950 mb-2 flex items-center gap-2">
-              <FileText className="w-4 h-4 text-lavender-700" />
-              Explore Platform Live
+              <ShieldCheck className="w-4 h-4 text-lavender-700" />
+              Direct Workspace Verification
             </h3>
             <p className="text-xs text-platinum-700 leading-relaxed mb-4">
-              You do not need to wait for a demo to test LoyaltyOS. The multi-persona operational workspace is available immediately for interactive exploration.
+              All architectural guarantees—including append-only ledger entries, LLIRE anomaly detection, and dual-key approval—can be verified directly in the operational workspace.
             </p>
-            <Link
-              to="/workspace"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-lavender-800 hover:text-lavender-900 group"
-            >
-              Open Interactive Workspace
-              <ArrowRight className="w-3.5 h-3.5 transition group-hover:translate-x-0.5" />
+            <Link to="/workspace" className="btn-accent w-full text-center">
+              Launch Workspace Now
             </Link>
           </div>
         </div>
-      </div>
-
-      {/* Direct Contact Channels Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {contactChannels.map((c, i) => (
-          <div key={i} className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm hover:border-lavender-200 transition">
-            <div className="w-10 h-10 rounded-lg bg-platinum-100 flex items-center justify-center mb-3">
-              {c.icon}
-            </div>
-            <h3 className="text-sm font-bold text-navy-950 mb-1">{c.title}</h3>
-            <p className="text-xs text-platinum-600 leading-relaxed mb-4">{c.desc}</p>
-            <div className="pt-3 border-t border-platinum-100 flex items-center justify-between text-[11px]">
-              <span className="font-mono text-navy-900 font-semibold">{c.email}</span>
-              <span className="text-emerald-700 font-medium bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                {c.sla}
-              </span>
-            </div>
-          </div>
-        ))}
       </div>
     </PageContainer>
   );

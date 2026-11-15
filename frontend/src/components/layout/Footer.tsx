@@ -39,6 +39,11 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/features" className="hover:text-lavender-300 transition">
+                  Features & Capabilities
+                </Link>
+              </li>
+              <li>
                 <Link to="/workspace" className="hover:text-lavender-300 transition font-medium text-lavender-400 flex items-center gap-1">
                   Enterprise Workspace <ArrowRight className="w-3 h-3" />
                 </Link>

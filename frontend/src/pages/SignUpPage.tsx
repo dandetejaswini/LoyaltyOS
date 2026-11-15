@@ -71,11 +71,11 @@ export const SignUpPage: React.FC = () => {
   const activeError = localError || error;
 
   return (
-    <PageContainer className="max-w-md">
-      <div className="bg-white border border-platinum-200 rounded-xl p-8 shadow-sm">
+    <PageContainer className="max-w-md py-12">
+      <div className="card-surface p-8 shadow-sm">
         <div className="text-center mb-6">
-          <div className="w-10 h-10 rounded-lg bg-navy-950 text-white flex items-center justify-center mx-auto mb-3 font-bold text-sm border border-navy-800 shadow-sm">
-            L<span className="text-lavender-400">O</span>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lavender-500 to-navy-900 border border-lavender-400/30 flex items-center justify-center mx-auto mb-3 font-bold text-sm text-white shadow-sm">
+            L<span className="text-lavender-300">O</span>
           </div>
           <h1 className="text-xl font-bold text-navy-950">Join LoyaltyOS</h1>
           <p className="text-xs text-platinum-500 mt-1">Automatic loyalty ledger account provisioning upon signup</p>
@@ -104,7 +104,7 @@ export const SignUpPage: React.FC = () => {
           type="button"
           onClick={handleGoogleSignUp}
           disabled={isSubmitting || isLoading}
-          className="w-full mb-4 py-2 px-4 border border-platinum-300 rounded-lg text-xs font-semibold text-platinum-800 bg-white hover:bg-platinum-50 transition flex items-center justify-center space-x-2 shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full mb-4 py-2 px-4 border border-platinum-300 rounded-lg text-xs font-semibold text-platinum-800 bg-white hover:bg-platinum-50 transition flex items-center justify-center space-x-2 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -148,7 +148,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Jane Doe"
                 disabled={isSubmitting || isLoading}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-platinum-300 rounded-lg text-xs text-navy-950 placeholder-platinum-400 focus:outline-hidden focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition"
+                className="input-field pl-9"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="jane@example.com"
                 disabled={isSubmitting || isLoading}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-platinum-300 rounded-lg text-xs text-navy-950 placeholder-platinum-400 focus:outline-hidden focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition"
+                className="input-field pl-9"
               />
             </div>
           </div>
@@ -180,7 +180,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="At least 6 characters"
                 disabled={isSubmitting || isLoading}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-platinum-300 rounded-lg text-xs text-navy-950 placeholder-platinum-400 focus:outline-hidden focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition"
+                className="input-field pl-9"
               />
             </div>
           </div>
@@ -196,7 +196,7 @@ export const SignUpPage: React.FC = () => {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter password"
                 disabled={isSubmitting || isLoading}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-platinum-300 rounded-lg text-xs text-navy-950 placeholder-platinum-400 focus:outline-hidden focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition"
+                className="input-field pl-9"
               />
             </div>
           </div>
@@ -204,7 +204,7 @@ export const SignUpPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting || isLoading}
-            className="w-full py-2 bg-navy-950 text-white rounded-lg text-xs font-semibold hover:bg-navy-900 transition flex items-center justify-center space-x-1 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full btn-primary flex items-center justify-center space-x-1"
           >
             {isSubmitting || isLoading ? (
               <>

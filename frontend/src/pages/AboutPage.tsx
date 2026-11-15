@@ -2,283 +2,250 @@ import React from 'react';
 import { PageContainer } from '@/components/layout/PageContainer';
 import {
   BookOpen,
-  Lock,
   Scale,
-  ArrowRight,
-  GitBranch
+  GitBranch,
+  Cpu,
+  Users,
+  CheckCircle2,
+  AlertTriangle,
+  FileCheck,
+  UserCheck
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const AboutPage: React.FC = () => {
-  const businessRules = [
-    {
-      group: 'Ledger Invariants & Immutability',
-      rules: [
-        { code: 'BR-01', title: 'Double-Entry Accounting Invariant', desc: 'Current balance must mathematically equal the sum of all transaction credits minus debits, and equal remaining active lots with zero drift.' },
-        { code: 'BR-02', title: 'Immutable Append-Only Journal', desc: 'Points transactions cannot be updated or deleted in-place. PostgreSQL engine triggers reject UPDATE/DELETE statements on points_transactions.' },
-        { code: 'BR-10', title: 'Auditable Reason Codes & Notes', desc: 'Manual corrections require mandatory justification notes and auditable reason codes before posting to the ledger.' }
-      ]
-    },
-    {
-      group: 'Accrual, Tiers & Expiry',
-      rules: [
-        { code: 'BR-03', title: 'Floor Rounding on Eligible Spend', desc: 'Points accrue only on net eligible merchandise spend (gross minus tax, shipping, and discounts) multiplied by tier multiplier, rounded down.' },
-        { code: 'BR-04', title: '365-Day FIFO Lot Lifecycle', desc: 'Every accrual provisions a points lot with exact 365-day expiry. Expired lots are marked EXPIRED and cannot be redeemed.' },
-        { code: 'BR-05', title: 'Spend-Based Tier Progression', desc: 'Tier status is evaluated on rolling 365-day qualifying spend: Bronze (<$500), Silver ($500-$999), Gold ($1k-$2.5k), Platinum (≥$2.5k).' }
-      ]
-    },
-    {
-      group: 'Redemptions & Returns',
-      rules: [
-        { code: 'BR-06', title: 'Proportional Return Reversals', desc: 'Returns calculate refunded eligible spend ratio and reverse points accordingly. If redeemed, balance may safely transition negative.' },
-        { code: 'BR-11', title: 'Concurrency-Safe Pessimistic Locking', desc: 'Redemptions execute within a database transaction holding a row-level lock on the loyalty account to prevent race conditions.' }
-      ]
-    },
-    {
-      group: 'Forensic Intelligence & Dual-Key',
-      rules: [
-        { code: 'BR-07', title: 'LLIRE Continuous Anomaly Detection', desc: 'Automated engine runs 5 deterministic detectors: Balance Mismatch, Over-Redemption, Unreversed Return, Double Expiry, and Incorrect Tier.' },
-        { code: 'BR-08', title: '7-Part Forensic Explainability', desc: 'Every detected anomaly includes summary, rule violated, mathematical drift, affected records, hypothesis, dollar impact, and recommendation.' },
-        { code: 'BR-09', title: 'Two-Person Dual-Key Remediation', desc: 'Corrective actions require proposer_id != approver_id. A proposer can never approve their own compensating transaction.' }
-      ]
-    }
-  ];
-
   return (
     <PageContainer
-      title="Architecture & Operational Principles"
-      subtitle="Complete documentation of the LoyaltyOS double-entry loyalty ledger model and mathematical invariants."
+      title="About LoyaltyOS"
+      subtitle="The architectural philosophy, financial principles, and engineering design behind the double-entry loyalty management platform."
     >
-      {/* Hero Showcase with Image */}
-      <div className="relative overflow-hidden rounded-2xl bg-navy-950 text-white p-8 sm:p-12 mb-10 border border-navy-800 shadow-xl">
-        <div className="absolute right-0 top-0 bottom-0 w-2/5 opacity-15 pointer-events-none hidden md:block">
-          <img
-            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80"
-            alt="Ledger Analytics"
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="relative z-10 max-w-2xl">
+      {/* 1. PRODUCT INTRODUCTION & HERO */}
+      <section className="card-surface-dark mb-10 p-8 sm:p-12 relative overflow-hidden">
+        <div className="max-w-3xl relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lavender-900/60 border border-lavender-700/60 text-lavender-300 text-xs font-semibold mb-4">
             <BookOpen className="w-3.5 h-3.5 text-lavender-400" />
-            Financial Engineering Whitepaper
+            <span>Product Overview &amp; Architecture Whitepaper</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
-            Why Loyalty Points Must Be Governed as Financial Currency
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-4">
+            Financial Ledger Certainty for Enterprise Loyalty Programs
           </h1>
-          <p className="text-sm sm:text-base text-platinum-300 leading-relaxed">
-            In enterprise retail, outstanding customer loyalty points represent a material liability on the corporate balance sheet. LoyaltyOS replaces mutable counters with a verifiable double-entry ledger.
+          <p className="text-sm sm:text-base text-platinum-300 leading-relaxed mb-6">
+            LoyaltyOS was created to address a foundational flaw in modern retail loyalty software: treating customer reward points as mutable database counter columns rather than auditable financial currency.
           </p>
-        </div>
-      </div>
-
-      {/* The Mathematical Invariant Formula */}
-      <div className="bg-white border border-platinum-200 rounded-xl p-6 sm:p-8 mb-10 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2.5 bg-lavender-50 text-lavender-700 rounded-lg">
-            <Scale className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-navy-950">The Core Mathematical Invariant (BR-01)</h2>
-            <p className="text-xs text-platinum-500">Continuous automated verification across three independent data structures</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link to="/features" className="btn-accent">
+              Explore Product Features
+            </Link>
+            <Link to="/workspace" className="btn-outline text-white border-navy-700 bg-navy-900 hover:bg-navy-800">
+              Open Operational Workspace
+            </Link>
           </div>
         </div>
+      </section>
 
-        <p className="text-xs sm:text-sm text-platinum-700 leading-relaxed mb-6">
-          At any point in time, a customer's stored balance must satisfy two simultaneous equalities. If any difference &ne; 0 exists, the LLIRE engine immediately flags a <code className="bg-platinum-100 text-navy-900 px-1.5 py-0.5 rounded font-mono text-xs">BALANCE_MISMATCH</code> incident:
-        </p>
-
-        <div className="bg-navy-950 border border-navy-800 rounded-xl p-6 text-white font-mono text-xs sm:text-sm space-y-3 shadow-inner">
-          <div className="text-lavender-300 font-semibold text-xs tracking-wider uppercase">
-            Double-Entry Ledger Equality:
-          </div>
-          <div className="p-3 bg-navy-900 rounded-lg border border-navy-800 text-emerald-400 font-bold overflow-x-auto">
-            Account.current_balance == &Sigma;(Credits: ACCRUAL + ADJUSTMENT_CREDIT) - &Sigma;(Debits: REDEMPTION + REVERSAL + EXPIRY + ADJUSTMENT_DEBIT)
-          </div>
-          <div className="text-lavender-300 font-semibold text-xs tracking-wider uppercase pt-2">
-            FIFO Lot Depletion Equality:
-          </div>
-          <div className="p-3 bg-navy-900 rounded-lg border border-navy-800 text-lavender-300 font-bold overflow-x-auto">
-            Account.current_balance == &Sigma;(PointsLot.remaining_points WHERE status = 'ACTIVE' AND expires_at &gt; NOW())
-          </div>
-        </div>
-      </div>
-
-      {/* Visual Architectural Data Flow */}
-      <div className="mb-10">
-        <h2 className="text-lg font-bold text-navy-950 mb-4 flex items-center gap-2">
-          <GitBranch className="w-5 h-5 text-lavender-600" />
-          End-to-End Architectural Lifecycle
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white border border-platinum-200 rounded-xl p-5 shadow-sm">
-            <span className="text-[10px] font-mono font-bold text-lavender-600 uppercase block mb-1">Step 1</span>
-            <h3 className="text-sm font-bold text-navy-950 mb-2">POS / Checkout Event</h3>
-            <p className="text-xs text-platinum-600 leading-relaxed">
-              Order created with eligible merchandise lines. Tax, shipping, and manufacturer discounts are excluded from accrual base.
-            </p>
-          </div>
-
-          <div className="bg-white border border-platinum-200 rounded-xl p-5 shadow-sm">
-            <span className="text-[10px] font-mono font-bold text-lavender-600 uppercase block mb-1">Step 2</span>
-            <h3 className="text-sm font-bold text-navy-950 mb-2">Pessimistic Row Lock</h3>
-            <p className="text-xs text-platinum-600 leading-relaxed">
-              FastAPI opens a PostgreSQL transaction acquiring a <code className="font-mono text-[11px] bg-platinum-100 px-1 rounded">SELECT FOR UPDATE</code> lock on the account to prevent race conditions.
-            </p>
-          </div>
-
-          <div className="bg-white border border-platinum-200 rounded-xl p-5 shadow-sm">
-            <span className="text-[10px] font-mono font-bold text-lavender-600 uppercase block mb-1">Step 3</span>
-            <h3 className="text-sm font-bold text-navy-950 mb-2">Append-Only Journal</h3>
-            <p className="text-xs text-platinum-600 leading-relaxed">
-              New transaction posted to <code className="font-mono text-[11px] bg-platinum-100 px-1 rounded">points_transactions</code>. Database triggers block UPDATE or DELETE operations.
-            </p>
-          </div>
-
-          <div className="bg-white border border-platinum-200 rounded-xl p-5 shadow-sm">
-            <span className="text-[10px] font-mono font-bold text-lavender-600 uppercase block mb-1">Step 4</span>
-            <h3 className="text-sm font-bold text-navy-950 mb-2">LLIRE & Dual-Key</h3>
-            <p className="text-xs text-platinum-600 leading-relaxed">
-              Automated anomaly detectors scan ledger entries. Any discrepancy generates forensic evidence for two-person review.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Tier Multipliers Table */}
-      <div className="bg-white border border-platinum-200 rounded-xl p-6 sm:p-8 mb-10 shadow-sm">
-        <h2 className="text-lg font-bold text-navy-950 mb-2">Member Tier Structure & Multipliers</h2>
-        <p className="text-xs text-platinum-600 mb-6">
-          Calculated on rolling 365-day qualifying spend. Points earn on floor-rounded net spend multiplied by tier factor.
-        </p>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs text-left border border-platinum-200 rounded-lg overflow-hidden">
-            <thead className="bg-platinum-100 text-platinum-700 uppercase font-semibold text-[11px]">
-              <tr>
-                <th className="px-4 py-3 border-b">Tier Level</th>
-                <th className="px-4 py-3 border-b">Qualifying Spend (365d)</th>
-                <th className="px-4 py-3 border-b">Earning Multiplier</th>
-                <th className="px-4 py-3 border-b">Points per $1.00 Net Spend</th>
-                <th className="px-4 py-3 border-b">Floor Example ($125.75)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-platinum-200">
-              <tr>
-                <td className="px-4 py-3 font-semibold text-amber-800">Bronze</td>
-                <td className="px-4 py-3 text-platinum-700">$0.00 – $499.99</td>
-                <td className="px-4 py-3 font-mono font-bold text-navy-950">1.00x</td>
-                <td className="px-4 py-3 font-mono text-platinum-600">1 pt / $1</td>
-                <td className="px-4 py-3 font-mono text-navy-900">125 pts</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-semibold text-slate-700">Silver</td>
-                <td className="px-4 py-3 text-platinum-700">$500.00 – $999.99</td>
-                <td className="px-4 py-3 font-mono font-bold text-navy-950">1.25x</td>
-                <td className="px-4 py-3 font-mono text-platinum-600">1.25 pts / $1</td>
-                <td className="px-4 py-3 font-mono text-navy-900">157 pts</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-semibold text-yellow-700">Gold</td>
-                <td className="px-4 py-3 text-platinum-700">$1,000.00 – $2,499.99</td>
-                <td className="px-4 py-3 font-mono font-bold text-navy-950">1.50x</td>
-                <td className="px-4 py-3 font-mono text-platinum-600">1.50 pts / $1</td>
-                <td className="px-4 py-3 font-mono text-navy-900">188 pts</td>
-              </tr>
-              <tr>
-                <td className="px-4 py-3 font-semibold text-indigo-700">Platinum</td>
-                <td className="px-4 py-3 text-platinum-700">&ge; $2,500.00</td>
-                <td className="px-4 py-3 font-mono font-bold text-navy-950">2.00x</td>
-                <td className="px-4 py-3 font-mono text-platinum-600">2 pts / $1</td>
-                <td className="px-4 py-3 font-mono text-navy-900">251 pts</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* The 12 Business Rules Cards */}
-      <div className="mb-10">
-        <h2 className="text-lg font-bold text-navy-950 mb-2">
-          Comprehensive Business Rules & Governance (BR-01 through BR-12)
-        </h2>
-        <p className="text-xs text-platinum-600 mb-6">
-          Every rule is verified by automated pytest test suites and PostgreSQL security triggers.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {businessRules.map((group, idx) => (
-            <div key={idx} className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm">
-              <h3 className="text-sm font-bold text-navy-950 pb-3 border-b border-platinum-200 mb-4">
-                {group.group}
-              </h3>
-              <div className="space-y-4">
-                {group.rules.map((rule) => (
-                  <div key={rule.code} className="text-xs">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-mono font-bold px-1.5 py-0.5 rounded bg-lavender-50 text-lavender-800 border border-lavender-200 text-[11px]">
-                        {rule.code}
-                      </span>
-                      <span className="font-semibold text-navy-950">{rule.title}</span>
-                    </div>
-                    <p className="text-platinum-600 leading-relaxed pl-1">{rule.desc}</p>
-                  </div>
-                ))}
-              </div>
+      <div className="space-y-12">
+        {/* 2. PROBLEM STATEMENT & WHY ACCURATE ACCOUNTING MATTERS */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="card-surface border-rose-200 bg-rose-50/30">
+            <div className="flex items-center gap-2 mb-3 text-rose-800 font-bold text-sm">
+              <AlertTriangle className="w-5 h-5 text-rose-600" />
+              The Industry Problem: Mutable Counters
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Database Security & Immutability Triggers */}
-      <div className="bg-navy-950 text-white rounded-2xl p-6 sm:p-8 mb-10 border border-navy-800 shadow-xl">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-2.5 bg-navy-800 rounded-lg text-emerald-400">
-            <Lock className="w-5 h-5" />
-          </div>
-          <div>
-            <h2 className="text-base sm:text-lg font-bold text-white">
-              Database-Level Security & PostgreSQL Immutability Triggers
-            </h2>
-            <p className="text-xs text-platinum-400">
-              Immutability is enforced inside PostgreSQL engine functions, not just in application code.
+            <p className="text-xs text-platinum-700 leading-relaxed mb-3">
+              Traditional loyalty solutions store customer point balances as a single integer column (e.g. <code className="bg-rose-100 text-rose-900 px-1 py-0.5 rounded font-mono text-[11px]">points_balance = points_balance + N</code>).
             </p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono">
-          <div className="bg-navy-900 p-4 rounded-xl border border-navy-800">
-            <span className="text-emerald-400 font-bold block mb-1">trg_prevent_points_transactions_update_delete</span>
-            <span className="text-platinum-400 text-[11px] block">
-              Raises EXCEPTION on UPDATE or DELETE against points_transactions.
-            </span>
+            <p className="text-xs text-platinum-700 leading-relaxed mb-3">
+              Under high-concurrency checkout traffic, merchandise returns, and lot expiration cycles, this model experiences race conditions, silent balance drift, and unexplainable data loss with zero forensic audit trail.
+            </p>
+            <div className="p-3 bg-white rounded-lg border border-rose-200 text-rose-900 text-xs font-mono">
+              Result: Unverified liabilities on retail corporate balance sheets.
+            </div>
           </div>
 
-          <div className="bg-navy-900 p-4 rounded-xl border border-navy-800">
-            <span className="text-emerald-400 font-bold block mb-1">trg_prevent_points_lots_deletion</span>
-            <span className="text-platinum-400 text-[11px] block">
-              Raises EXCEPTION on DELETE against points_lots to protect lot history.
-            </span>
+          <div className="card-surface border-emerald-200 bg-emerald-50/30">
+            <div className="flex items-center gap-2 mb-3 text-emerald-800 font-bold text-sm">
+              <CheckCircle2 className="w-5 h-5 text-emerald-600" />
+              Why Accurate Loyalty Accounting Matters
+            </div>
+            <p className="text-xs text-platinum-700 leading-relaxed mb-3">
+              Outstanding reward points represent deferred commercial liabilities and customer trust. Under standard financial accounting guidelines, points breakage and redemptions must be quantifiable and mathematically verifiable.
+            </p>
+            <p className="text-xs text-platinum-700 leading-relaxed mb-3">
+              LoyaltyOS solves this by implementing an immutable, append-only double-entry journal where points can never be updated in-place or deleted, guaranteeing mathematical balance parity at all times.
+            </p>
+            <div className="p-3 bg-white rounded-lg border border-emerald-200 text-emerald-900 text-xs font-mono">
+              Guarantee: 0.00% balance drift across journal entries and active FIFO lots.
+            </div>
+          </div>
+        </section>
+
+        {/* 3. PRODUCT VISION & MISSION */}
+        <section className="card-surface">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <span className="badge-accent mb-2">PRODUCT VISION</span>
+              <h3 className="text-lg font-bold text-navy-950 mb-2">Trust Through Cryptographic &amp; Financial Rigor</h3>
+              <p className="text-xs text-platinum-600 leading-relaxed">
+                To establish double-entry ledger bookkeeping and explainable forensic anomaly detection as the universal gold standard for all enterprise retail, financial, and hospitality reward platforms.
+              </p>
+            </div>
+            <div>
+              <span className="badge-success mb-2">PRODUCT MISSION</span>
+              <h3 className="text-lg font-bold text-navy-950 mb-2">Eliminate Inconsistency, Ensure Accountability</h3>
+              <p className="text-xs text-platinum-600 leading-relaxed">
+                To provide retail operators, fraud analysts, and financial executives with complete transparency into points lifecycles, backed by human-in-the-loop dual-key authorization for every balance adjustment.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. THE CORE MATHEMATICAL INVARIANT */}
+        <section className="card-surface">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-lavender-50 text-lavender-700 rounded-lg">
+              <Scale className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-navy-950">The Double-Entry Balance Invariant (BR-01)</h3>
+              <p className="text-xs text-platinum-500">Continuous equality between three independent data structures</p>
+            </div>
           </div>
 
-          <div className="bg-navy-900 p-4 rounded-xl border border-navy-800">
-            <span className="text-emerald-400 font-bold block mb-1">Supabase Row-Level Security (RLS)</span>
-            <span className="text-platinum-400 text-[11px] block">
-              9 security policies isolate tenant customer records strictly to their auth.uid().
-            </span>
+          <p className="text-xs text-platinum-700 leading-relaxed mb-4">
+            At any moment in time, an account's stored current balance must simultaneously equal the net sum of all historical journal entries and the sum of all unexpired active FIFO lots:
+          </p>
+
+          <div className="card-surface-dark p-4 font-mono text-xs sm:text-sm space-y-3">
+            <div className="p-2.5 bg-navy-900 rounded-lg border border-navy-800 text-emerald-400 font-bold overflow-x-auto">
+              Account.current_balance == &Sigma;(Credits: ACCRUAL + ADJUSTMENT_CREDIT) - &Sigma;(Debits: REDEMPTION + REVERSAL + EXPIRY + ADJUSTMENT_DEBIT)
+            </div>
+            <div className="p-2.5 bg-navy-900 rounded-lg border border-navy-800 text-lavender-300 font-bold overflow-x-auto">
+              Account.current_balance == &Sigma;(PointsLot.remaining_points WHERE status = 'ACTIVE' AND expires_at &gt; NOW())
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* 5. LLIRE EXPLANATION & HUMAN APPROVAL WORKFLOW */}
+        <section className="card-surface">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-indigo-50 text-indigo-700 rounded-lg">
+              <Cpu className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-navy-950">LLIRE &amp; Dual-Key Governance</h3>
+              <p className="text-xs text-platinum-500">Continuous anomaly monitoring paired with human-in-the-loop authorization</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-platinum-600 leading-relaxed">
+            <div>
+              <h4 className="font-bold text-navy-950 text-sm mb-2 flex items-center gap-1.5">
+                <FileCheck className="w-4 h-4 text-lavender-600" />
+                Explainable Anomaly Intelligence
+              </h4>
+              <p className="mb-2">
+                The Loyalty Ledger Intelligence &amp; Reconciliation Engine (LLIRE) executes five deterministic detectors to discover balance mismatches, over-redemptions, unreversed returns, duplicate expirations, and tier anomalies.
+              </p>
+              <p>
+                Every detected incident produces a <strong>7-Part Forensic Report</strong> stating what happened, the exact invariant violated, numerical drift calculation, evidence records, dollar exposure, and recommendations.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-navy-950 text-sm mb-2 flex items-center gap-1.5">
+                <UserCheck className="w-4 h-4 text-emerald-600" />
+                Two-Person Dual-Key Remediation (BR-09)
+              </h4>
+              <p className="mb-2">
+                To prevent unilateral administrative tampering, no single user can alter customer balances. A proposer creates a compensating transaction proposal with mandatory justification.
+              </p>
+              <p>
+                An independent second Operations Manager must review the audit evidence and approve the action. Proposers are strictly blocked from self-approving their own proposals.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. FOUR USER ROLES */}
+        <section className="card-surface">
+          <h3 className="text-base font-bold text-navy-950 mb-4 flex items-center gap-2">
+            <Users className="w-4 h-4 text-navy-700" />
+            Four Role Perspectives
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+            <div className="p-3.5 bg-platinum-50 rounded-xl border border-platinum-200">
+              <span className="font-bold text-navy-950 block mb-1">Customer Portal</span>
+              <p className="text-platinum-600 leading-relaxed">
+                Empowers members to view points balance, tier multipliers, 365-day expiry countdowns, catalog rewards, and instant voucher redemptions.
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-platinum-50 rounded-xl border border-platinum-200">
+              <span className="font-bold text-navy-950 block mb-1">Store Operator Desk</span>
+              <p className="text-platinum-600 leading-relaxed">
+                Enables store cashiers to lookup customer accounts, process net spend accruals with floor-rounding, and execute proportional return clawbacks.
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-platinum-50 rounded-xl border border-platinum-200">
+              <span className="font-bold text-navy-950 block mb-1">Analyst Hub (LLIRE)</span>
+              <p className="text-platinum-600 leading-relaxed">
+                Equips fraud &amp; risk analysts to trigger automated ledger anomaly scans, inspect 7-part forensic evidence drawers, and evaluate precision/recall benchmarks.
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-platinum-50 rounded-xl border border-platinum-200">
+              <span className="font-bold text-navy-950 block mb-1">Operations Manager</span>
+              <p className="text-platinum-600 leading-relaxed">
+                Permits authorized directors to conduct formal investigations, structure corrective actions, and execute dual-key approvals without historical data edits.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 7. TECHNOLOGY ARCHITECTURE */}
+        <section className="card-surface-dark p-6 sm:p-8">
+          <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
+            <GitBranch className="w-4 h-4 text-lavender-400" />
+            Full-Stack Technology Architecture
+          </h3>
+          <p className="text-xs text-platinum-400 mb-6">
+            Engineered with modern, high-throughput components across the database, backend, and frontend tiers.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+            <div className="p-4 bg-navy-900 rounded-xl border border-navy-800">
+              <span className="text-lavender-400 font-bold block mb-1">Frontend Tier</span>
+              <span className="text-platinum-300 block mb-2 font-sans text-xs">React 18 &bull; TypeScript &bull; Vite &bull; Tailwind CSS</span>
+              <p className="text-[11px] text-platinum-400 font-sans leading-relaxed">
+                Responsive single-page application with server-state handling, accessible component design system, and multi-persona operational consoles.
+              </p>
+            </div>
+
+            <div className="p-4 bg-navy-900 rounded-xl border border-navy-800">
+              <span className="text-emerald-400 font-bold block mb-1">Backend API Tier</span>
+              <span className="text-platinum-300 block mb-2 font-sans text-xs">FastAPI &bull; Python 3.12 &bull; SQLAlchemy Async &bull; Pydantic v2</span>
+              <p className="text-[11px] text-platinum-400 font-sans leading-relaxed">
+                High-performance asynchronous REST endpoints, RFC 7807 ProblemDetails error responses, and dependency-injected RBAC authorization.
+              </p>
+            </div>
+
+            <div className="p-4 bg-navy-900 rounded-xl border border-navy-800">
+              <span className="text-amber-300 font-bold block mb-1">Persistence &amp; Triggers</span>
+              <span className="text-platinum-300 block mb-2 font-sans text-xs">Supabase PostgreSQL &bull; Row-Level Triggers &bull; RLS</span>
+              <p className="text-[11px] text-platinum-400 font-sans leading-relaxed">
+                Engine-level immutability triggers (<code className="font-mono text-[10px]">trg_prevent_points_transactions_update_delete</code>) and multi-tenant Row-Level Security policies.
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
 
       {/* Bottom CTA */}
-      <div className="text-center py-6">
-        <Link
-          to="/workspace"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-navy-900 hover:bg-navy-800 text-white rounded-lg text-xs font-semibold transition shadow-sm"
-        >
-          Open Operational Workspace
-          <ArrowRight className="w-4 h-4 text-lavender-400" />
+      <div className="mt-12 text-center">
+        <Link to="/workspace" className="btn-accent px-6 py-3 text-xs uppercase tracking-wider font-bold">
+          Open LoyaltyOS Workspace
         </Link>
       </div>
     </PageContainer>

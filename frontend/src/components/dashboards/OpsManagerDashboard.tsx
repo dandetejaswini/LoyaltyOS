@@ -633,7 +633,7 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                     <td className="px-3 py-2.5 text-right font-sans">
                       <button
                         onClick={() => handleStartInvestigation(finding.incident_id)}
-                        className="px-3 py-1.5 bg-lavender-600 hover:bg-lavender-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 ml-auto transition shadow-xs"
+                        className="px-3 py-1.5 bg-lavender-600 hover:bg-lavender-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 ml-auto transition shadow-sm"
                       >
                         <FileCheck className="w-3.5 h-3.5" /> Start Case
                       </button>
@@ -854,7 +854,7 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 ml-auto transition ${
                             isSelfProposal
                               ? 'bg-platinum-100 text-platinum-500 hover:bg-platinum-200'
-                              : 'bg-navy-950 hover:bg-navy-900 text-white shadow-xs'
+                              : 'bg-navy-950 hover:bg-navy-900 text-white shadow-sm'
                           }`}
                         >
                           {isSelfProposal ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
@@ -1030,7 +1030,7 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                     onClick={() => setReviewDecision('APPROVED')}
                     className={`py-2 px-3 rounded-lg text-xs font-bold border flex items-center justify-center gap-1.5 transition ${
                       reviewDecision === 'APPROVED'
-                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs'
+                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm'
                         : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
                     }`}
                   >
@@ -1042,7 +1042,7 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                     onClick={() => setReviewDecision('REJECTED')}
                     className={`py-2 px-3 rounded-lg text-xs font-bold border flex items-center justify-center gap-1.5 transition ${
                       reviewDecision === 'REJECTED'
-                        ? 'bg-rose-600 text-white border-rose-700 shadow-xs'
+                        ? 'bg-rose-600 text-white border-rose-700 shadow-sm'
                         : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
                     }`}
                   >

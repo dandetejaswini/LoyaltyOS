@@ -158,7 +158,7 @@ export const DashboardPage: React.FC = () => {
                 onClick={() => handleToggleOpsMgr(1)}
                 className={`px-3 py-1 rounded text-xs font-semibold transition border ${
                   opsMgrIndex === 1
-                    ? 'bg-lavender-600 text-white border-lavender-600 shadow-xs'
+                    ? 'bg-lavender-600 text-white border-lavender-600 shadow-sm'
                     : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
                 }`}
               >
@@ -168,7 +168,7 @@ export const DashboardPage: React.FC = () => {
                 onClick={() => handleToggleOpsMgr(2)}
                 className={`px-3 py-1 rounded text-xs font-semibold transition border ${
                   opsMgrIndex === 2
-                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
                     : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
                 }`}
               >

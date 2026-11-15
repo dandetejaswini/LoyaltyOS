@@ -11,6 +11,7 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'About', path: '/about' },
+    { label: 'Features', path: '/features' },
     { label: 'Contact', path: '/contact' },
     { label: 'Workspace', path: '/workspace', isAction: true },
   ];
@@ -37,7 +38,7 @@ export const Navbar: React.FC = () => {
               <span className="font-bold text-lg tracking-tight text-white group-hover:text-lavender-100 transition">
                 Loyalty<span className="text-lavender-400">OS</span>
               </span>
-              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-semibold tracking-wider bg-navy-900/90 text-lavender-300 rounded-full border border-lavender-500/20 shadow-xs">
+              <span className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-semibold tracking-wider bg-navy-900/90 text-lavender-300 rounded-full border border-lavender-500/20 shadow-sm">
                 Enterprise
               </span>
             </div>

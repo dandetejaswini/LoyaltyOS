@@ -78,7 +78,7 @@ export const SignInPage: React.FC = () => {
           type="button"
           onClick={handleGoogleSignIn}
           disabled={isSubmitting || isLoading}
-          className="w-full mb-4 py-2 px-4 border border-platinum-300 rounded-lg text-xs font-semibold text-platinum-800 bg-white hover:bg-platinum-50 transition flex items-center justify-center space-x-2 shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+          className="w-full mb-4 py-2 px-4 border border-platinum-300 rounded-lg text-xs font-semibold text-platinum-800 bg-white hover:bg-platinum-50 transition flex items-center justify-center space-x-2 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -122,7 +122,7 @@ export const SignInPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
                 disabled={isSubmitting || isLoading}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-platinum-300 rounded-lg text-xs text-navy-950 placeholder-platinum-400 focus:outline-hidden focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition"
+                className="input-field pl-9"
               />
             </div>
           </div>
@@ -130,7 +130,7 @@ export const SignInPage: React.FC = () => {
           <div>
             <div className="flex items-center justify-between mb-1">
               <label className="text-xs font-semibold text-platinum-700">Password</label>
-              <Link to="/forgot-password" className="text-xs text-lavender-600 hover:text-lavender-700">
+              <Link to="/forgot-password" className="text-xs text-lavender-600 hover:text-lavender-700 font-medium">
                 Forgot password?
               </Link>
             </div>
@@ -143,7 +143,7 @@ export const SignInPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
                 disabled={isSubmitting || isLoading}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-platinum-300 rounded-lg text-xs text-navy-950 placeholder-platinum-400 focus:outline-hidden focus:ring-2 focus:ring-lavender-500 focus:border-transparent transition"
+                className="input-field pl-9"
               />
             </div>
           </div>
@@ -151,7 +151,7 @@ export const SignInPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting || isLoading}
-            className="w-full py-2 bg-navy-950 text-white rounded-lg text-xs font-semibold hover:bg-navy-900 transition flex items-center justify-center space-x-1 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+            className="w-full btn-primary flex items-center justify-center space-x-1"
           >
             {isSubmitting || isLoading ? (
               <>
@@ -164,13 +164,21 @@ export const SignInPage: React.FC = () => {
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-platinum-200 text-center">
+        <div className="mt-6 pt-4 border-t border-platinum-200 text-center space-y-3">
           <p className="text-xs text-platinum-600">
             Don't have an account?{' '}
-            <Link to="/sign-up" className="text-lavender-600 hover:text-lavender-700 font-medium">
+            <Link to="/sign-up" className="text-lavender-600 hover:text-lavender-700 font-semibold">
               Register here
             </Link>
           </p>
+          <div className="pt-2">
+            <Link
+              to="/workspace"
+              className="inline-flex items-center justify-center w-full px-3 py-2 text-xs font-semibold text-navy-800 bg-lavender-50 hover:bg-lavender-100 rounded-lg border border-lavender-200 transition"
+            >
+              Explore Interactive Workspace (Demo Evaluation)
+            </Link>
+          </div>
         </div>
       </div>
     </PageContainer>
