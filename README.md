@@ -113,7 +113,9 @@ LoyaltyOS strictly separates client-accessible variables from server-side secret
 
 - **Frontend (`frontend/.env`)**: Must contain only `VITE_*` variables (e.g. `VITE_API_BASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_FIREBASE_API_KEY`). Never include database passwords or service-role keys.
 - **Backend (`backend/.env`)**: Contains private configuration (`DATABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET`). Excluded from Git by `.gitignore`.
-- **Deployment Template**: See [deployment/vercel-frontend.env.example](deployment/vercel-frontend.env.example) for Vercel production deployment variables.
+- **Deployment Templates**:
+  - [deployment/vercel-fullstack.env.example](deployment/vercel-fullstack.env.example) — Fullstack unified Vercel deployment (Frontend + FastAPI backend).
+  - [deployment/vercel-frontend.env.example](deployment/vercel-frontend.env.example) — Frontend-only Vercel deployment.
 
 ---
 

@@ -89,62 +89,79 @@ postgresql+asyncpg://postgres.[PROJECT_REF]:[PASSWORD]@aws-0-ap-south-1.pooler.s
 
 ---
 
-## 4. Vercel Frontend Deployment
+## 4. Deploying Frontend and Backend on Vercel (Unified Fullstack)
 
-### 4.1 Project Settings in Vercel Dashboard
+LoyaltyOS is fully configured for a **unified fullstack deployment on Vercel**. In this model, Vercel hosts both the React/Vite SPA and the FastAPI backend (as a Python Serverless Function) under a single project and domain.
 
-When importing the GitHub repository `dandetejaswini/LoyaltyOS` into Vercel, configure the following project settings:
+### 4.1 Architecture & Benefits
+
+```
+Browser Request
+      │
+      ├──> /api/v1/*  ──> [vercel.json] ──> api/index.py (FastAPI Serverless) ──> Supabase Pooler (Port 6543)
+      │
+      └──> /*         ──> [vercel.json] ──> frontend/dist/index.html (React SPA)
+```
+
+- **Zero CORS Configuration**: Both frontend and backend share the identical origin (`https://<project>.vercel.app`).
+- **Single Deployment Pipeline**: A single git push triggers builds for both frontend assets and backend serverless endpoints.
+- **Unified Environment Settings**: Manage both public client variables and serverless secrets in a single Vercel dashboard.
+
+### 4.2 Vercel Project Settings (Root Directory)
+
+When importing `dandetejaswini/LoyaltyOS` into Vercel:
 
 | Setting | Value | Notes |
 | :--- | :--- | :--- |
-| **Framework Preset** | `Vite` | Automatically detects Vite configuration. |
-| **Root Directory** | `frontend` | **MANDATORY**: Points build context to the frontend subfolder. |
-| **Build Command** | `npm run build` | Compiles TypeScript and runs `vite build`. |
-| **Output Directory** | `dist` | Default Vite build output directory. |
-| **Install Command** | `npm install` | Installs frontend dependencies cleanly. |
-| **Node.js Version** | `18.x` or `20.x` | Standard modern Node LTS. |
+| **Framework Preset** | `Other` (or leave default) | Governed by root `vercel.json` |
+| **Root Directory** | `./` (Repository Root) | Do **NOT** set to `frontend` so backend can be built |
+| **Build Command** | `npm --prefix frontend install && npm --prefix frontend run build` | Defined in `vercel.json` |
+| **Output Directory** | `frontend/dist` | Defined in `vercel.json` |
+| **Python Version** | `3.11` / `3.12` | Handled automatically by Vercel Python runtime |
 
-### 4.2 Required Vercel Environment Variables
+### 4.3 Environment Variables in Vercel Dashboard
 
-In Vercel **Project Settings > Environment Variables**, configure the public variables:
+Configure the following in **Vercel Project Settings > Environment Variables**:
 
-| Variable | Example Production Value | Purpose |
+#### Frontend Variables (Client-Safe, exposed in browser)
+| Variable | Value | Purpose |
 | :--- | :--- | :--- |
-| `VITE_API_BASE_URL` | `https://api.yourloyaltyos.com/api/v1` | URL of deployed FastAPI backend. |
-| `VITE_SUPABASE_URL` | `https://ahxjaplreytmauwpedgh.supabase.co` | Supabase API URL. |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_ELzvKrq9lf9MRnfc73vvhA_qjvW-Ou2` | Supabase publishable anonymous key. |
-| `VITE_FIREBASE_API_KEY` | `AIzaSyC9mwdIb25A4TTaOBfHjidCmWQfkGJMF90` | Google Firebase Web Client API key. |
-| `VITE_FIREBASE_AUTH_DOMAIN` | `loyaltyos-2a2a0.firebaseapp.com` | Firebase authentication domain. |
-| `VITE_FIREBASE_PROJECT_ID` | `loyaltyos-2a2a0` | Firebase Project ID. |
-| `VITE_FIREBASE_STORAGE_BUCKET`| `loyaltyos-2a2a0.firebasestorage.app` | Firebase Storage Bucket. |
-| `VITE_FIREBASE_MESSAGING_SENDER_ID` | `179762121658` | Firebase Sender ID. |
-| `VITE_FIREBASE_APP_ID` | `1:179762121658:web:94a8d4fddc71e94b21ab83` | Firebase Web App ID. |
+| `VITE_API_BASE_URL` | `/api/v1` | **Relative URL** (hits same domain on Vercel, no CORS!) |
+| `VITE_SUPABASE_URL` | `https://ahxjaplreytmauwpedgh.supabase.co` | Supabase API endpoint |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_...` | Supabase publishable anonymous key |
+| `VITE_FIREBASE_API_KEY` | `AIzaSyC...` | Google Firebase Web API key |
+| `VITE_FIREBASE_AUTH_DOMAIN` | `loyaltyos-2a2a0.firebaseapp.com` | Firebase authentication domain |
+| `VITE_FIREBASE_PROJECT_ID` | `loyaltyos-2a2a0` | Firebase project identifier |
 
-> [!CAUTION]
-> **NEVER add backend secrets to Vercel environment variables.**  
-> Do not add `DATABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, or `SUPABASE_JWT_SECRET` to Vercel. These belong exclusively in the backend runtime.
-
-### 4.3 Single-Page Application (SPA) Routing
-The frontend includes `frontend/vercel.json` with rewrite rules:
-```json
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
-  ]
-}
-```
-This ensures direct browser navigation or page refreshes on `/dashboard`, `/sign-in`, or `/settings` resolve correctly to `index.html`.
+#### Backend Variables (Server-Side Secrets, inaccessible to browser)
+| Variable | Value | Purpose |
+| :--- | :--- | :--- |
+| `DATABASE_URL` | `postgresql+asyncpg://postgres.ahxjaplreytmauwpedgh:[PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres` | Supabase pooler on port 6543 |
+| `DB_POOL_SIZE` | `1` | Recommended connection pool for serverless instances |
+| `DB_MAX_OVERFLOW` | `2` | Overflow connections |
+| `SUPABASE_URL` | `https://ahxjaplreytmauwpedgh.supabase.co` | Supabase project URL |
+| `SUPABASE_JWT_SECRET` | `[ROTATED_JWT_SECRET]` | Min 32 chars for local HS256 verification |
+| `SUPABASE_JWT_ALGORITHM` | `HS256` | Token algorithm |
+| `ENVIRONMENT` | `production` | Runtime mode |
+| `LOG_LEVEL` | `INFO` | Logger verbosity |
 
 ---
 
-## 5. Backend Production Deployment
+## 5. Alternative: Separate Deployments (Frontend on Vercel + Backend on PaaS/Docker)
 
-FastAPI is designed as a long-running asynchronous ASGI service. Deploy it to a containerized PaaS such as **Railway**, **Render**, **Fly.io**, or **AWS ECS**.
+If you prefer to deploy frontend and backend as two completely separate services:
 
-### 5.1 Dockerfile Specification
+### 5.1 Frontend-Only on Vercel
+- **Root Directory**: `frontend`
+- **Framework Preset**: `Vite`
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **`VITE_API_BASE_URL`**: Set to the absolute URL of the external backend (e.g., `https://api.yourdomain.com/api/v1`).
+- Uses `frontend/vercel.json` for SPA fallback rewrites.
+
+### 5.2 Backend on Container PaaS (Railway, Render, Fly.io, AWS ECS)
+
+#### Dockerfile Specification
 ```dockerfile
 FROM python:3.11-slim
 
@@ -161,7 +178,7 @@ EXPOSE 8000
 CMD ["python", "-m", "uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
-### 5.2 Backend Environment Configuration
+#### Backend Environment Configuration
 Set the following environment variables in your backend PaaS dashboard:
 - `DATABASE_URL`: Your Supabase pooler connection string.
 - `SUPABASE_URL`: `https://ahxjaplreytmauwpedgh.supabase.co`

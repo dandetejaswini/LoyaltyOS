@@ -46,10 +46,14 @@ def create_application() -> FastAPI:
     # Register centralized exception handlers (RFC-7807 compliant)
     register_exception_handlers(app)
 
-    # Mount API v1 router
+    # Mount API v1 router (and alias at /v1 for serverless proxy rewrites)
     app.include_router(api_v1_router, prefix=settings.API_V1_STR)
+    if settings.API_V1_STR != "/v1":
+        app.include_router(api_v1_router, prefix="/v1", include_in_schema=False)
 
     @app.get("/", tags=["Root"])
+    @app.get("/api", tags=["Root"], include_in_schema=False)
+    @app.get("/api/", tags=["Root"], include_in_schema=False)
     async def root():
         return {
             "name": settings.APP_NAME,
