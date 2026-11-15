@@ -1,180 +1,124 @@
 # LoyaltyOS
 
-### Intelligent Loyalty & Ledger Management Platform
+Intelligent customer loyalty and ledger management platform designed for secure points accounting, automated anomaly detection, and transparent financial operations.
 
-LoyaltyOS is an intelligent customer loyalty management platform designed to help businesses manage reward points, track transactions, process redemptions, and maintain accurate loyalty records.
+- **Live Production Application**: [https://loyaltyos-omega.vercel.app/](https://loyaltyos-omega.vercel.app/)
+- **GitHub Repository**: [https://github.com/dandetejaswini/LoyaltyOS](https://github.com/dandetejaswini/LoyaltyOS)
 
-The platform combines secure ledger management, FIFO-based points accounting, automated anomaly detection, and approval workflows to make loyalty operations more transparent, reliable, and easy to audit.
+---
 
-## Live Application
+### Platform Highlights
 
-| Resource | Link |
-|---|---|
-| Live Website | [LoyaltyOS](https://loyaltyos-omega.vercel.app/) |
-| GitHub Repository | [LoyaltyOS Repository](https://github.com/dandetejaswini/LoyaltyOS) |
-| Database Platform | [Supabase](https://supabase.com) |
-| Hosting Platform | [Vercel](https://vercel.com) |
+- **Double-Entry Loyalty Ledger**: Maintains an auditable record of points credits, debits, redemptions, and reversals.
+- **FIFO Points Accounting**: Tracks individual points lots and consumes them in first-in, first-out order with a 365-day expiry period.
+- **Automated Ledger Reconciliation**: Identifies discrepancies between customer account balances and transaction records.
+- **LLIRE Anomaly Detection**: Detects balance mismatches, over-redemptions, unreversed returns, duplicate expiry deductions, and incorrect tier assignments.
+- **Dual-Key Approval Governance**: Requires independent approval before executing sensitive corrective actions.
+- **Role-Based Workspaces**: Provides dedicated dashboards for customers, operators, analysts, and operations managers.
 
-## Key Features
+---
 
-- **Points Management:** Manage customer points earned through purchases, redemptions, and returns.
-- **FIFO Points Accounting:** Track individual points lots and consume points in first-in, first-out order.
-- **Points Expiry:** Automatically manage points with a 365-day expiry period.
-- **Transaction Ledger:** Maintain an auditable history of all points transactions.
-- **Returns and Reversals:** Handle partial and full returns with proportional points reversals.
-- **LLIRE:** Detect ledger mismatches, over-redemptions, incorrect expiry, and other anomalies.
-- **Dual-Key Approval:** Require approval from a second authorized person before executing sensitive corrective actions.
-- **Ledger Reconciliation:** Compare account balances with transaction records to identify inconsistencies.
-- **Role-Based Dashboards:** Provide separate workspaces for Customers, Operators, Analysts, and Operations Managers.
+### Platform Roles
 
-## Technology Stack
+- **Customer**: Views loyalty balance, tier progression, available rewards, expiry details, and redemption history.
+- **Store / Warehouse Operator**: Manages customer records, processes orders and returns, and initiates ledger reconciliation.
+- **Merchandising / E-commerce Analyst**: Monitors ledger health, runs anomaly scans, and investigates transaction inconsistencies.
+- **Operations Manager**: Reviews incidents, proposes corrective actions, and approves remediation requests through dual-key governance.
+
+---
+
+### LLIRE Intelligence & Governance
+
+- **Five Anomaly Detectors**: Identifies balance mismatches, over-redemptions, unreversed returns, double expiry, and incorrect tier assignments.
+- **Explainable Findings**: Provides structured evidence and explanations to support anomaly investigation.
+- **Controlled Remediation**: Supports adjustment credits, adjustment debits, account freezes, reversals, and finding dismissal.
+- **Independent Approval**: Prevents users from approving their own proposed corrective actions.
+- **Audit Traceability**: Preserves original ledger entries and records corrections through compensating transactions.
+
+---
+
+### Loyalty Accounting & Business Rules
+
+- **Tier-Based Accrual**: Calculates points using eligible merchandise spend and customer tier multipliers.
+- **Eligible Spend**: Excludes sales tax and shipping charges before calculating reward points.
+- **Proportional Return Reversals**: Reverses points based on returned merchandise value.
+- **Negative Balance Handling**: Accounts for returns involving previously redeemed points.
+- **Idempotent Expiry Processing**: Prevents duplicate deductions when expiry batches are executed repeatedly.
+- **Balance Integrity**: Reconciles account balances against ledger transactions and active points lots.
+
+---
+
+### Quick Start & Local Development
+
+**Clone Repository**
+
+```bash
+git clone https://github.com/dandetejaswini/LoyaltyOS.git
+cd LoyaltyOS
+```
+
+**Install Dependencies**
+
+```bash
+cd frontend
+npm install
+```
+
+**Configure Environment**
+
+- Copy `.env.example` to `.env`.
+- Configure the Supabase project URL and publishable key.
+
+**Run Application**
+
+```bash
+npm run dev
+```
+
+- `npm run dev` — Starts the local development server at `http://localhost:5173`.
+- `npm run build` — Generates the production frontend build.
+- `pytest backend/tests -v` — Executes automated Python tests.
+- `python tools/seed_generator.py --scale TEST --seed 42` — Generates deterministic synthetic data.
+- `python tools/benchmark_evaluator.py` — Runs offline LLIRE benchmark evaluation.
+
+---
+
+### Technical Stack
 
 | Component | Technology |
 |---|---|
 | Frontend | React 18, TypeScript, Vite |
 | Styling | Tailwind CSS |
-| Routing | React Router |
 | Backend Platform | Supabase |
 | Database | PostgreSQL 15+ |
 | Authentication | Supabase Auth |
 | Database Security | Row Level Security (RLS) |
 | Business Logic | PostgreSQL Functions and RPC |
 | Server-Side Processing | Supabase Edge Functions |
-| Hosting | Vercel |
-| Developer Utilities | Python |
-| Automated Testing | Pytest |
-
-## System Architecture
-
-    React 18 + TypeScript + Vite
-                |
-                v
-          Vercel Hosting
-                |
-                v
-        Supabase JavaScript Client
-                |
-                v
-          Supabase Platform
-                |
-          PostgreSQL Database
-                |
-       +--------+---------+
-       |        |         |
-       v        v         v
-    Supabase  Database  PostgreSQL
-      Auth     RLS       Functions
-       |        |         |
-       +--------+---------+
-                |
-                v
-        Ledger and LLIRE
-         Business Logic
-
-Supabase is the only production backend platform. Python is retained for offline synthetic data generation, mathematical validation, and benchmark evaluation.
-
-## LLIRE - Anomaly Detection
-
-The Loyalty Ledger Intelligence & Reconciliation Engine (LLIRE) identifies inconsistencies in loyalty transactions through five specialized detectors.
-
-| Detector | Description |
-|---|---|
-| DET-BALANCE-MISMATCH | Detects differences between account balances and ledger records. |
-| DET-OVER-REDEMPTION | Identifies redemption activity exceeding available points. |
-| DET-UNREVERSED-RETURN | Detects returns with missing or incomplete points reversals. |
-| DET-DOUBLE-EXPIRY | Identifies duplicate points expiry deductions. |
-| DET-INCORRECT-TIER | Detects incorrect customer loyalty tier assignments. |
-
-Findings support investigation and corrective-action workflows. Sensitive corrections require independent approval before execution.
-
-## Platform Roles
-
-| Role | Responsibilities |
-|---|---|
-| CUSTOMER | View points balance, tier progression, rewards, expiry, and redemption history. |
-| OPERATOR | Manage customer records, process orders, handle returns, and initiate reconciliation. |
-| ANALYST | Monitor ledger health, run anomaly detection, and investigate findings. |
-| OPERATIONS_MANAGER | Review incidents, propose corrective actions, and approve remediation requests. |
-
-
-## Local Setup
-
-### 1. Clone the Repository
-
-    git clone https://github.com/dandetejaswini/LoyaltyOS.git
-
-### 2. Navigate to the Frontend
-
-    cd LoyaltyOS/frontend
-
-### 3. Install Dependencies
-
-    npm install
-
-### 4. Configure Environment Variables
-
-    cp .env.example .env
-
-Add your Supabase project URL and publishable key to the `.env` file.
-
-### 5. Start the Development Server
-
-    npm run dev
-
-The application will be available at:
-
-    http://localhost:5173
-
-## Database Setup
-
-LoyaltyOS uses Supabase PostgreSQL for data storage, security, and business operations.
-
-To connect the project and apply database migrations:
-
-    supabase link --project-ref ahxjaplreytmauwpedgh
-
-    supabase db push
-
-Database migrations are maintained in:
-
-    supabase/migrations/
-
-They define the database schema, security policies, business functions, anomaly detection, and corrective-action workflows.
-
-## Testing and Evaluation
-
-| Test Suite | Result |
-|---|---|
-| Automated Tests | 85/85 Passing |
-| LLIRE Benchmark | 100% F1 Score |
-| Frontend TypeScript Check | Passed |
-| Vite Production Build | Passed |
-| Dual-Key Approval Validation | Passed |
-
-Detailed test coverage and evaluation results are available in the testing documentation.
-
-## Project Documentation
-
-The `docs/` directory contains detailed information about the system's design, implementation, deployment, and testing.
-
-| Document | Purpose |
-|---|---|
-| `ARCHITECTURE.md` | Explains the overall system architecture, components, and database design. |
-| `DATA_DICTIONARY.md` | Describes the database tables, columns, and relationships. |
-| `DEPLOYMENT.md` | Provides instructions for deploying and configuring the application using Vercel and Supabase. |
-| `TESTING_AND_EVALUATION.md` | Explains automated tests, test coverage, and LLIRE benchmark results. |
-| `LIMITATIONS_AND_ROADMAP.md` | Lists current limitations, known gaps, and planned improvements. |
-| `tools/README.md` | Explains Python developer utilities, synthetic data generation, and benchmark execution. |
-
-## Engineering Principles
-
-- Maintain accurate and auditable transaction records.
-- Enforce important business rules at the database level.
-- Detect and explain ledger inconsistencies.
-- Require independent approval for sensitive corrections.
-- Protect customer data through authentication and database security.
-- Preserve transaction history through compensating entries rather than modifying original records.
+| Deployment | Vercel |
+| Developer Utilities | Python, Pytest |
 
 ---
 
-**LoyaltyOS - Intelligent Loyalty Management. Complete Ledger Transparency.**
+### Testing & Evaluation
+
+- **Automated Tests**: 85 / 85 passing.
+- **LLIRE Benchmark**: 100% precision, recall, and F1-score on the reported labelled benchmark.
+- **Frontend Compilation**: TypeScript checks and Vite production build passed.
+- **Dual-Key Governance**: Independent approval validation verified.
+- **Database Structure**: 21 domain tables and five immutability triggers reported verified.
+
+---
+
+### Technical Documentation Directory (`docs/`)
+
+- [Architecture & Design](docs/ARCHITECTURE.md) — Explains the system architecture, technology choices, and database design.
+- [Data Dictionary](docs/DATA_DICTIONARY.md) — Describes the structures, fields, and relationships of all 21 domain tables.
+- [Deployment Guide](docs/DEPLOYMENT.md) — Covers Supabase configuration, database migrations, and Vercel deployment.
+- [Testing & Evaluation](docs/TESTING_AND_EVALUATION.md) — Explains automated test coverage, LLIRE benchmark methodology, and evaluation results.
+- [Limitations & Future Roadmap](docs/LIMITATIONS_AND_ROADMAP.md) — Documents current limitations, known gaps, and planned improvements.
+- [Developer Utilities](tools/README.md) — Explains synthetic data generation, offline validation, and LLIRE benchmark execution.
+
+---
+
+**LoyaltyOS — Intelligent Loyalty Management. Complete Ledger Transparency.**
