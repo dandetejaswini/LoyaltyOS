@@ -17,20 +17,26 @@ export type AnomalyCategory =
 export interface AnomalyDetail {
   incident_id: string;
   issue_type: AnomalyCategory | string;
+  category?: string;
   entity_type: string;
   entity_id: string;
+  account_id?: string;
   variance_amount: string | number;
-  status: AnomalyStatus;
+  points_at_risk?: number;
+  monetary_value_at_risk?: number;
+  status: AnomalyStatus | string;
   created_at: string;
   resolved_at: string | null;
 
   // Explainability & Forensic Evidence
   detector_id?: string;
+  detector_name?: string;
   severity: AnomalySeverity;
   severity_reason?: string;
   rule_violated?: string;
   what_happened?: string;
   description?: string;
+  confidence_score?: number;
   evidence?: Record<string, any>;
   discrepancy_calculation?: Record<string, any>;
   recommendation?: string;
@@ -50,6 +56,8 @@ export interface DetectionRunResponse {
   executed_at: string;
   detectors_run: string[];
   total_anomalies_detected: number;
+  anomalies_detected?: number;
+  duration_ms?: number;
   new_incidents_created: number;
   existing_incidents_skipped: number;
   incidents: AnomalyDetail[];
@@ -61,7 +69,11 @@ export interface IntelligenceSummary {
   investigating_incidents: number;
   resolved_incidents: number;
   dismissed_incidents: number;
-  by_severity: Record<AnomalySeverity, number>;
+  critical_count?: number;
+  high_count?: number;
+  total_points_at_risk?: number;
+  total_monetary_value_at_risk?: number;
+  by_severity: Record<string, number>;
   by_category: Record<string, number>;
   by_status: Record<string, number>;
   last_run_at: string | null;
@@ -85,4 +97,10 @@ export interface EngineEvaluationResponse {
   total_detected_anomalies: number;
   categories: Record<string, CategoryEvaluationMetrics>;
   aggregate: CategoryEvaluationMetrics;
+  true_positives?: number;
+  false_positives?: number;
+  false_negatives?: number;
+  precision?: number;
+  recall?: number;
+  f1_score?: number;
 }

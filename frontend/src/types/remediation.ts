@@ -26,16 +26,20 @@ export interface CorrectiveAction {
   proposed_points: number;
   proposed_by: string;
   proposed_at: string;
-  approval_status: ActionApprovalStatus;
+  approval_status: ActionApprovalStatus | string;
+  status?: string;
   approver_id?: string | null;
+  reviewed_by?: string | null;
   approved_at?: string | null;
   rejection_reason?: string | null;
-  execution_status: ActionExecutionStatus;
+  execution_status: ActionExecutionStatus | string;
   executed_at?: string | null;
   compensating_transaction_id?: string | null;
+  execution_tx_id?: string | null;
   reconciliation_status?: string | null;
   reconciliation_details?: Record<string, any> | null;
   notes?: string | null;
+  reason?: string | null;
 }
 
 export interface CorrectiveActionListPage {
@@ -48,7 +52,8 @@ export interface CorrectiveActionListPage {
 
 export interface InvestigationNote {
   author: string;
-  timestamp: string;
+  timestamp?: string;
+  created_at?: string;
   note: string;
   type?: string;
 }
@@ -63,8 +68,10 @@ export interface InvestigationDetail {
   investigator_id?: string | null;
   investigation_state: string;
   notes_history: InvestigationNote[];
+  notes?: InvestigationNote[];
   active_proposal?: CorrectiveAction | null;
   incident_details: Record<string, any>;
+  incident?: any;
   created_at: string;
   resolved_at?: string | null;
 }

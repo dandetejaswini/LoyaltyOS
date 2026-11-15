@@ -148,8 +148,27 @@
   - **Post-Remediation Reconciliation**: Automatically runs `LedgerService.reconcile_account_balance` post-execution. Marks the anomaly incident `RESOLVED` if and only if $\text{discrepancy} == 0$. If drift persists, retains incident in `INVESTIGATING` with recorded remaining variance.
   - **REST API Endpoints**: Mounted 8 operational endpoints under `/api/v1/corrective-actions` with strict RBAC scoping and customer isolation.
   - **Frontend Type Preparation**: Authored TypeScript response contracts in `frontend/src/types/remediation.ts`.
-- **Commit**: `feat(remediation): implement dual-key corrective action and ledger approval workflow`
+- **Commit**: `9b351cf` — `feat(remediation): implement dual-key corrective action and ledger approval workflow`
 - **Verification Performed**:
   - Backend Test Suite: 17 new remediation tests added (`test_remediation.py`); full repository test suite expanded to 105 tests passing in 1.50s (`pytest -v`) with 0 failures and 0 warnings.
   - Frontend Production Build: `tsc && vite build` bundled 1,572 modules cleanly in 13.01s with 0 errors.
 - **Remaining Work**: Phase 7 (Operator & Operations Manager Investigation Dashboard).
+
+---
+
+### Phase 7 — Frontend Integration & Role-Based Operational Dashboards
+- **Date**: 2026-11-15
+- **Feature / Milestone**: Role-Tailored Operational Dashboards (Customer, Operator, Analyst, Operations Manager), LLIRE Forensic Explainability & Dual-Key Remediation UI
+- **Brief Description**:
+  - **API Client & Type Contracts**: Fully typed `apiClient.ts` connecting all 24 backend endpoints across Phase 4 Core Workflows, Phase 5 LLIRE Intelligence, and Phase 6 Dual-Key Remediation with RFC 7807 problem details handling and bearer token injection. Authored comprehensive TypeScript domain contracts in `types/loyalty.ts`, `types/intelligence.ts`, and `types/remediation.ts`.
+  - **Interactive Persona & Role Switcher**: Enhanced `AuthContext.tsx` and `DashboardPage.tsx` with instant switching between 5 enterprise personas: Customer (Alice Sterling), Store Operator (Marcus Brody), Fraud Analyst (Sarah Chen), Operations Manager 1 (Eleanor Vance - Proposer), and Operations Manager 2 (David Kim - Independent Reviewer).
+  - **Customer Portal (`CustomerDashboard.tsx`)**: Real-time points balance, tier progression badges, 365-day points lot expiry countdown, reward catalog, one-click redemption with voucher generation and clipboard copy, and ledger history.
+  - **Store Operator Desk (`OperatorDashboard.tsx`)**: Account search and customer provisioning, POS Order Accrual calculator with net merchandise spend floor-rounding preview, order return & proportional points reversal desk, double-entry ledger inspector, and FIFO lots inspector.
+  - **Analyst Hub (`AnalystDashboard.tsx`)**: Intelligence KPI summary cards, live LLIRE detection trigger, ground-truth benchmark evaluation modal, anomaly incidents table with category/severity/status filtering, and forensic explainability drawer answering all 7 mandatory questions.
+  - **Operations Manager Console (`OpsManagerDashboard.tsx`)**: Findings awaiting investigation queue, active case workspace with evidence viewer and timestamped notes stream, corrective action proposal form, dual-key pending approvals queue with strict self-approval blocking, review decision modal (approve/reject), compensating ledger audit trail, and post-remediation zero-discrepancy verification badge.
+  - **Design & Reliability**: Adheres to LoyaltyOS deep navy, platinum/silver, and muted lavender palette. Enforces strict zero-mock policy (empty/loading/error states for unseeded or missing backend data).
+- **Commit**: `feat(frontend): integrate role-based LoyaltyOS operational dashboards`
+- **Verification Performed**:
+  - Frontend Production Build: `tsc && vite build` bundled 1,576 modules cleanly in 8.50s with 0 TypeScript errors.
+  - Backend Test Suite: 105 tests passing in 1.36s with 0 failures and 0 warnings (`pytest -v`).
+- **Remaining Work**: Phase 8 (Production Deployment, Seed Verification, Performance Optimization & Final Deliverables).

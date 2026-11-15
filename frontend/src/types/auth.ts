@@ -16,4 +16,5 @@ export interface AuthContextValue {
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   clearError: () => void;
+  simulatePersona: (role: Role, variant?: number) => void;
 }

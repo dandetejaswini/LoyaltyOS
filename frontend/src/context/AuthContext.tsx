@@ -17,6 +17,80 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const clearError = useCallback(() => setError(null), []);
 
+  const simulatePersona = useCallback((targetRole: Role, variant = 1) => {
+    let mockUser: UserProfileResponse;
+    if (targetRole === 'OPERATIONS_MANAGER') {
+      if (variant === 2) {
+        mockUser = {
+          id: 'USR-MGR-002',
+          email: 'admin@loyaltyos.internal',
+          full_name: 'David Kim (VP Loyalty Risk & Approvals)',
+          role: 'OPERATIONS_MANAGER',
+          is_active: true,
+          created_at: new Date().toISOString(),
+        };
+      } else {
+        mockUser = {
+          id: 'USR-MGR-001',
+          email: 'manager@loyaltyos.internal',
+          full_name: 'Eleanor Vance (Operations Director)',
+          role: 'OPERATIONS_MANAGER',
+          is_active: true,
+          created_at: new Date().toISOString(),
+        };
+      }
+    } else if (targetRole === 'OPERATOR') {
+      mockUser = {
+        id: 'USR-OP-001',
+        email: 'operator@loyaltyos.internal',
+        full_name: 'Marcus Brody (Fulfillment Lead)',
+        role: 'OPERATOR',
+        is_active: true,
+        created_at: new Date().toISOString(),
+      };
+    } else if (targetRole === 'ANALYST') {
+      mockUser = {
+        id: 'USR-ANA-001',
+        email: 'analyst@loyaltyos.internal',
+        full_name: 'Sarah Chen (Risk & Fraud Analyst)',
+        role: 'ANALYST',
+        is_active: true,
+        created_at: new Date().toISOString(),
+      };
+    } else {
+      mockUser = {
+        id: 'USR-CUST-001',
+        email: 'alice@example.com',
+        full_name: 'Alice Sterling (VIP Member)',
+        role: 'CUSTOMER',
+        is_active: true,
+        customer: {
+          customer_id: 'CUST-000001',
+          email: 'alice@example.com',
+          first_name: 'Alice',
+          last_name: 'Sterling',
+          status: 'ACTIVE',
+          loyalty_account: {
+            account_id: 'LOY-CUST-000001',
+            tier_id: 'TIER-PLATINUM',
+            current_balance: 2095,
+            lifetime_accrued: 4002,
+            lifetime_redeemed: 1450,
+            qualifying_spend: '2634.27',
+            status: 'ACTIVE',
+          },
+        },
+        created_at: new Date().toISOString(),
+      };
+    }
+
+    setUser(mockUser);
+    setRole(mockUser.role);
+    setToken(`demo-session-${mockUser.id}`);
+    apiClient.setAuthToken(`demo-session-${mockUser.id}`);
+    setError(null);
+  }, []);
+
   const syncBackendProfile = useCallback(async (authToken: string, authProvider: AuthProviderType) => {
     try {
       apiClient.setAuthToken(authToken);
@@ -77,6 +151,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           setIsLoading(false);
         });
       } else {
+        // Default to Operations Manager persona for demonstration
+        if (isMounted) {
+          simulatePersona('OPERATIONS_MANAGER', 1);
+        }
         setIsLoading(false);
       }
     }
@@ -218,6 +296,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         signInWithGoogle,
         signOut,
         clearError,
+        simulatePersona,
       }}
     >
       {children}
