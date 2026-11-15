@@ -10,6 +10,7 @@ from backend.app.api.v1.endpoints import (
     expiry,
     tiers,
     intelligence,
+    corrective_actions,
 )
 
 api_v1_router = APIRouter()
@@ -23,3 +24,4 @@ api_v1_router.include_router(returns.router)
 api_v1_router.include_router(expiry.router)
 api_v1_router.include_router(tiers.router)
 api_v1_router.include_router(intelligence.router)
+api_v1_router.include_router(corrective_actions.router)

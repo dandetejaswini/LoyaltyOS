@@ -123,9 +123,33 @@
   - **REST API & RBAC**: Implemented 6 REST endpoints (`POST /api/v1/intelligence/detect`, `POST /api/v1/intelligence/detect/{name}`, `GET /api/v1/intelligence/anomalies`, `GET /api/v1/intelligence/anomalies/{id}`, `GET /api/v1/intelligence/summary`, `GET /api/v1/intelligence/evaluate`) with RBAC scoping and customer data isolation.
   - **Ground-Truth Evaluation**: Built `IntelligenceEvaluator` measuring True Positives, False Positives, False Negatives, Precision, Recall, and F1 score against Phase 3's ground truth manifest.
   - **Frontend Preparation**: Authored TypeScript type contracts in `frontend/src/types/intelligence.ts`.
-- **Commit**: `feat(intelligence): implement explainable LLIRE anomaly detection engine`
+- **Commit**: `e9cba44` — `feat(intelligence): implement explainable LLIRE anomaly detection engine`
 - **Verification Performed**:
   - Backend Test Suite: 18 new intelligence and API tests added (`test_intelligence.py`); total test suite expanded to 88 tests passing with 0 failures and 0 warnings (`pytest -v` in 1.18s).
   - Ground-Truth Evaluation Benchmark: Verified on synthetic dataset: Precision = 1.0, Recall = 1.0, F1 Score = 1.0 across all 5 detector categories with 0 false positives.
   - Frontend Production Build: `tsc && vite build` bundled 1,572 modules cleanly in 7.73s with 0 errors.
-- **Remaining Work**: Phase 6 (Dual-Key Operator Remediation & Compensating Ledger Workflows).
+- **Remaining Work**: Phase 6 (Controlled Remediation & Dual-Key Approval Engine).
+
+---
+
+### Phase 6 — Controlled Remediation & Dual-Key Approval Engine
+- **Date**: 2026-11-15
+- **Feature / Milestone**: Dual-Key Corrective Actions, Safe Compensating Ledger Transactions & Post-Remediation Reconciliation
+- **Brief Description**:
+  - **Investigation Workflow**: Implemented `RemediationService.open_investigation` and `add_investigation_note` managing investigation state transitions (`DETECTED` -> `INVESTIGATING` -> `ACTION_PROPOSED` -> `ACTION_APPROVED` -> `RESOLVED`), assigning authorized investigators and timestamped observations in forensic history.
+  - **Action Proposals**: Implemented `RemediationService.propose_corrective_action` supporting 6 action types: `ADJUSTMENT_CREDIT`, `ADJUSTMENT_DEBIT`, `REVERSAL_REVIEW`, `ACCOUNT_FREEZE`, `ACCOUNT_UNFREEZE`, and `DISMISS_FINDING`. Validated proposed points and target account references.
+  - **Two-Person Control (Dual-Key Approval)**: Implemented server-side dual-key approval rules in `RemediationService.review_proposal`:
+    1. Proposer cannot approve their own action (`proposer_id != approver_id`), returning 403 Forbidden.
+    2. Only authorized Operations Managers / permitted operators can approve actions.
+    3. Rejections mandate a documented business reason.
+    4. Rejected actions never generate ledger entries.
+    5. Duplicate reviews are strictly idempotent.
+  - **Safe Ledger Remediation**: Implemented `RemediationService.execute_approved_action` using `with_for_update()` row-level locking on `loyalty_accounts`. Posts immutable compensating `PointsTransaction` entries (`ADJUSTMENT_CREDIT` with backing `PointsLot` or `ADJUSTMENT_DEBIT`), atomically updating account balances without ever modifying or deleting previous ledger records.
+  - **Post-Remediation Reconciliation**: Automatically runs `LedgerService.reconcile_account_balance` post-execution. Marks the anomaly incident `RESOLVED` if and only if $\text{discrepancy} == 0$. If drift persists, retains incident in `INVESTIGATING` with recorded remaining variance.
+  - **REST API Endpoints**: Mounted 8 operational endpoints under `/api/v1/corrective-actions` with strict RBAC scoping and customer isolation.
+  - **Frontend Type Preparation**: Authored TypeScript response contracts in `frontend/src/types/remediation.ts`.
+- **Commit**: `feat(remediation): implement dual-key corrective action and ledger approval workflow`
+- **Verification Performed**:
+  - Backend Test Suite: 17 new remediation tests added (`test_remediation.py`); full repository test suite expanded to 105 tests passing in 1.50s (`pytest -v`) with 0 failures and 0 warnings.
+  - Frontend Production Build: `tsc && vite build` bundled 1,572 modules cleanly in 13.01s with 0 errors.
+- **Remaining Work**: Phase 7 (Operator & Operations Manager Investigation Dashboard).
