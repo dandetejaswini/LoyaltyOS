@@ -4,8 +4,8 @@
 
 LoyaltyOS is a production-ready customer loyalty platform built with financial double-entry bookkeeping. It guarantees that every point earned, redeemed, expired, or reversed is tracked in an immutable audit journal.
 
-- **GitHub Repository**: [https://github.com/dandetejaswini/LoyaltyOS](https://github.com/dandetejaswini/LoyaltyOS)
 - **Deployment Platform**: Vercel Fullstack (React Frontend + FastAPI Serverless API)
+- **Deployed Website**: [loyaltyos-omega.vercel.app](loyaltyos-omega.vercel.app)
 - **Primary Database**: Supabase PostgreSQL 15+ (Transaction Pooler Port 6543)
 - **Automated Tests**: 105 / 105 Passing (Pytest)
 
