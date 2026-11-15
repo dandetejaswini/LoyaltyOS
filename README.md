@@ -112,12 +112,12 @@ npm run dev
 
 ### Technical Documentation Directory (`docs/`)
 
-- [Architecture & Design](docs/ARCHITECTURE.md) — Explains the system architecture, technology choices, and database design.
-- [Data Dictionary](docs/DATA_DICTIONARY.md) — Describes the structures, fields, and relationships of all 21 domain tables.
-- [Deployment Guide](docs/DEPLOYMENT.md) — Covers Supabase configuration, database migrations, and Vercel deployment.
-- [Testing & Evaluation](docs/TESTING_AND_EVALUATION.md) — Explains automated test coverage, LLIRE benchmark methodology, and evaluation results.
-- [Limitations & Future Roadmap](docs/LIMITATIONS_AND_ROADMAP.md) — Documents current limitations, known gaps, and planned improvements.
-- [Developer Utilities](tools/README.md) — Explains synthetic data generation, offline validation, and LLIRE benchmark execution.
+- [AI Usage](docs/AI_USAGE.md) — Documents AI-assisted development, prompts, implementation support, and developer verification.
+- [Architecture](docs/ARCHITECTURE.md) — Explains the overall system architecture, technology stack, components, and design decisions.
+- [Data Dictionary](docs/DATA_DICTIONARY.md) — Describes the 21 domain tables, their fields, data types, constraints, and relationships.
+- [Deployment Guide](docs/DEPLOYMENT.md) — Covers Supabase configuration, database migrations, environment variables, and Vercel deployment.
+- [Limitations & Roadmap](docs/LIMITATIONS_AND_ROADMAP.md) — Outlines current system limitations, known gaps, and planned improvements.
+- [Testing & Evaluation](docs/TESTING_AND_EVALUATION.md) — Describes automated test coverage, LLIRE benchmark methodology, and evaluation results.
 
 ---
 
