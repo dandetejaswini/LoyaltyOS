@@ -23,6 +23,35 @@ export interface HealthResponse {
   timestamp: string;
 }
 
+export interface LoyaltyAccountSummary {
+  account_id: string;
+  tier_id: string;
+  current_balance: number;
+  lifetime_accrued: number;
+  lifetime_redeemed: number;
+  qualifying_spend: string | number;
+  status: string;
+}
+
+export interface CustomerSummary {
+  customer_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  status: string;
+  loyalty_account?: LoyaltyAccountSummary;
+}
+
+export interface UserProfileResponse {
+  id: string;
+  email: string;
+  full_name?: string;
+  role: 'CUSTOMER' | 'OPERATOR' | 'ANALYST' | 'OPERATIONS_MANAGER';
+  is_active: boolean;
+  customer?: CustomerSummary;
+  created_at: string;
+}
+
 export class ApiError extends Error {
   public problem: ProblemDetails;
 
@@ -35,9 +64,14 @@ export class ApiError extends Error {
 
 class ApiClient {
   private baseUrl: string;
+  private authToken: string | null = null;
 
   constructor() {
     this.baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+  }
+
+  public setAuthToken(token: string | null) {
+    this.authToken = token;
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
@@ -48,6 +82,9 @@ class ApiClient {
       headers.set('Content-Type', 'application/json');
     }
     headers.set('Accept', 'application/json');
+    if (this.authToken && !headers.has('Authorization')) {
+      headers.set('Authorization', `Bearer ${this.authToken}`);
+    }
 
     try {
       const response = await fetch(url, {
@@ -100,6 +137,14 @@ class ApiClient {
 
   public async getHealth(): Promise<HealthResponse> {
     return this.get<HealthResponse>('/health');
+  }
+
+  public async getMyProfile(): Promise<UserProfileResponse> {
+    return this.get<UserProfileResponse>('/auth/me');
+  }
+
+  public async syncIdentity(provider: string, idToken: string): Promise<{ user: UserProfileResponse; message: string }> {
+    return this.post<{ user: UserProfileResponse; message: string }>('/auth/sync', { provider, id_token: idToken });
   }
 }
 

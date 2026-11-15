@@ -7,6 +7,31 @@ from backend.app.schemas.common import ProblemDetails
 from backend.app.core.logging import logger
 
 
+class UnauthorizedError(FastAPIHTTPException):
+    def __init__(self, detail: str = "Unauthorized"):
+        super().__init__(status_code=status.HTTP_401_UNAUTHORIZED, detail=detail, headers={"WWW-Authenticate": "Bearer"})
+
+
+class ForbiddenError(FastAPIHTTPException):
+    def __init__(self, detail: str = "Forbidden"):
+        super().__init__(status_code=status.HTTP_403_FORBIDDEN, detail=detail)
+
+
+class NotFoundError(FastAPIHTTPException):
+    def __init__(self, detail: str = "Resource not found"):
+        super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+
+
+class ConflictError(FastAPIHTTPException):
+    def __init__(self, detail: str = "Resource conflict"):
+        super().__init__(status_code=status.HTTP_409_CONFLICT, detail=detail)
+
+
+class BadRequestError(FastAPIHTTPException):
+    def __init__(self, detail: str = "Bad request"):
+        super().__init__(status_code=status.HTTP_400_BAD_REQUEST, detail=detail)
+
+
 def register_exception_handlers(app: FastAPI) -> None:
     async def common_http_handler(request: Request, exc: StarletteHTTPException | FastAPIHTTPException):
         logger.warning(f"HTTP {exc.status_code} on {request.method} {request.url.path}: {exc.detail}")
@@ -17,10 +42,12 @@ def register_exception_handlers(app: FastAPI) -> None:
             detail=str(exc.detail),
             instance=str(request.url.path),
         )
+        headers = dict(getattr(exc, "headers", None) or {})
+        headers.setdefault("Content-Type", "application/problem+json")
         return JSONResponse(
             status_code=exc.status_code,
             content=problem.model_dump(),
-            headers=getattr(exc, "headers", None) or {"Content-Type": "application/problem+json"},
+            headers=headers,
         )
 
     app.add_exception_handler(FastAPIHTTPException, common_http_handler)

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LogOut, User as UserIcon } from 'lucide-react';
 import { apiClient, HealthResponse } from '@/services/apiClient';
+import { useAuth } from '@/hooks/useAuth';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
+  const { user, role, signOut } = useAuth();
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -93,18 +95,45 @@ export const Navbar: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <Link
-                to="/sign-in"
-                className="px-3 py-1.5 text-xs font-medium text-platinum-300 hover:text-white transition"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/sign-up"
-                className="px-3.5 py-1.5 bg-lavender-600 hover:bg-lavender-500 text-white text-xs font-medium rounded-md transition shadow-sm"
-              >
-                Register
-              </Link>
+              {user ? (
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 bg-navy-900 border border-navy-700 py-1 px-2.5 rounded-lg">
+                    <div className="w-6 h-6 rounded-full bg-lavender-500/20 text-lavender-300 border border-lavender-400/30 flex items-center justify-center text-xs font-bold">
+                      {user.full_name ? user.full_name.charAt(0).toUpperCase() : user.email.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="text-left hidden lg:block">
+                      <div className="text-xs font-semibold text-white leading-tight truncate max-w-[120px]">
+                        {user.full_name || user.email.split('@')[0]}
+                      </div>
+                      <span className="text-[10px] text-lavender-300 font-mono">
+                        {role}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => signOut()}
+                    className="p-1.5 text-platinum-400 hover:text-white hover:bg-navy-900 rounded-md transition"
+                    title="Sign Out"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    to="/sign-in"
+                    className="px-3 py-1.5 text-xs font-medium text-platinum-300 hover:text-white transition"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/sign-up"
+                    className="px-3.5 py-1.5 bg-lavender-600 hover:bg-lavender-500 text-white text-xs font-medium rounded-md transition shadow-sm"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -139,20 +168,44 @@ export const Navbar: React.FC = () => {
             </Link>
           ))}
           <div className="pt-2 border-t border-navy-800 flex flex-col gap-2">
-            <Link
-              to="/sign-in"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm text-center text-platinum-300 hover:text-white"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/sign-up"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-sm text-center bg-lavender-600 text-white rounded-md font-medium"
-            >
-              Register
-            </Link>
+            {user ? (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 text-xs text-platinum-300">
+                  <UserIcon className="w-4 h-4 text-lavender-400" />
+                  <span>{user.email}</span>
+                  <span className="ml-auto text-[10px] bg-navy-900 px-1.5 py-0.5 rounded border border-navy-700 text-lavender-300">
+                    {role}
+                  </span>
+                </div>
+                <button
+                  onClick={() => {
+                    signOut();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-3 py-2 text-sm text-rose-400 hover:text-rose-300 hover:bg-navy-900/60 rounded-md transition flex items-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  to="/sign-in"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm text-center text-platinum-300 hover:text-white"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/sign-up"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-3 py-2 text-sm text-center bg-lavender-600 text-white rounded-md font-medium"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}

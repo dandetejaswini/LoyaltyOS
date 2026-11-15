@@ -46,10 +46,16 @@ class Settings(BaseSettings):
     SUPABASE_ANON_KEY: str = ""
     SUPABASE_SERVICE_ROLE_KEY: str = ""
     SUPABASE_JWT_SECRET: str = ""
+    SUPABASE_JWT_ALGORITHM: str = "HS256"
 
     # Firebase Configuration (Phase 2 Google Auth)
-    FIREBASE_PROJECT_ID: str = ""
+    FIREBASE_PROJECT_ID: str = "loyaltyos-2a2a0"
     FIREBASE_SERVICE_ACCOUNT_PATH: str = ""
+
+    # Initial Role Assignments by Email (Configurable RBAC Seeds)
+    ADMIN_EMAILS: List[str] = ["admin@loyaltyos.internal", "manager@loyaltyos.internal"]
+    OPERATOR_EMAILS: List[str] = ["operator@loyaltyos.internal", "warehouse@loyaltyos.internal"]
+    ANALYST_EMAILS: List[str] = ["analyst@loyaltyos.internal"]
 
     # Logging
     LOG_LEVEL: str = "INFO"
