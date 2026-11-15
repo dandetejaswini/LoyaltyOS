@@ -2,11 +2,10 @@
 .env
 .env.*
 !.env.example
-!backend/.env.example
 !frontend/.env.example
 !deployment/*.example
 *.env
-deployment/vercel-frontend.env
+deployment/*.env
 *.pem
 *.key
 serviceAccountKey.json

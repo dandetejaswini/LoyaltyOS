@@ -1,42 +1,36 @@
-# LoyaltyOS — AI Assistance & Engineering Verification Disclosure
+# LoyaltyOS — AI Assistance & Verification
 
-**Product Name:** LoyaltyOS — Intelligent Loyalty & Ledger Management Platform  
 **Repository:** https://github.com/dandetejaswini/LoyaltyOS
 
 ---
 
-## 1. AI-Assisted Development Overview
+## 1. AI Assistance Overview
 
-LoyaltyOS was developed with assistance from Google DeepMind's Antigravity AI coding agent during a time-boxed engineering hackathon. AI tools were utilized to accelerate domain modeling, scaffold comprehensive test suites, author mathematical synthetic data generators, and build enterprise operational interfaces.
+LoyaltyOS was developed with assistance from Google DeepMind's Antigravity AI coding assistant to accelerate development during a time-boxed hackathon.
 
 ---
 
 ## 2. Workflows Accelerated by AI
 
-1. **System & Domain Modeling**:
-   - Synthesizing 21 SQLAlchemy 2.0 relational models, Alembic migrations, and DDL scripts maintaining 100% schema parity.
-2. **Deterministic Data Generation**:
-   - Authoring the mathematical seed generator pinned to seed `20261022` to produce consistent datasets across scale tiers without random drift.
-3. **LLIRE Anomaly Detectors**:
-   - Implementing 5 explainable anomaly detectors, confidence scoring, SHA-256 fingerprinting, and 7-answer explainability payloads.
-4. **Test Suite Scaffolding**:
-   - Generating 105 automated unit and integration tests covering edge cases (leap-year handling, negative balance return mechanics, RS256 token verification, and self-approval rejection).
-5. **Frontend Dashboards**:
-   - Creating typed React + Vite operational dashboards with zero-mock data policies and RFC 7807 problem details parsing.
+- **Database Modeling**: Authoring 21 SQLAlchemy 2.0 models, Alembic migrations, and SQL DDL scripts.
+- **Deterministic Data Generator**: Building the mathematical seed generator pinned to seed `20261022`.
+- **Anomaly Detection Logic**: Writing the 5 LLIRE anomaly detectors and 7-answer explainability payloads.
+- **Test Suite Scaffolding**: Creating 105 automated unit and integration tests covering loyalty workflows and edge cases.
+- **Operational Dashboards**: Building typed React + Vite dashboards with zero-mock data policies.
 
 ---
 
-## 3. Human-in-the-Loop Governance & Verification
+## 3. Human Verification & Oversight
 
-All AI-generated code and architectural artifacts were subject to strict human-in-the-loop engineering verification:
+All AI-generated code was thoroughly reviewed and validated by human engineers:
 
-- **Financial Ledger Invariants**: Double-entry ledger math ($\text{Balance} = \sum \text{Credits} - \sum \text{Debits}$) and FIFO lot consumption rules were independently checked for accounting correctness.
-- **Security Boundaries**: Two-person dual-key controls (`proposer_id != approver_id`) were enforced at the server-side database transaction layer, ensuring client UI bypasses remain impossible.
-- **Truthful Status Reporting**: AI-generated reports were audited to prevent inflated readiness claims, ensuring clear separation between local unit tests and live remote database ingestion.
-- **Secret Scanning & Sanitization**: Git history and environment files were audited to identify and sanitize exposed credentials, establishing explicit rotation requirements.
+- **Ledger Invariants**: Double-entry ledger calculations and FIFO lot consumption rules were independently checked.
+- **Security Boundaries**: Dual-key approvals (`proposer != approver`) and PostgreSQL triggers were verified at the database layer.
+- **Truthful Status**: Test results and deployment instructions were verified directly against actual behavior.
+- **Secret Scanning**: Committed files were scanned to ensure zero exposed credentials or private keys remain.
 
 ---
 
 ## 4. Developer Accountability
 
-The human engineering team retains full responsibility for the architectural decisions, security controls, business logic, and code quality committed to the `LoyaltyOS` repository.
+The engineering team retains full responsibility for the architectural decisions, code quality, and security controls committed to this repository.

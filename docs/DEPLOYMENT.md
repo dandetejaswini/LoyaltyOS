@@ -1,200 +1,110 @@
 # LoyaltyOS — Deployment Guide
 
-**Product Name:** LoyaltyOS — Intelligent Loyalty & Ledger Management Platform  
-**Target Environments:** Vercel (Frontend SPA) + Container / PaaS (FastAPI Backend) + Supabase (PostgreSQL 15+) + Firebase (Google OAuth)
+**Target Deployment:** Vercel Fullstack (React Frontend + FastAPI Serverless API)
+**Database:** Supabase PostgreSQL 15+ (Transaction Pooler Port 6543)
+**Authentication:** Supabase Auth & Google Firebase
 
 ---
 
 ## 1. Prerequisites
 
-- **Node.js**: `v18.0.0` or higher (`npm v9+`)
-- **Python**: `3.11` to `3.14` (with virtual environment support)
+- **Node.js**: v18.0.0 or higher
+- **Python**: 3.11 to 3.14
 - **Supabase Account**: Managed PostgreSQL instance with transaction pooler enabled
-- **Firebase Project**: Google Authentication provider enabled
-- **Vercel Account**: For frontend static hosting and global edge CDN
+- **Vercel Account**: For deploying the frontend and serverless API under one domain
 
 ---
 
-## 2. Local Development Setup
+## 2. Supabase Database Setup
 
-### 2.1 Backend Setup (FastAPI)
+### 2.1 Connection Configuration
+- **Host**: `aws-0-ap-south-1.pooler.supabase.com`
+- **Port**: `6543` (Transaction Pooler Mode)
+- **Protocol**: `postgresql+asyncpg`
+- **Connection String**:
+  ```
+  postgresql+asyncpg://postgres.[PROJECT_REF]:[PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres
+  ```
 
-1. Navigate to repository root:
-   ```powershell
-   cd C:\CandidateWorkspace
-   ```
-2. Activate Python virtual environment:
-   ```powershell
-   .\venv\Scripts\Activate.ps1
-   ```
-3. Install backend dependencies:
-   ```powershell
-   pip install -r backend/requirements.txt
-   ```
-4. Configure local environment:
-   ```powershell
-   cp .env.example .env
-   # Edit .env with your local or staging database credentials
-   ```
-5. Launch FastAPI development server:
-   ```powershell
-   python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
-   ```
-6. Verify backend health:
-   ```powershell
-   curl http://127.0.0.1:8000/api/v1/health
-   ```
-
-### 2.2 Frontend Setup (React + Vite)
-
-1. Navigate to frontend directory:
-   ```powershell
-   cd frontend
-   ```
-2. Install frontend dependencies:
-   ```powershell
-   npm install
-   ```
-3. Configure frontend environment:
-   ```powershell
-   cp .env.example .env
-   ```
-4. Start Vite development server:
-   ```powershell
-   npm run dev
-   ```
-5. Open `http://localhost:5173` in your browser.
+### 2.2 Execute SQL Scripts
+1. Open your Supabase project > **SQL Editor**.
+2. Run `scripts/001_initial_schema.sql` to create all 21 tables, foreign keys, and indexes.
+3. Run `scripts/002_security_hardening_patch.sql` to install the 5 immutability triggers and 9 Row-Level Security policies.
 
 ---
 
-## 3. Database Setup (Supabase PostgreSQL)
+## 3. Vercel Fullstack Deployment (Frontend + Backend)
 
-### 3.1 Connection Architecture
-Supabase offers two connection modes:
-- **Direct Connection** (`port 5432`): Requires direct IPv6 access or enterprise firewall permissions.
-- **Transaction Pooler** (`port 6543` / `5432`): Recommended for serverless and asynchronous applications.
-  - Pooler Host: `aws-0-[REGION].pooler.supabase.com`
-  - Port: `6543` (Transaction Mode)
-  - Driver: `postgresql+asyncpg`
+LoyaltyOS deploys both the React web application and the Python FastAPI API together in a single Vercel project.
 
-Format:
-```
-postgresql+asyncpg://postgres.[PROJECT_REF]:[PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres
-```
+### 3.1 Project Settings in Vercel
+1. In the Vercel dashboard, click **Add New...** > **Project** and select `dandetejaswini/LoyaltyOS`.
+2. Configure the following build settings:
+   - **Framework Preset**: `Other` (or leave default)
+   - **Root Directory**: `./` (Keep as repository root)
+   - **Build Command**: `npm --prefix frontend install && npm --prefix frontend run build` (Handled by `vercel.json`)
+   - **Output Directory**: `frontend/dist` (Handled by `vercel.json`)
 
-### 3.2 Schema & Trigger Execution
-1. Open your Supabase Dashboard > **SQL Editor**.
-2. Run `scripts/001_initial_schema.sql` to create all 21 tables, constraints, foreign keys, and indexes.
-3. Run `scripts/002_security_hardening_patch.sql` to install the 5 immutability triggers, 9 RLS customer isolation policies, and Alembic version stamp (`001_initial_schema`).
+### 3.2 Environment Variables in Vercel Dashboard
 
----
+Add these variables in **Project Settings > Environment Variables**:
 
-## 4. Deploying Frontend and Backend on Vercel (Unified Fullstack)
-
-LoyaltyOS is fully configured for a **unified fullstack deployment on Vercel**. In this model, Vercel hosts both the React/Vite SPA and the FastAPI backend (as a Python Serverless Function) under a single project and domain.
-
-### 4.1 Architecture & Benefits
-
-```
-Browser Request
-      │
-      ├──> /api/v1/*  ──> [vercel.json] ──> api/index.py (FastAPI Serverless) ──> Supabase Pooler (Port 6543)
-      │
-      └──> /*         ──> [vercel.json] ──> frontend/dist/index.html (React SPA)
-```
-
-- **Zero CORS Configuration**: Both frontend and backend share the identical origin (`https://<project>.vercel.app`).
-- **Single Deployment Pipeline**: A single git push triggers builds for both frontend assets and backend serverless endpoints.
-- **Unified Environment Settings**: Manage both public client variables and serverless secrets in a single Vercel dashboard.
-
-### 4.2 Vercel Project Settings (Root Directory)
-
-When importing `dandetejaswini/LoyaltyOS` into Vercel:
-
-| Setting | Value | Notes |
-| :--- | :--- | :--- |
-| **Framework Preset** | `Other` (or leave default) | Governed by root `vercel.json` |
-| **Root Directory** | `./` (Repository Root) | Do **NOT** set to `frontend` so backend can be built |
-| **Build Command** | `npm --prefix frontend install && npm --prefix frontend run build` | Defined in `vercel.json` |
-| **Output Directory** | `frontend/dist` | Defined in `vercel.json` |
-| **Python Version** | `3.11` / `3.12` | Handled automatically by Vercel Python runtime |
-
-### 4.3 Environment Variables in Vercel Dashboard
-
-Configure the following in **Vercel Project Settings > Environment Variables**:
-
-#### Frontend Variables (Client-Safe, exposed in browser)
+#### Frontend Variables (Client-Safe)
 | Variable | Value | Purpose |
 | :--- | :--- | :--- |
-| `VITE_API_BASE_URL` | `/api/v1` | **Relative URL** (hits same domain on Vercel, no CORS!) |
+| `VITE_API_BASE_URL` | `/api/v1` | Relative path to API on same domain (No CORS!) |
 | `VITE_SUPABASE_URL` | `https://ahxjaplreytmauwpedgh.supabase.co` | Supabase API endpoint |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_...` | Supabase publishable anonymous key |
 | `VITE_FIREBASE_API_KEY` | `AIzaSyC...` | Google Firebase Web API key |
 | `VITE_FIREBASE_AUTH_DOMAIN` | `loyaltyos-2a2a0.firebaseapp.com` | Firebase authentication domain |
 | `VITE_FIREBASE_PROJECT_ID` | `loyaltyos-2a2a0` | Firebase project identifier |
 
-#### Backend Variables (Server-Side Secrets, inaccessible to browser)
+#### Backend Variables (Server-Side Secrets)
 | Variable | Value | Purpose |
 | :--- | :--- | :--- |
-| `DATABASE_URL` | `postgresql+asyncpg://postgres.ahxjaplreytmauwpedgh:[PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres` | Supabase pooler on port 6543 |
-| `DB_POOL_SIZE` | `1` | Recommended connection pool for serverless instances |
-| `DB_MAX_OVERFLOW` | `2` | Overflow connections |
-| `SUPABASE_URL` | `https://ahxjaplreytmauwpedgh.supabase.co` | Supabase project URL |
-| `SUPABASE_JWT_SECRET` | `[ROTATED_JWT_SECRET]` | Min 32 chars for local HS256 verification |
-| `SUPABASE_JWT_ALGORITHM` | `HS256` | Token algorithm |
+| `DATABASE_URL` | `postgresql+asyncpg://postgres.ahxjaplreytmauwpedgh:[PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres` | Supabase connection string on port 6543 |
+| `DB_POOL_SIZE` | `1` | Connection pool size for serverless functions |
+| `DB_MAX_OVERFLOW` | `2` | Overflow database connections |
+| `SUPABASE_URL` | `https://ahxjaplreytmauwpedgh.supabase.co` | Supabase URL for JWT validation |
+| `SUPABASE_JWT_SECRET` | `[ROTATED_JWT_SECRET]` | Secret for verifying auth tokens (min 32 chars) |
 | `ENVIRONMENT` | `production` | Runtime mode |
 | `LOG_LEVEL` | `INFO` | Logger verbosity |
 
+### 3.3 Deploy
+Click **Deploy**. Vercel will bundle the frontend assets into `frontend/dist` and deploy `api/index.py` as a serverless function handling all `/api/*` traffic.
+
 ---
 
-## 5. Alternative: Separate Deployments (Frontend on Vercel + Backend on PaaS/Docker)
+## 4. Verification After Deployment
 
-If you prefer to deploy frontend and backend as two completely separate services:
+After deployment completes, check these endpoints on your live Vercel URL:
 
-### 5.1 Frontend-Only on Vercel
-- **Root Directory**: `frontend`
-- **Framework Preset**: `Vite`
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **`VITE_API_BASE_URL`**: Set to the absolute URL of the external backend (e.g., `https://api.yourdomain.com/api/v1`).
-- Uses `frontend/vercel.json` for SPA fallback rewrites.
+- **Frontend App**: `https://<your-project>.vercel.app/`
+- **API Status**: `https://<your-project>.vercel.app/api`
+- **Health Check**: `https://<your-project>.vercel.app/api/v1/health`
+- **Interactive API Docs**: `https://<your-project>.vercel.app/api/v1/docs`
 
-### 5.2 Backend on Container PaaS (Railway, Render, Fly.io, AWS ECS)
+---
 
-#### Dockerfile Specification
-```dockerfile
-FROM python:3.11-slim
+## 5. Local Development Commands
 
-WORKDIR /app
-COPY backend/requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+### Backend Local Run
+```powershell
+# Activate virtual environment
+.\venv\Scripts\Activate.ps1
 
-COPY backend/ backend/
-COPY scripts/ scripts/
+# Install dependencies
+pip install -r requirements.txt
 
-ENV PYTHONPATH=/app
-EXPOSE 8000
-
-CMD ["python", "-m", "uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start local FastAPI server
+python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-#### Backend Environment Configuration
-Set the following environment variables in your backend PaaS dashboard:
-- `DATABASE_URL`: Your Supabase pooler connection string.
-- `SUPABASE_URL`: `https://ahxjaplreytmauwpedgh.supabase.co`
-- `SUPABASE_JWT_SECRET`: Rotated, private JWT secret (minimum 32 characters).
-- `SUPABASE_SERVICE_ROLE_KEY`: Supabase service role key (backend only).
-- `FIREBASE_PROJECT_ID`: `loyaltyos-2a2a0`
-- `ALLOWED_ORIGINS`: Comma-separated list of your production frontend origins (e.g. `https://loyaltyos.vercel.app`).
+### Frontend Local Run
+```powershell
+cd frontend
+npm install
+npm run dev
+```
 
----
-
-## 6. Pre-Flight Verification Checklist
-
-- [ ] All 21 tables verified in Supabase PostgreSQL catalog.
-- [ ] 5 immutability triggers verified active on ledger tables.
-- [ ] 9 RLS policies active on customer-facing tables.
-- [ ] Backend health probe returns `{"status": "healthy"}`.
-- [ ] Backend CORS configuration allows Vercel production domain (`ALLOW_ORIGIN_REGEX = r"^https:\/\/.*\.vercel\.app$"`).
-- [ ] Frontend build succeeds with zero errors: `npm run build`.
-- [ ] All public environment variables configured in Vercel project settings.
+Open `http://localhost:5173` in your browser.
