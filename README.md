@@ -79,7 +79,7 @@ The frontend will run at `http://localhost:5173` and connect to the local backen
 
 1. Import the repository into your Vercel account.
 2. Keep the **Root Directory** set to `./`.
-3. Add the required environment variables from [deployment/vercel.env.example](deployment/vercel.env.example).
+3. Add the required environment variables as described in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 4. Click **Deploy**. Both the React app and FastAPI serverless functions deploy together with zero CORS setup needed.
 
 ---
