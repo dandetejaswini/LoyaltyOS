@@ -98,8 +98,8 @@ const FALLBACK_ANOMALIES: AnomalyDetail[] = [
     issue_type: 'UNREVERSED_RETURN',
     category: 'UNREVERSED_RETURN',
     entity_type: 'ORDER_RETURN',
-    entity_id: 'RET-ORD-881',
-    account_id: 'LOY-CUST-000002',
+    entity_id: 'ORD-9883',
+    account_id: 'LOY-CUST-000001',
     variance_amount: 125,
     points_at_risk: 125,
     monetary_value_at_risk: 1.25,
@@ -109,93 +109,91 @@ const FALLBACK_ANOMALIES: AnomalyDetail[] = [
     resolved_at: null,
     detector_id: 'DET-RET-001',
     detector_name: 'UnreversedReturnDetector',
-    severity_reason: 'Merchandise refunded without corresponding point reversal debit',
-    rule_violated: 'BR-06: Order returns must reverse points earned on returned items proportionally.',
-    what_happened: 'Return RET-ORD-881 refunded $125.00 of eligible merchandise, but no REVERSAL transaction was posted against account LOY-CUST-000002.',
-    description: 'Order ORD-2026-881 returned without proportional reversal of 125 accrued points.',
+    severity_reason: 'Return registered without proportional debit adjustment',
+    rule_violated: 'BR-03: Order returns must post proportional debit transactions to reverse earned points.',
+    what_happened: 'Merchandise return for Order ORD-9883 was accepted at POS but return event failed to post proportional debit adjustment of 125 pts.',
+    description: 'Order ORD-9883 returned $125 merchandise without corresponding points reversal.',
     confidence_score: 0.98,
     evidence: {
-      order_id: 'ORD-2026-881',
-      return_id: 'RET-ORD-881',
-      refund_eligible_spend: 125.00,
-      original_accrual_pts: 125,
-      posted_reversal_pts: 0
+      order_id: 'ORD-9883',
+      returned_amount: 125.00,
+      expected_deduction: 125,
+      actual_deductions: 0
     },
     discrepancy_calculation: {
       unreversed_points: 125
     },
-    recommendation: 'Execute proportional REVERSAL debit of 125 points linked to original order ORD-2026-881.'
+    recommendation: 'Propose ADJUSTMENT_DEBIT of -125 points against LOY-CUST-000001 with reference to ORD-9883.'
   },
   {
     incident_id: 'INC-2026-004',
     issue_type: 'OVER_REDEMPTION',
     category: 'OVER_REDEMPTION',
-    entity_type: 'REDEMPTION',
-    entity_id: 'RDM-88910',
-    account_id: 'LOY-CUST-000007',
-    variance_amount: -150,
-    points_at_risk: 150,
-    monetary_value_at_risk: 1.50,
+    entity_type: 'REDEMPTION_TX',
+    entity_id: 'TX-RDM-1049',
+    account_id: 'LOY-CUST-000002',
+    variance_amount: -100,
+    points_at_risk: 100,
+    monetary_value_at_risk: 1.00,
     status: 'DETECTED',
     severity: 'HIGH',
-    created_at: new Date(Date.now() - 3600000 * 18).toISOString(),
+    created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
     resolved_at: null,
     detector_id: 'DET-RDM-001',
     detector_name: 'OverRedemptionDetector',
-    severity_reason: 'Account balance dipped negative outside of an authorized merchandise return',
-    rule_violated: 'BR-11: Redemptions must never drive account balance below zero without return context.',
-    what_happened: 'Concurrent redemption requests bypassed optimistic checks, causing a negative balance of -150 pts.',
-    description: 'Concurrent redemption on account LOY-CUST-000007 caused negative balance.',
+    severity_reason: 'Redemption transaction executed while balance was insufficient',
+    rule_violated: 'BR-02: Points redemption is prohibited if account.current_balance < points_to_redeem.',
+    what_happened: 'Race condition allowed concurrent checkout debit of 600 pts when account balance was only 500 pts, causing transient balance dip.',
+    description: 'Redemption TX-RDM-1049 debited 600 pts against an active balance of only 500 pts.',
     confidence_score: 0.97,
     evidence: {
-      account_id: 'LOY-CUST-000007',
-      balance_before: 350,
-      redemption_1: 300,
-      redemption_2: 200,
-      resulting_balance: -150
+      transaction_id: 'TX-RDM-1049',
+      requested_redemption: 600,
+      balance_prior: 500
     },
     discrepancy_calculation: {
-      overdrawn_points: 150
+      deficit: 100
     },
-    recommendation: 'Verify pessimistic row locking configuration and review customer account.'
+    recommendation: 'Verify subsequent qualifying accruals or propose corrective debit adjustment under case review.'
   },
   {
     incident_id: 'INC-2026-005',
     issue_type: 'INCORRECT_TIER',
     category: 'INCORRECT_TIER',
-    entity_type: 'LOYALTY_ACCOUNT',
-    entity_id: 'ACC-LOY-0012',
-    account_id: 'LOY-CUST-000012',
-    variance_amount: 0,
-    points_at_risk: 0,
-    monetary_value_at_risk: 0.00,
+    entity_type: 'CUSTOMER_TIER',
+    entity_id: 'CUST-000005',
+    account_id: 'LOY-CUST-000005',
+    variance_amount: -50,
+    points_at_risk: 50,
+    monetary_value_at_risk: 0.50,
     status: 'RESOLVED',
     severity: 'MEDIUM',
-    created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
-    resolved_at: new Date(Date.now() - 3600000 * 2).toISOString(),
+    created_at: new Date(Date.now() - 3600000 * 48).toISOString(),
+    resolved_at: new Date(Date.now() - 3600000 * 6).toISOString(),
     detector_id: 'DET-TIR-001',
     detector_name: 'IncorrectTierDetector',
-    severity_reason: 'Customer qualifying spend qualified for Gold tier but remained assigned to Bronze',
-    rule_violated: 'BR-05: Qualifying spend between $1,000 and $2,499.99 must assign Gold tier (1.50x multiplier).',
-    what_happened: 'Customer achieved $1,150.00 in 365-day qualifying spend but batch tier evaluator had not triggered.',
-    description: 'Account LOY-CUST-000012 assigned to Bronze despite $1,150 qualifying spend.',
+    severity_reason: 'Customer spend qualified for Platinum tier multiplier but was processed at Gold 1.25x rate',
+    rule_violated: 'BR-05: Qualifying rolling 365-day spend determines tier multiplier.',
+    what_happened: 'Qualifying spend surpassed $2,500 threshold, but tier record did not promote to Platinum before order ORD-9011 accrual.',
+    description: 'Customer CUST-000005 was under-credited 50 pts due to delayed tier promotion.',
     confidence_score: 0.95,
     evidence: {
-      account_id: 'LOY-CUST-000012',
-      qualifying_spend_365d: 1150.00,
-      current_tier: 'TIER-BRONZE',
-      required_tier: 'TIER-GOLD'
+      customer_id: 'CUST-000005',
+      rolling_spend: 2650.00,
+      active_tier: 'GOLD',
+      expected_tier: 'PLATINUM',
+      accrual_discrepancy: 50
     },
     discrepancy_calculation: {
-      tier_drift: 'UNDER_TIERED'
+      under_accrual: 50
     },
-    recommendation: 'Upgrade tier to Gold and award retroactive points differential.'
+    recommendation: 'Compensating ADJUSTMENT_CREDIT of +50 points executed and tier promoted to Platinum.'
   }
 ];
 
-export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user }) => {
-  // Summary & KPIs
-  const [summary, setSummary] = useState<IntelligenceSummary | null>({
+export const AnalystDashboard: React.FC<AnalystDashboardProps> = () => {
+  // Summary KPIs state
+  const [summary, setSummary] = useState<IntelligenceSummary>({
     total_incidents: 5,
     open_incidents: 2,
     investigating_incidents: 2,
@@ -391,7 +389,6 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
   // Inspect Anomaly Forensic Details
   const handleInspectAnomaly = async (incidentId: string) => {
-    // Check locally first
     const found = allAnomalies.find(a => a.incident_id === incidentId);
     if (found) {
       setSelectedAnomaly(found);
@@ -412,61 +409,70 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
   return (
     <div className="space-y-6">
-      {/* Top Banner / Analyst Hub Header */}
-      <div className="bg-navy-950 text-white rounded-xl p-6 shadow-md border border-navy-800">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-navy-800/80 rounded-lg text-platinum-200 border border-navy-700">
-              <BarChart3 className="w-6 h-6 text-lavender-400" />
+      {/* Top Banner / Analyst Hub Header - Pastel Identity */}
+      <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-pastel-lavender rounded-xl text-pastel-dark border border-pastel-border shrink-0">
+              <BarChart3 className="w-6 h-6 text-pastel-lavenderDark" />
             </div>
             <div>
-              <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                Analyst Hub
-                <span className="text-xs px-2 py-0.5 rounded-full bg-lavender-900/60 text-lavender-300 border border-lavender-700">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-xl font-bold tracking-tight text-pastel-dark">
+                  Analyst Hub
+                </h2>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-pastel-lavender text-pastel-lavenderDark border border-pastel-border font-mono font-semibold">
                   LLIRE Intelligence Engine
                 </span>
-              </h2>
-              <p className="text-xs text-platinum-400 mt-1">
+              </div>
+              <p className="text-xs text-pastel-muted mt-1 leading-relaxed">
                 Auditable fraud & accounting anomaly detection, forensic explainability, and ground-truth benchmark metrics.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <button
-              onClick={handleRunDetection}
-              disabled={isRunningDetection}
-              className="px-4 py-2.5 bg-lavender-600 hover:bg-lavender-700 disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center gap-2 transition shadow-sm"
-            >
-              <Play className={`w-3.5 h-3.5 ${isRunningDetection ? 'animate-spin' : ''}`} />
-              {isRunningDetection ? 'Scanning Double-Entry Ledger...' : 'Run LLIRE Detection'}
-            </button>
+          <div className="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-end flex-wrap">
+            <img
+              src="/assets/analyst_radar_visual.svg"
+              alt="LLIRE 5-Detector Radar Matrix"
+              className="h-12 w-auto hidden sm:block object-contain"
+            />
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleRunDetection}
+                disabled={isRunningDetection}
+                className="px-4 py-2 bg-pastel-sage hover:bg-pastel-sage/80 disabled:opacity-50 text-pastel-dark rounded-xl text-xs font-bold flex items-center gap-2 transition border border-pastel-border shadow-xs"
+              >
+                <Play className={`w-3.5 h-3.5 ${isRunningDetection ? 'animate-spin' : ''}`} />
+                {isRunningDetection ? 'Scanning Ledger...' : 'Run LLIRE Detection'}
+              </button>
 
-            <button
-              onClick={handleRunEvaluation}
-              disabled={isLoadingEvaluation}
-              className="px-4 py-2.5 bg-navy-800 hover:bg-navy-700 border border-navy-600 disabled:opacity-50 text-platinum-100 rounded-lg text-xs font-semibold flex items-center gap-2 transition"
-            >
-              <Award className={`w-3.5 h-3.5 text-lavender-400 ${isLoadingEvaluation ? 'animate-spin' : ''}`} />
-              Benchmark Evaluation
-            </button>
+              <button
+                onClick={handleRunEvaluation}
+                disabled={isLoadingEvaluation}
+                className="px-4 py-2 bg-pastel-lavender hover:bg-pastel-lavender/80 border border-pastel-border disabled:opacity-50 text-pastel-dark rounded-xl text-xs font-bold flex items-center gap-2 transition shadow-xs"
+              >
+                <Award className={`w-3.5 h-3.5 text-pastel-lavenderDark ${isLoadingEvaluation ? 'animate-spin' : ''}`} />
+                Benchmark Evaluation
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Detection Run Toast Banner */}
         {detectionResult && (
-          <div className="mt-4 p-3.5 bg-navy-900/90 border border-lavender-700/60 rounded-lg flex items-center justify-between text-xs text-platinum-200">
+          <div className="mt-4 p-3.5 bg-pastel-sage/40 border border-pastel-border rounded-xl flex items-center justify-between text-xs text-pastel-dark">
             <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-pastel-sageDark shrink-0" />
               <span>
-                LLIRE scan completed in {detectionResult.duration_ms || 320}ms. Evaluated <strong>{detectionResult.detectors_run.length} detectors</strong> across double-entry ledger entries. Detected <strong>{detectionResult.total_anomalies_detected} anomalies</strong>.
+                LLIRE scan completed in <strong>{detectionResult.duration_ms || 320}ms</strong>. Evaluated <strong>{detectionResult.detectors_run.length} detectors</strong> across double-entry ledger entries. Detected <strong>{detectionResult.total_anomalies_detected} anomalies</strong>.
               </span>
             </div>
             <button
               onClick={() => setDetectionResult(null)}
-              className="text-platinum-400 hover:text-white"
+              className="text-pastel-muted hover:text-pastel-dark transition ml-2"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         )}
@@ -474,124 +480,124 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
       {/* Global Error Banner */}
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl flex items-center justify-between gap-3 text-rose-800 text-xs">
+        <div className="p-4 bg-pastel-rose/50 border border-pastel-border rounded-xl flex items-center justify-between gap-3 text-pastel-dark text-xs">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <AlertCircle className="w-5 h-5 text-pastel-roseDark shrink-0" />
             <span>{error}</span>
           </div>
-          <button onClick={() => setError(null)} className="text-rose-600 hover:text-rose-900">
+          <button onClick={() => setError(null)} className="text-pastel-muted hover:text-pastel-dark">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
-      {/* KPI Cards Grid */}
+      {/* KPI Cards Grid - Pastel Accents */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="p-4 bg-white rounded-xl border border-platinum-200 shadow-sm">
-          <span className="text-[11px] text-platinum-500 uppercase tracking-wider block font-mono">Total Incidents</span>
-          <span className="text-2xl font-bold font-mono text-navy-950 mt-1 block">
+        <div className="p-4 bg-white rounded-2xl border border-pastel-border shadow-xs">
+          <span className="text-[11px] text-pastel-muted uppercase tracking-wider block font-mono font-medium">Total Incidents</span>
+          <span className="text-2xl font-bold font-mono text-pastel-dark mt-1 block">
             {isLoadingSummary ? '...' : (summary?.total_incidents ?? 5)}
           </span>
-          <span className="text-[10px] text-platinum-400 block mt-1">All detected flags</span>
+          <span className="text-[10px] text-pastel-muted block mt-1">All detected flags</span>
         </div>
 
-        <div className="p-4 bg-white rounded-xl border border-platinum-200 shadow-sm">
-          <span className="text-[11px] text-platinum-500 uppercase tracking-wider block font-mono">Open Findings</span>
-          <span className="text-2xl font-bold font-mono text-amber-600 mt-1 block">
+        <div className="p-4 bg-white rounded-2xl border border-pastel-border shadow-xs">
+          <span className="text-[11px] text-pastel-muted uppercase tracking-wider block font-mono font-medium">Open Findings</span>
+          <span className="text-2xl font-bold font-mono text-pastel-peachDark mt-1 block">
             {isLoadingSummary ? '...' : (summary?.open_incidents ?? 2)}
           </span>
-          <span className="text-[10px] text-platinum-400 block mt-1">Awaiting investigation</span>
+          <span className="text-[10px] text-pastel-muted block mt-1">Awaiting investigation</span>
         </div>
 
-        <div className="p-4 bg-white rounded-xl border border-platinum-200 shadow-sm">
-          <span className="text-[11px] text-platinum-500 uppercase tracking-wider block font-mono">Critical Severity</span>
-          <span className="text-2xl font-bold font-mono text-rose-600 mt-1 block">
+        <div className="p-4 bg-white rounded-2xl border border-pastel-border shadow-xs">
+          <span className="text-[11px] text-pastel-muted uppercase tracking-wider block font-mono font-medium">Critical Severity</span>
+          <span className="text-2xl font-bold font-mono text-pastel-roseDark mt-1 block">
             {isLoadingSummary ? '...' : (summary?.by_severity?.CRITICAL ?? 2)}
           </span>
-          <span className="text-[10px] text-platinum-400 block mt-1">Highest priority</span>
+          <span className="text-[10px] text-pastel-muted block mt-1">Highest priority</span>
         </div>
 
-        <div className="p-4 bg-white rounded-xl border border-platinum-200 shadow-sm">
-          <span className="text-[11px] text-platinum-500 uppercase tracking-wider block font-mono">High Severity</span>
-          <span className="text-2xl font-bold font-mono text-amber-700 mt-1 block">
+        <div className="p-4 bg-white rounded-2xl border border-pastel-border shadow-xs">
+          <span className="text-[11px] text-pastel-muted uppercase tracking-wider block font-mono font-medium">High Severity</span>
+          <span className="text-2xl font-bold font-mono text-pastel-peachDark mt-1 block">
             {isLoadingSummary ? '...' : (summary?.by_severity?.HIGH ?? 2)}
           </span>
-          <span className="text-[10px] text-platinum-400 block mt-1">Material risk</span>
+          <span className="text-[10px] text-pastel-muted block mt-1">Material risk</span>
         </div>
 
-        <div className="p-4 bg-white rounded-xl border border-platinum-200 shadow-sm">
-          <span className="text-[11px] text-platinum-500 uppercase tracking-wider block font-mono">Investigating</span>
-          <span className="text-2xl font-bold font-mono text-lavender-900 mt-1 block">
+        <div className="p-4 bg-white rounded-2xl border border-pastel-border shadow-xs">
+          <span className="text-[11px] text-pastel-muted uppercase tracking-wider block font-mono font-medium">Investigating</span>
+          <span className="text-2xl font-bold font-mono text-pastel-blueDark mt-1 block">
             {isLoadingSummary ? '...' : (summary?.investigating_incidents ?? 2)}
           </span>
-          <span className="text-[10px] text-platinum-400 block mt-1">In flight review</span>
+          <span className="text-[10px] text-pastel-muted block mt-1">In flight review</span>
         </div>
 
-        <div className="p-4 bg-white rounded-xl border border-platinum-200 shadow-sm">
-          <span className="text-[11px] text-platinum-500 uppercase tracking-wider block font-mono">Resolved</span>
-          <span className="text-2xl font-bold font-mono text-emerald-700 mt-1 block">
+        <div className="p-4 bg-white rounded-2xl border border-pastel-border shadow-xs">
+          <span className="text-[11px] text-pastel-muted uppercase tracking-wider block font-mono font-medium">Resolved</span>
+          <span className="text-2xl font-bold font-mono text-pastel-sageDark mt-1 block">
             {isLoadingSummary ? '...' : (summary?.resolved_incidents ?? 1)}
           </span>
-          <span className="text-[10px] text-platinum-400 block mt-1">Compensated & closed</span>
+          <span className="text-[10px] text-pastel-muted block mt-1">Compensated & closed</span>
         </div>
       </div>
 
       {/* Benchmark Evaluation Modal/Banner */}
       {evaluation && (
-        <div className="bg-white border-2 border-lavender-300 rounded-xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <Award className="w-5 h-5 text-lavender-600" />
-              <h3 className="text-base font-bold text-navy-950">
+              <Award className="w-5 h-5 text-pastel-lavenderDark" />
+              <h3 className="text-base font-bold text-pastel-dark">
                 Ground-Truth Benchmark Evaluation Results
               </h3>
             </div>
-            <button onClick={() => setEvaluation(null)} className="text-platinum-400 hover:text-navy-950">
+            <button onClick={() => setEvaluation(null)} className="text-pastel-muted hover:text-pastel-dark transition">
               <X className="w-4 h-4" />
             </button>
           </div>
 
-          <p className="text-xs text-platinum-600">
+          <p className="text-xs text-pastel-muted leading-relaxed">
             Evaluated against deterministic synthetic anomalies seeded in Phase 3. Confirms detection accuracy and zero false positives across all 5 standard detectors.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-center">
-            <div className="p-3 bg-platinum-50 rounded-lg border border-platinum-200">
-              <span className="text-[10px] font-mono text-platinum-500 uppercase block">True Positives</span>
-              <span className="text-xl font-bold font-mono text-emerald-700">{evaluation.aggregate.true_positives}</span>
+            <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+              <span className="text-[10px] font-mono text-pastel-muted uppercase block">True Positives</span>
+              <span className="text-xl font-bold font-mono text-pastel-sageDark">{evaluation.aggregate.true_positives}</span>
             </div>
-            <div className="p-3 bg-platinum-50 rounded-lg border border-platinum-200">
-              <span className="text-[10px] font-mono text-platinum-500 uppercase block">False Positives</span>
-              <span className="text-xl font-bold font-mono text-navy-950">{evaluation.aggregate.false_positives}</span>
+            <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+              <span className="text-[10px] font-mono text-pastel-muted uppercase block">False Positives</span>
+              <span className="text-xl font-bold font-mono text-pastel-dark">{evaluation.aggregate.false_positives}</span>
             </div>
-            <div className="p-3 bg-platinum-50 rounded-lg border border-platinum-200">
-              <span className="text-[10px] font-mono text-platinum-500 uppercase block">False Negatives</span>
-              <span className="text-xl font-bold font-mono text-navy-950">{evaluation.aggregate.false_negatives}</span>
+            <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+              <span className="text-[10px] font-mono text-pastel-muted uppercase block">False Negatives</span>
+              <span className="text-xl font-bold font-mono text-pastel-dark">{evaluation.aggregate.false_negatives}</span>
             </div>
-            <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-              <span className="text-[10px] font-mono text-emerald-800 uppercase block font-semibold">Precision</span>
-              <span className="text-xl font-bold font-mono text-emerald-700">{(evaluation.aggregate.precision * 100).toFixed(1)}%</span>
+            <div className="p-3 bg-pastel-sage/50 rounded-xl border border-pastel-border">
+              <span className="text-[10px] font-mono text-pastel-dark uppercase block font-semibold">Precision</span>
+              <span className="text-xl font-bold font-mono text-pastel-sageDark">{(evaluation.aggregate.precision * 100).toFixed(1)}%</span>
             </div>
-            <div className="p-3 bg-emerald-50 rounded-lg border border-emerald-200">
-              <span className="text-[10px] font-mono text-emerald-800 uppercase block font-semibold">Recall</span>
-              <span className="text-xl font-bold font-mono text-emerald-700">{(evaluation.aggregate.recall * 100).toFixed(1)}%</span>
+            <div className="p-3 bg-pastel-sage/50 rounded-xl border border-pastel-border">
+              <span className="text-[10px] font-mono text-pastel-dark uppercase block font-semibold">Recall</span>
+              <span className="text-xl font-bold font-mono text-pastel-sageDark">{(evaluation.aggregate.recall * 100).toFixed(1)}%</span>
             </div>
-            <div className="p-3 bg-lavender-50 rounded-lg border border-lavender-200">
-              <span className="text-[10px] font-mono text-lavender-800 uppercase block font-semibold">F1-Score</span>
-              <span className="text-xl font-bold font-mono text-lavender-900">{(evaluation.aggregate.f1_score * 100).toFixed(1)}%</span>
+            <div className="p-3 bg-pastel-lavender/50 rounded-xl border border-pastel-border">
+              <span className="text-[10px] font-mono text-pastel-dark uppercase block font-semibold">F1-Score</span>
+              <span className="text-xl font-bold font-mono text-pastel-lavenderDark">{(evaluation.aggregate.f1_score * 100).toFixed(1)}%</span>
             </div>
           </div>
         </div>
       )}
 
       {/* Main Content Area: Findings Data Table & Filters */}
-      <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm space-y-4">
+      <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
         {/* Filters Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-platinum-200 pb-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-pastel-border pb-4">
           <div className="flex items-center gap-2">
-            <Filter className="w-4 h-4 text-platinum-400" />
-            <h3 className="text-sm font-bold text-navy-950">LLIRE Anomaly Incidents</h3>
-            <span className="text-xs text-platinum-500 font-mono">({totalCount} total)</span>
+            <Filter className="w-4 h-4 text-pastel-muted" />
+            <h3 className="text-sm font-bold text-pastel-dark">LLIRE Anomaly Incidents</h3>
+            <span className="text-xs text-pastel-muted font-mono">({totalCount} total)</span>
           </div>
 
           <div className="flex items-center gap-2.5 flex-wrap w-full md:w-auto">
@@ -599,7 +605,7 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-2.5 py-1.5 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500 font-mono bg-white"
+              className="px-2.5 py-1.5 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark font-mono bg-white text-pastel-dark"
             >
               <option value="">All Categories</option>
               <option value="BALANCE_MISMATCH">Balance Mismatch</option>
@@ -613,7 +619,7 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
             <select
               value={severityFilter}
               onChange={(e) => setSeverityFilter(e.target.value)}
-              className="px-2.5 py-1.5 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500 font-mono bg-white"
+              className="px-2.5 py-1.5 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark font-mono bg-white text-pastel-dark"
             >
               <option value="">All Severities</option>
               <option value="CRITICAL">Critical</option>
@@ -626,7 +632,7 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-2.5 py-1.5 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500 font-mono bg-white"
+              className="px-2.5 py-1.5 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark font-mono bg-white text-pastel-dark"
             >
               <option value="">All Statuses</option>
               <option value="DETECTED">Detected</option>
@@ -637,7 +643,7 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
             <button
               onClick={() => loadAnomalies(currentPage)}
-              className="p-1.5 border border-platinum-300 hover:bg-platinum-100 rounded-lg text-platinum-600 transition"
+              className="p-1.5 border border-pastel-border hover:bg-pastel-ivory rounded-xl text-pastel-dark transition"
               title="Refresh findings"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isLoadingAnomalies ? 'animate-spin' : ''}`} />
@@ -647,18 +653,18 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
         {/* Data Table */}
         {isLoadingAnomalies ? (
-          <div className="p-12 text-center text-platinum-500 text-xs flex items-center justify-center gap-2">
-            <RefreshCw className="w-4 h-4 animate-spin text-lavender-600" />
+          <div className="p-12 text-center text-pastel-muted text-xs flex items-center justify-center gap-2">
+            <RefreshCw className="w-4 h-4 animate-spin text-pastel-lavenderDark" />
             Loading LLIRE incidents...
           </div>
         ) : anomalies.length === 0 ? (
-          <div className="p-12 text-center text-platinum-500 text-xs">
+          <div className="p-12 text-center text-pastel-muted text-xs">
             No anomaly incidents match the active filters.
           </div>
         ) : (
-          <div className="border border-platinum-200 rounded-lg overflow-x-auto">
+          <div className="border border-pastel-border rounded-xl overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-platinum-50 border-b border-platinum-200 text-platinum-600 uppercase font-mono text-[10px]">
+              <thead className="bg-pastel-ivory border-b border-pastel-border text-pastel-muted uppercase font-mono text-[10px]">
                 <tr>
                   <th className="px-3 py-2.5">Incident ID</th>
                   <th className="px-3 py-2.5">Issue Type</th>
@@ -669,40 +675,40 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
                   <th className="px-3 py-2.5 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-platinum-100 font-mono">
+              <tbody className="divide-y divide-pastel-border/60 font-mono">
                 {anomalies.map((inc) => (
-                  <tr key={inc.incident_id} className="hover:bg-platinum-50/60 transition">
-                    <td className="px-3 py-2.5 font-bold text-navy-950">
+                  <tr key={inc.incident_id} className="hover:bg-pastel-ivory/50 transition">
+                    <td className="px-3 py-2.5 font-bold text-pastel-dark">
                       {inc.incident_id}
                     </td>
                     <td className="px-3 py-2.5 font-sans">
-                      <span className="font-semibold text-navy-900 block">{String(inc.category || inc.issue_type).replace(/_/g, ' ')}</span>
-                      <span className="text-[10px] text-platinum-500 font-mono truncate max-w-xs block">
+                      <span className="font-semibold text-pastel-dark block">{String(inc.category || inc.issue_type).replace(/_/g, ' ')}</span>
+                      <span className="text-[10px] text-pastel-muted font-mono truncate max-w-xs block">
                         {inc.description || inc.what_happened || 'Automated LLIRE detection'}
                       </span>
                     </td>
                     <td className="px-3 py-2.5 font-sans">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        inc.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800 border border-rose-200' :
-                        inc.severity === 'HIGH' ? 'bg-amber-100 text-amber-800 border border-amber-200' :
-                        inc.severity === 'MEDIUM' ? 'bg-lavender-100 text-lavender-800 border border-lavender-200' :
-                        'bg-platinum-100 text-platinum-700'
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                        inc.severity === 'CRITICAL' ? 'bg-pastel-rose text-pastel-roseDark border border-pastel-border' :
+                        inc.severity === 'HIGH' ? 'bg-pastel-peach text-pastel-peachDark border border-pastel-border' :
+                        inc.severity === 'MEDIUM' ? 'bg-pastel-lavender text-pastel-lavenderDark border border-pastel-border' :
+                        'bg-pastel-ivory text-pastel-dark border border-pastel-border'
                       }`}>
                         {inc.severity}
                       </span>
                     </td>
-                    <td className="px-3 py-2.5 text-platinum-600">
+                    <td className="px-3 py-2.5 text-pastel-muted">
                       {inc.account_id || inc.entity_id || 'System-Wide'}
                     </td>
-                    <td className="px-3 py-2.5 font-bold text-navy-950">
+                    <td className="px-3 py-2.5 font-bold text-pastel-dark">
                       {inc.variance_amount} PTS
                     </td>
                     <td className="px-3 py-2.5 font-sans">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${
-                        inc.status === 'DETECTED' ? 'bg-amber-50 text-amber-800 border border-amber-200' :
-                        inc.status === 'INVESTIGATING' ? 'bg-blue-50 text-blue-800 border border-blue-200' :
-                        inc.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' :
-                        'bg-platinum-100 text-platinum-700'
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-medium ${
+                        inc.status === 'DETECTED' ? 'bg-pastel-peach/60 text-pastel-peachDark border border-pastel-border' :
+                        inc.status === 'INVESTIGATING' ? 'bg-pastel-blue/60 text-pastel-blueDark border border-pastel-border' :
+                        inc.status === 'RESOLVED' ? 'bg-pastel-sage text-pastel-sageDark border border-pastel-border' :
+                        'bg-pastel-ivory text-pastel-muted border border-pastel-border'
                       }`}>
                         {inc.status}
                       </span>
@@ -710,9 +716,9 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
                     <td className="px-3 py-2.5 text-right font-sans">
                       <button
                         onClick={() => handleInspectAnomaly(inc.incident_id)}
-                        className="px-2.5 py-1 text-xs bg-lavender-50 hover:bg-lavender-100 text-lavender-900 border border-lavender-200 rounded-lg flex items-center gap-1 font-semibold ml-auto transition"
+                        className="px-2.5 py-1 text-xs bg-pastel-lavender hover:bg-pastel-lavender/80 text-pastel-dark border border-pastel-border rounded-lg flex items-center gap-1 font-bold ml-auto transition shadow-xs"
                       >
-                        <Eye className="w-3.5 h-3.5" /> Explain
+                        <Eye className="w-3.5 h-3.5 text-pastel-lavenderDark" /> Explain
                       </button>
                     </td>
                   </tr>
@@ -724,20 +730,20 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
         {/* Pagination Bar */}
         {totalPages > 1 && (
-          <div className="flex justify-between items-center pt-2 text-xs text-platinum-600">
+          <div className="flex justify-between items-center pt-2 text-xs text-pastel-muted">
             <span>Page {currentPage} of {totalPages}</span>
             <div className="flex gap-2">
               <button
                 disabled={currentPage <= 1}
                 onClick={() => loadAnomalies(currentPage - 1)}
-                className="px-3 py-1 bg-platinum-100 hover:bg-platinum-200 disabled:opacity-40 rounded text-xs transition"
+                className="px-3 py-1 bg-white hover:bg-pastel-ivory border border-pastel-border disabled:opacity-40 rounded-lg text-xs text-pastel-dark transition"
               >
                 Previous
               </button>
               <button
                 disabled={currentPage >= totalPages}
                 onClick={() => loadAnomalies(currentPage + 1)}
-                className="px-3 py-1 bg-platinum-100 hover:bg-platinum-200 disabled:opacity-40 rounded text-xs transition"
+                className="px-3 py-1 bg-white hover:bg-pastel-ivory border border-pastel-border disabled:opacity-40 rounded-lg text-xs text-pastel-dark transition"
               >
                 Next
               </button>
@@ -748,28 +754,28 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
 
       {/* FORENSIC EXPLAINABILITY MODAL / DRAWER */}
       {selectedAnomaly && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950/60 p-4 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-platinum-200 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-pastel-dark/40 p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-xl border border-pastel-border p-6 space-y-6 animate-in fade-in zoom-in-95 duration-150">
             {/* Header */}
-            <div className="flex justify-between items-start border-b border-platinum-200 pb-4">
+            <div className="flex justify-between items-start border-b border-pastel-border pb-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                    selectedAnomaly.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
-                    selectedAnomaly.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
-                    'bg-lavender-100 text-lavender-800'
+                  <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                    selectedAnomaly.severity === 'CRITICAL' ? 'bg-pastel-rose text-pastel-roseDark border border-pastel-border' :
+                    selectedAnomaly.severity === 'HIGH' ? 'bg-pastel-peach text-pastel-peachDark border border-pastel-border' :
+                    'bg-pastel-lavender text-pastel-lavenderDark border border-pastel-border'
                   }`}>
                     {selectedAnomaly.severity}
                   </span>
-                  <span className="font-mono text-xs text-platinum-500">{selectedAnomaly.incident_id}</span>
+                  <span className="font-mono text-xs text-pastel-muted">{selectedAnomaly.incident_id}</span>
                 </div>
-                <h3 className="text-lg font-bold text-navy-950 mt-1">
+                <h3 className="text-lg font-bold text-pastel-dark mt-1">
                   Forensic Intelligence Breakdown: {String(selectedAnomaly.category || selectedAnomaly.issue_type).replace(/_/g, ' ')}
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedAnomaly(null)}
-                className="p-1 rounded-lg text-platinum-400 hover:text-navy-950 transition"
+                className="p-1 rounded-lg text-pastel-muted hover:text-pastel-dark transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -778,51 +784,51 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
             {/* The 7 Mandatory Explainability Answers */}
             <div className="space-y-4 text-xs">
               {/* 1. What Happened */}
-              <div className="p-3.5 bg-platinum-50 rounded-lg border border-platinum-200">
-                <span className="font-bold text-navy-950 block text-xs mb-1">1. What Happened?</span>
-                <p className="text-platinum-700 leading-relaxed">
+              <div className="p-3.5 bg-pastel-ivory rounded-xl border border-pastel-border">
+                <span className="font-bold text-pastel-dark block text-xs mb-1">1. What Happened?</span>
+                <p className="text-pastel-dark leading-relaxed">
                   {selectedAnomaly.what_happened || selectedAnomaly.description || 'Automated LLIRE detection flagged an accounting anomaly.'}
                 </p>
               </div>
 
               {/* 2. Target Entity & Detector */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3 bg-platinum-50 rounded-lg border border-platinum-200">
-                  <span className="font-bold text-navy-950 block mb-0.5">2. Target Entity</span>
-                  <span className="font-mono text-lavender-900 font-semibold">{selectedAnomaly.account_id || selectedAnomaly.entity_id || 'System-Wide Ledger'}</span>
+                <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                  <span className="font-bold text-pastel-dark block mb-0.5">2. Target Entity</span>
+                  <span className="font-mono text-pastel-lavenderDark font-semibold">{selectedAnomaly.account_id || selectedAnomaly.entity_id || 'System-Wide Ledger'}</span>
                 </div>
-                <div className="p-3 bg-platinum-50 rounded-lg border border-platinum-200">
-                  <span className="font-bold text-navy-950 block mb-0.5">Originating Detector</span>
-                  <span className="font-mono text-platinum-800">{selectedAnomaly.detector_id || selectedAnomaly.detector_name || 'LLIRE-Core'}</span>
+                <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                  <span className="font-bold text-pastel-dark block mb-0.5">Originating Detector</span>
+                  <span className="font-mono text-pastel-dark">{selectedAnomaly.detector_id || selectedAnomaly.detector_name || 'LLIRE-Core'}</span>
                 </div>
               </div>
 
-              {/* 3 & 4. Why Anomalous & Threshold Exceeded */}
-              <div className="p-3.5 bg-lavender-50/60 rounded-lg border border-lavender-200">
-                <span className="font-bold text-navy-950 block mb-1">3. Why Anomalous & 4. Invariant Rule Violated</span>
-                <p className="text-platinum-800 leading-relaxed font-mono text-[11px]">
-                  Rule Violated: <strong className="text-lavender-900">{selectedAnomaly.rule_violated || selectedAnomaly.severity_reason || 'Accounting invariant condition failed.'}</strong>
+              {/* 3 & 4. Why Anomalous & Invariant Rule Violated */}
+              <div className="p-3.5 bg-pastel-lavender/40 rounded-xl border border-pastel-border">
+                <span className="font-bold text-pastel-dark block mb-1">3. Why Anomalous & 4. Invariant Rule Violated</span>
+                <p className="text-pastel-dark leading-relaxed font-mono text-[11px]">
+                  Rule Violated: <strong className="text-pastel-lavenderDark">{selectedAnomaly.rule_violated || selectedAnomaly.severity_reason || 'Accounting invariant condition failed.'}</strong>
                 </p>
               </div>
 
               {/* 5. Financial Exposure */}
-              <div className="p-3 bg-rose-50/50 rounded-lg border border-rose-200">
-                <span className="font-bold text-rose-900 block mb-0.5">5. Variance / Points at Risk</span>
-                <span className="text-base font-bold font-mono text-rose-700">
+              <div className="p-3 bg-pastel-rose/40 rounded-xl border border-pastel-border">
+                <span className="font-bold text-pastel-roseDark block mb-0.5">5. Variance / Points at Risk</span>
+                <span className="text-base font-bold font-mono text-pastel-roseDark">
                   {selectedAnomaly.variance_amount} PTS ({selectedAnomaly.monetary_value_at_risk ? `$${Number(selectedAnomaly.monetary_value_at_risk).toFixed(2)}` : '$' + (Math.abs(Number(selectedAnomaly.variance_amount)) * 0.01).toFixed(2)})
                 </span>
               </div>
 
               {/* 6. Supporting Evidence Payload */}
               <div className="space-y-1">
-                <span className="font-bold text-navy-950 block">6. Forensic Evidence Data Payload</span>
-                <div className="p-3 bg-navy-950 rounded-lg text-platinum-200 font-mono text-[11px] overflow-x-auto max-h-40 border border-navy-800">
+                <span className="font-bold text-pastel-dark block">6. Forensic Evidence Data Payload</span>
+                <div className="p-3.5 bg-pastel-ivory rounded-xl text-pastel-dark font-mono text-[11px] overflow-x-auto max-h-40 border border-pastel-border">
                   <pre>{JSON.stringify(selectedAnomaly.evidence || selectedAnomaly.discrepancy_calculation || {}, null, 2)}</pre>
                 </div>
               </div>
 
-              {/* 7. Recommended Investigation / Remediation Action */}
-              <div className="p-3.5 bg-amber-50/60 rounded-lg border border-amber-200 text-amber-950">
+              {/* 7. Recommended Remediation Action */}
+              <div className="p-3.5 bg-pastel-peach/40 rounded-xl border border-pastel-border text-pastel-dark">
                 <span className="font-bold block mb-1">7. Recommended Remediation Action</span>
                 <p className="leading-relaxed">
                   {selectedAnomaly.recommendation || 'Route to Operations Manager console for dual-key review.'}
@@ -831,10 +837,10 @@ export const AnalystDashboard: React.FC<AnalystDashboardProps> = ({ user: _user 
             </div>
 
             {/* Modal Actions */}
-            <div className="flex justify-end gap-3 pt-2 border-t border-platinum-200">
+            <div className="flex justify-end gap-3 pt-2 border-t border-pastel-border">
               <button
                 onClick={() => setSelectedAnomaly(null)}
-                className="px-4 py-2 bg-platinum-100 hover:bg-platinum-200 text-navy-950 rounded-lg text-xs font-semibold transition"
+                className="px-4 py-2 bg-pastel-sage hover:bg-pastel-sage/80 text-pastel-dark border border-pastel-border rounded-xl text-xs font-bold transition shadow-xs"
               >
                 Close Drawer
               </button>

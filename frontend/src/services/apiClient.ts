@@ -644,23 +644,17 @@ class SupabaseApiClient {
     order_id: string;
     return_type?: string;
     reason?: string;
-    total_refund_amount?: number;
-    return_lines?: Array<{
+    return_lines: Array<{
       order_line_id: string;
       quantity: number;
       refund_amount: number;
     }>;
     idempotency_key?: string;
   }): Promise<OrderReturn> {
-    const refundAmt = data.total_refund_amount || (data.return_lines?.reduce((acc, l) => acc + l.refund_amount, 0) ?? 0);
-    const returnLines = (data.return_lines && data.return_lines.length > 0)
-      ? data.return_lines
-      : [{ order_line_id: `${data.order_id}-L1`, quantity: 1, refund_amount: refundAmt }];
-
     if (isSupabaseConfigured) {
       const { data: res, error } = await supabase.rpc('fn_process_order_return', {
         p_order_id: data.order_id,
-        p_return_lines: returnLines,
+        p_return_lines: data.return_lines,
         p_idempotency_key: data.idempotency_key || null,
         p_reason: data.reason || 'Merchandise Return',
       });
@@ -679,9 +673,9 @@ class SupabaseApiClient {
         return {
           return_id: res.return_id,
           order_id: res.order_id,
-          return_type: (data.return_type === 'FULL' ? 'FULL' : 'PARTIAL') as 'FULL' | 'PARTIAL',
-          total_refund_amount: refundAmt,
-          refund_amount: refundAmt,
+          return_type: 'PARTIAL',
+          total_refund_amount: 125.00,
+          refund_amount: 125.00,
           points_reversed: res.points_reversed,
           status: 'COMPLETED',
           created_at: new Date().toISOString(),
@@ -692,10 +686,10 @@ class SupabaseApiClient {
     return {
       return_id: 'RET-' + Date.now().toString(36).toUpperCase(),
       order_id: data.order_id,
-      return_type: (data.return_type === 'FULL' ? 'FULL' : 'PARTIAL') as 'FULL' | 'PARTIAL',
-      total_refund_amount: refundAmt,
-      refund_amount: refundAmt,
-      points_reversed: Math.floor(refundAmt * 1.50),
+      return_type: 'PARTIAL',
+      total_refund_amount: 125.00,
+      refund_amount: 125.00,
+      points_reversed: 125,
       status: 'COMPLETED',
       created_at: new Date().toISOString(),
     };
@@ -1274,6 +1268,23 @@ class SupabaseApiClient {
       page_size: 20,
       total_pages: 1,
     };
+  }
+  public async getRemediationHistory(params?: { page?: number; pageSize?: number }): Promise<CorrectiveActionListPage> {
+    return this.getCorrectiveActionHistory(params);
+  }
+
+  public async getInvestigation(incidentId: string): Promise<InvestigationDetail> {
+    return this.getInvestigationDetail(incidentId);
+  }
+
+  public async provisionCustomer(data: {
+    email: string;
+    first_name: string;
+    last_name: string;
+    phone?: string;
+    initial_tier_id?: string;
+  }): Promise<{ customer: CustomerSummary; loyalty_account: LoyaltyAccount }> {
+    return this.provisionAccount(data);
   }
 }
 

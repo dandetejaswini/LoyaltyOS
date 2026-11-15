@@ -20,9 +20,9 @@ export const LoadingState: React.FC<LoadingStateProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center p-8 text-center min-h-[220px]">
-      <Loader2 className={`${iconSizes[size]} text-brand-600 animate-spin mb-3`} />
-      <p className="text-sm font-medium text-slate-800">{message}</p>
-      {subtext && <p className="text-xs text-slate-500 mt-1">{subtext}</p>}
+      <Loader2 className={`${iconSizes[size]} text-pastel-lavenderDark animate-spin mb-3`} />
+      <p className="text-sm font-semibold text-pastel-dark">{message}</p>
+      {subtext && <p className="text-xs text-pastel-muted mt-1">{subtext}</p>}
     </div>
   );
 };

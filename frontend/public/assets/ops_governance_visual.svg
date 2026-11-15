@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gov-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EAE2F4"/>
+    </linearGradient>
+  </defs>
+  <rect width="340" height="180" rx="16" fill="url(#gov-grad)" stroke="#E7E6E2" stroke-width="1.5"/>
+  <rect x="24" y="24" width="292" height="42" rx="10" fill="#FFFFFF" stroke="#E7E6E2"/>
+  <text x="40" y="44" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#6B5885">RULE BR-09 DUAL-KEY GOVERNANCE</text>
+  <text x="40" y="58" font-family="Inter, sans-serif" font-size="10" fill="#747C83">Proposer &#8800; Approver Mandate in PostgreSQL</text>
+  <g transform="translate(24, 76)">
+    <rect width="138" height="80" rx="8" fill="#FFFFFF" stroke="#E7E6E2"/>
+    <rect x="12" y="12" width="20" height="20" rx="4" fill="#F8E4DD"/>
+    <text x="22" y="26" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#343B40" text-anchor="middle">K1</text>
+    <text x="38" y="24" font-family="Inter, sans-serif" font-size="9" font-weight="bold" fill="#343B40">Eleanor (Proposer)</text>
+    <text x="12" y="48" font-family="Inter, sans-serif" font-size="8" fill="#747C83">Drafts adjustment</text>
+    <text x="12" y="62" font-family="Inter, sans-serif" font-size="8" fill="#9E5B70">&#10007; Cannot Self-Approve</text>
+  </g>
+  <g transform="translate(178, 76)">
+    <rect width="138" height="80" rx="8" fill="#FFFFFF" stroke="#E7E6E2"/>
+    <rect x="12" y="12" width="20" height="20" rx="4" fill="#DDEBE3"/>
+    <text x="22" y="26" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#343B40" text-anchor="middle">K2</text>
+    <text x="38" y="24" font-family="Inter, sans-serif" font-size="9" font-weight="bold" fill="#343B40">David (Approver)</text>
+    <text x="12" y="48" font-family="Inter, sans-serif" font-size="8" fill="#747C83">Independent review</text>
+    <text x="12" y="62" font-family="Inter, sans-serif" font-size="8" fill="#628975">&#10003; Dual-Key Unlocked</text>
+  </g>
+</svg>

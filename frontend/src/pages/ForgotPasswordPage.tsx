@@ -23,7 +23,6 @@ export const ForgotPasswordPage: React.FC = () => {
     try {
       setIsSubmitting(true);
       if (!isSupabaseConfigured) {
-        // If Supabase credentials are not configured in client environment
         setSuccessMessage('Password reset instructions will be sent if the email exists in LoyaltyOS directory.');
         return;
       }
@@ -47,30 +46,30 @@ export const ForgotPasswordPage: React.FC = () => {
 
   return (
     <PageContainer className="max-w-md py-12">
-      <div className="card-surface p-8 shadow-sm">
+      <div className="bg-white border border-pastel-border rounded-2xl p-8 shadow-xs">
         <div className="text-center mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-lavender-500 to-navy-900 border border-lavender-400/30 flex items-center justify-center mx-auto mb-3 font-bold text-sm text-white shadow-sm">
-            L<span className="text-lavender-300">O</span>
+          <div className="w-12 h-12 rounded-xl bg-pastel-lavender text-pastel-dark border border-pastel-border flex items-center justify-center mx-auto mb-3 font-bold text-base shadow-xs">
+            L<span className="text-pastel-lavenderDark">O</span>
           </div>
-          <h1 className="text-xl font-bold text-navy-950">Reset Password</h1>
-          <p className="text-xs text-platinum-500 mt-1">
+          <h1 className="text-xl font-bold text-pastel-dark">Reset Password</h1>
+          <p className="text-xs text-pastel-muted mt-1 leading-relaxed">
             Enter your verified email to receive a secure password recovery link.
           </p>
         </div>
 
         {errorMessage && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-800 flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 p-3.5 bg-pastel-rose/50 border border-pastel-border rounded-xl text-xs text-pastel-dark flex items-start space-x-2">
+            <AlertCircle className="w-4 h-4 text-pastel-roseDark flex-shrink-0 mt-0.5" />
             <div className="flex-1 leading-relaxed">
-              <span className="font-semibold block">Request Error:</span>
+              <span className="font-semibold block text-pastel-roseDark">Request Error:</span>
               {errorMessage}
             </div>
           </div>
         )}
 
         {successMessage && (
-          <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-xs text-emerald-800 flex items-start space-x-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 p-3.5 bg-pastel-sage/50 border border-pastel-border rounded-xl text-xs text-pastel-dark flex items-start space-x-2">
+            <CheckCircle2 className="w-4 h-4 text-pastel-sageDark flex-shrink-0 mt-0.5" />
             <div className="flex-1 leading-relaxed font-medium">
               {successMessage}
             </div>
@@ -79,9 +78,9 @@ export const ForgotPasswordPage: React.FC = () => {
 
         <form onSubmit={handleResetPassword} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-platinum-700 mb-1">Email Address</label>
+            <label className="block text-xs font-semibold text-pastel-dark mb-1">Email Address</label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-platinum-400 absolute left-3 top-2.5" />
+              <Mail className="w-4 h-4 text-pastel-muted absolute left-3 top-2.5" />
               <input
                 type="email"
                 required
@@ -97,7 +96,7 @@ export const ForgotPasswordPage: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full btn-primary flex items-center justify-center space-x-1.5"
+            className="w-full btn-primary flex items-center justify-center space-x-1.5 shadow-xs"
           >
             {isSubmitting ? (
               <>
@@ -110,8 +109,8 @@ export const ForgotPasswordPage: React.FC = () => {
           </button>
         </form>
 
-        <div className="mt-6 pt-4 border-t border-platinum-200 text-center">
-          <Link to="/sign-in" className="inline-flex items-center gap-1.5 text-xs text-lavender-600 hover:text-lavender-700 font-semibold transition">
+        <div className="mt-6 pt-4 border-t border-pastel-border text-center">
+          <Link to="/sign-in" className="inline-flex items-center gap-1.5 text-xs text-pastel-dark hover:text-pastel-muted font-bold transition">
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to Sign In
           </Link>

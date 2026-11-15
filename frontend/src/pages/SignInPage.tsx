@@ -55,30 +55,96 @@ export const SignInPage: React.FC = () => {
 
   return (
     <PageContainer className="max-w-md">
-      <div className="bg-white border border-platinum-200 rounded-xl p-8 shadow-sm">
+      <div className="bg-white border border-pastel-border rounded-2xl p-8 shadow-xs">
         <div className="text-center mb-6">
-          <div className="w-10 h-10 rounded-lg bg-navy-950 text-white flex items-center justify-center mx-auto mb-3 font-bold text-sm border border-navy-800 shadow-sm">
-            L<span className="text-lavender-400">O</span>
+          <div className="w-10 h-10 rounded-xl bg-pastel-lavender text-pastel-dark flex items-center justify-center mx-auto mb-3 font-extrabold text-sm border border-pastel-border shadow-xs">
+            LO
           </div>
-          <h1 className="text-xl font-bold text-navy-950">Sign in to LoyaltyOS</h1>
-          <p className="text-xs text-platinum-500 mt-1">Intelligent Loyalty & Ledger Management Platform</p>
+          <h1 className="text-xl font-bold text-pastel-dark">Sign In to LoyaltyOS</h1>
+          <p className="text-xs text-pastel-muted mt-1">Access your loyalty ledger or operational dashboard</p>
         </div>
 
         {activeError && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-800 flex items-start space-x-2">
-            <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
-            <div className="flex-1 leading-relaxed">
-              <span className="font-semibold block">Authentication Error:</span>
-              {activeError}
-            </div>
+          <div className="mb-4 p-3 bg-pastel-rose border border-pastel-border text-pastel-dark text-xs rounded-lg flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-pastel-roseDark" />
+            <span>{activeError}</span>
           </div>
         )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="signin-email" className="block text-xs font-semibold text-pastel-dark mb-1">
+              Email Address
+            </label>
+            <div className="relative">
+              <Mail className="w-4 h-4 text-pastel-muted absolute left-3 top-2.5" />
+              <input
+                id="signin-email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="name@company.com"
+                className="input-field pl-9"
+              />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label htmlFor="signin-password" className="text-xs font-semibold text-pastel-dark">
+                Password
+              </label>
+              <Link to="/forgot-password" className="text-[11px] text-pastel-muted hover:text-pastel-dark">
+                Forgot password?
+              </Link>
+            </div>
+            <div className="relative">
+              <Lock className="w-4 h-4 text-pastel-muted absolute left-3 top-2.5" />
+              <input
+                id="signin-password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="input-field pl-9"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting || isLoading}
+            className="btn-primary w-full py-2.5"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin text-pastel-dark" />
+                <span>Signing In...</span>
+              </>
+            ) : (
+              <span>Sign In with Email</span>
+            )}
+          </button>
+        </form>
+
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-pastel-border" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-2 text-pastel-muted text-[10px] tracking-wider font-semibold">
+              Or continue with
+            </span>
+          </div>
+        </div>
 
         <button
           type="button"
           onClick={handleGoogleSignIn}
           disabled={isSubmitting || isLoading}
-          className="w-full mb-4 py-2 px-4 border border-platinum-300 rounded-lg text-xs font-semibold text-platinum-800 bg-white hover:bg-platinum-50 transition flex items-center justify-center space-x-2 shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-outline w-full py-2.5 flex items-center justify-center gap-2"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path
@@ -98,88 +164,15 @@ export const SignInPage: React.FC = () => {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
             />
           </svg>
-          <span>Continue with Google</span>
+          <span className="text-xs font-semibold text-pastel-dark">Sign In with Google</span>
         </button>
 
-        <div className="relative mb-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-platinum-200"></div>
-          </div>
-          <div className="relative flex justify-center text-xs">
-            <span className="px-2 bg-white text-platinum-400 font-medium">Or continue with email</span>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-semibold text-platinum-700 mb-1">Email Address</label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-platinum-400 absolute left-3 top-2.5" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@example.com"
-                disabled={isSubmitting || isLoading}
-                className="input-field pl-9"
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="text-xs font-semibold text-platinum-700">Password</label>
-              <Link to="/forgot-password" className="text-xs text-lavender-600 hover:text-lavender-700 font-medium">
-                Forgot password?
-              </Link>
-            </div>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-platinum-400 absolute left-3 top-2.5" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                disabled={isSubmitting || isLoading}
-                className="input-field pl-9"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting || isLoading}
-            className="w-full btn-primary flex items-center justify-center space-x-1"
-          >
-            {isSubmitting || isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin mr-1" />
-                <span>Signing In...</span>
-              </>
-            ) : (
-              <span>Sign In</span>
-            )}
-          </button>
-        </form>
-
-        <div className="mt-6 pt-4 border-t border-platinum-200 text-center space-y-3">
-          <p className="text-xs text-platinum-600">
-            Don't have an account?{' '}
-            <Link to="/sign-up" className="text-lavender-600 hover:text-lavender-700 font-semibold">
-              Register here
-            </Link>
-          </p>
-          <div className="pt-2">
-            <Link
-              to="/workspace"
-              className="inline-flex items-center justify-center w-full px-3 py-2 text-xs font-semibold text-navy-800 bg-lavender-50 hover:bg-lavender-100 rounded-lg border border-lavender-200 transition"
-            >
-              Explore Interactive Workspace (Demo Evaluation)
-            </Link>
-          </div>
-        </div>
+        <p className="mt-6 text-center text-xs text-pastel-muted">
+          Don't have an account?{' '}
+          <Link to="/sign-up" className="text-pastel-dark font-semibold hover:underline">
+            Register here
+          </Link>
+        </p>
       </div>
     </PageContainer>
   );

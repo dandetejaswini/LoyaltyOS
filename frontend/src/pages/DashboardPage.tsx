@@ -36,7 +36,8 @@ export const DashboardPage: React.FC = () => {
       label: 'Customer Portal',
       persona: 'Alice Walker',
       roleDesc: 'Loyalty Member (Gold)',
-      icon: <Wallet className="w-4 h-4" />
+      icon: <Wallet className="w-4 h-4 text-pastel-dark" />,
+      activeColor: 'bg-pastel-lavender text-pastel-dark border-pastel-border font-bold'
     },
     {
       id: 'operator' as const,
@@ -44,7 +45,8 @@ export const DashboardPage: React.FC = () => {
       label: 'Store Operator Desk',
       persona: 'Marcus Brody',
       roleDesc: 'Point-of-Sale Specialist',
-      icon: <Store className="w-4 h-4" />
+      icon: <Store className="w-4 h-4 text-pastel-dark" />,
+      activeColor: 'bg-pastel-blue text-pastel-dark border-pastel-border font-bold'
     },
     {
       id: 'analyst' as const,
@@ -52,7 +54,8 @@ export const DashboardPage: React.FC = () => {
       label: 'Risk & Fraud Analyst Hub',
       persona: 'Sarah Chen',
       roleDesc: 'Forensic Auditor (LLIRE)',
-      icon: <BarChart3 className="w-4 h-4" />
+      icon: <BarChart3 className="w-4 h-4 text-pastel-dark" />,
+      activeColor: 'bg-pastel-peach text-pastel-dark border-pastel-border font-bold'
     },
     {
       id: 'ops_manager' as const,
@@ -60,7 +63,8 @@ export const DashboardPage: React.FC = () => {
       label: 'Operations Manager Console',
       persona: opsMgrIndex === 1 ? 'Eleanor Vance (Proposer)' : 'David Ross (Approver)',
       roleDesc: 'Dual-Key Authority',
-      icon: <ShieldAlert className="w-4 h-4" />
+      icon: <ShieldAlert className="w-4 h-4 text-pastel-dark" />,
+      activeColor: 'bg-pastel-sage text-pastel-dark border-pastel-border font-bold'
     }
   ];
 
@@ -107,19 +111,19 @@ export const DashboardPage: React.FC = () => {
       subtitle="Interactive multi-persona portal for double-entry ledger oversight, customer redemption, LLIRE fraud intelligence, and dual-key remediation."
     >
       {/* Unified Perspective Switcher Header */}
-      <div className="bg-white border border-platinum-200 rounded-xl p-4 sm:p-5 mb-6 shadow-sm">
+      <div className="bg-white border border-pastel-border rounded-2xl p-4 sm:p-5 mb-6 shadow-xs">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Sparkles className="w-3.5 h-3.5 text-lavender-600" />
-              <span className="text-[11px] font-bold uppercase tracking-wider text-platinum-600 font-mono">
-                Select Workspace Perspective:
+              <Sparkles className="w-3.5 h-3.5 text-pastel-lavenderDark" />
+              <span className="text-[11px] font-bold uppercase tracking-wider text-pastel-muted font-mono">
+                Workspace Persona Switcher:
               </span>
             </div>
             <div className="flex items-center gap-2 text-xs">
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span className="text-platinum-700">
-                Active Perspective: <strong className="text-navy-950 font-semibold">{currentPerspective?.persona}</strong> &bull; <span className="text-platinum-500">{currentPerspective?.roleDesc}</span>
+              <span className="inline-block w-2 h-2 rounded-full bg-pastel-sageDark"></span>
+              <span className="text-pastel-dark font-medium">
+                Active Perspective: <strong className="text-pastel-dark font-bold">{currentPerspective?.persona}</strong> &bull; <span className="text-pastel-muted">{currentPerspective?.roleDesc}</span>
               </span>
             </div>
           </div>
@@ -132,10 +136,10 @@ export const DashboardPage: React.FC = () => {
                 <button
                   key={p.id}
                   onClick={() => handleSelectPerspective(p.id, p.role)}
-                  className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition border ${
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs transition border ${
                     isSelected
-                      ? 'bg-navy-900 text-white border-navy-900 shadow-sm'
-                      : 'bg-platinum-50 text-platinum-700 border-platinum-200 hover:bg-platinum-100 hover:text-navy-950'
+                      ? p.activeColor + ' shadow-xs'
+                      : 'bg-white text-pastel-dark border-pastel-border hover:bg-pastel-ivory'
                   }`}
                 >
                   {p.icon}
@@ -148,28 +152,28 @@ export const DashboardPage: React.FC = () => {
 
         {/* Dual-Key Segregation Switcher for Ops Manager */}
         {activeTab === 'ops_manager' && (
-          <div className="mt-4 pt-3 border-t border-platinum-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs bg-lavender-50/50 -mx-4 -mb-4 p-4 rounded-b-xl">
-            <div className="flex items-center gap-2 text-platinum-700">
-              <UserCheck className="w-4 h-4 text-lavender-700" />
+          <div className="mt-4 pt-3.5 border-t border-pastel-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs bg-pastel-lavender/30 -mx-4 -mb-4 p-4 rounded-b-2xl">
+            <div className="flex items-center gap-2 text-pastel-dark">
+              <UserCheck className="w-4 h-4 text-pastel-lavenderDark" />
               <span><strong>BR-09 Dual-Key Segregation:</strong> Switch between Manager 1 (Proposer) and Manager 2 (Approver) to review and approve actions.</span>
             </div>
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={() => handleToggleOpsMgr(1)}
-                className={`px-3 py-1 rounded text-xs font-semibold transition border ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition border ${
                   opsMgrIndex === 1
-                    ? 'bg-lavender-600 text-white border-lavender-600 shadow-sm'
-                    : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
+                    ? 'bg-pastel-peach text-pastel-dark border-pastel-border shadow-xs'
+                    : 'bg-white text-pastel-dark border-pastel-border hover:bg-pastel-ivory'
                 }`}
               >
                 Eleanor (Proposer)
               </button>
               <button
                 onClick={() => handleToggleOpsMgr(2)}
-                className={`px-3 py-1 rounded text-xs font-semibold transition border ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition border ${
                   opsMgrIndex === 2
-                    ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                    : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
+                    ? 'bg-pastel-sage text-pastel-dark border-pastel-border shadow-xs'
+                    : 'bg-white text-pastel-dark border-pastel-border hover:bg-pastel-ivory'
                 }`}
               >
                 David (Approver)
@@ -181,9 +185,9 @@ export const DashboardPage: React.FC = () => {
 
       {/* Role-Specific Dashboard View */}
       {isLoading ? (
-        <div className="bg-white border border-platinum-200 rounded-xl p-12 text-center text-platinum-500 text-xs flex items-center justify-center gap-2">
-          <RefreshCw className="w-4 h-4 animate-spin text-lavender-600" />
-          Synchronizing role session...
+        <div className="bg-white border border-pastel-border rounded-2xl p-12 text-center text-pastel-muted text-xs flex items-center justify-center gap-2">
+          <RefreshCw className="w-4 h-4 animate-spin text-pastel-lavenderDark" />
+          <span>Synchronizing role session...</span>
         </div>
       ) : (
         <div>

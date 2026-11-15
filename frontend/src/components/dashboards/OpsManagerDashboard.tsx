@@ -120,92 +120,59 @@ const SEED_ACTION_HISTORY: CorrectiveAction[] = [
     approval_status: 'APPROVED',
     execution_status: 'EXECUTED',
     proposed_by: 'USR-MGR-001',
-    proposed_at: new Date(Date.now() - 3600000 * 24).toISOString(),
     approver_id: 'USR-MGR-002',
     reviewed_by: 'David Ross',
-    compensating_transaction_id: 'TX-ADJ-9901'
+    compensating_transaction_id: 'TX-COMP-882104',
+    proposed_at: new Date(Date.now() - 3600000 * 24).toISOString()
   }
 ];
 
 export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }) => {
-  // Navigation sub-tabs
+  // Navigation tabs within Operations Console
   const [activeTab, setActiveTab] = useState<'queue' | 'workspace' | 'approvals' | 'history'>('queue');
 
-  // Queue state
+  // Case / Findings State
   const [openFindings, setOpenFindings] = useState<AnomalyDetail[]>(SEED_OPEN_FINDINGS);
+  const [activeIncidentId, setActiveIncidentId] = useState<string | null>(null);
+  const [investigationDetail, setInvestigationDetail] = useState<InvestigationDetail | null>(null);
 
-  // Active Investigation Workspace state
-  const [activeIncidentId, setActiveIncidentId] = useState<string | null>('INC-2026-002');
-  const [investigationDetail, setInvestigationDetail] = useState<InvestigationDetail | null>({
-    incident_id: 'INC-2026-002',
-    issue_type: 'BALANCE_MISMATCH',
-    investigation_state: 'IN_REVIEW',
-    status: 'INVESTIGATING',
-    entity_id: 'ACC-LOY-0004',
-    entity_type: 'LOYALTY_ACCOUNT',
-    variance_amount: -250,
-    created_at: new Date(Date.now() - 3600000 * 5).toISOString(),
-    incident_details: {
-      account_id: 'LOY-CUST-000004',
-      stored_balance: 1200,
-      reconciled_sum: 1450,
-      drift: -250,
-      rule: 'BR-01 Double-Entry Balance Invariant'
-    },
-    notes_history: [
-      {
-        author: 'Eleanor Vance (Operations Director)',
-        timestamp: new Date(Date.now() - 3600000 * 3).toISOString(),
-        note: 'Opened case. Confirmed ledger drift on account LOY-CUST-000004 after reviewing raw journal entries.'
-      }
-    ]
-  });
-  const [newNote, setNewNote] = useState<string>('');
-  const [isAddingNote, setIsAddingNote] = useState<boolean>(false);
-
-  // Propose Correction Form state
+  // Proposal Form State
   const [actionType, setActionType] = useState<string>('ADJUSTMENT_CREDIT');
   const [proposedPoints, setProposedPoints] = useState<number>(250);
-  const [proposalReason, setProposalReason] = useState<string>('Compensating credit of +250 points to resolve verified ledger drift.');
+  const [proposalReason, setProposalReason] = useState<string>('');
   const [isSubmittingProposal, setIsSubmittingProposal] = useState<boolean>(false);
 
-  // Approvals Queue state
+  // Pending Approvals & Remediation History
   const [pendingApprovals, setPendingApprovals] = useState<CorrectiveAction[]>(SEED_PENDING_APPROVALS);
+  const [actionHistory, setActionHistory] = useState<CorrectiveAction[]>(SEED_ACTION_HISTORY);
 
-  // Review Modal state
+  // Review Modal State
   const [selectedProposal, setSelectedProposal] = useState<CorrectiveAction | null>(null);
   const [reviewDecision, setReviewDecision] = useState<'APPROVED' | 'REJECTED'>('APPROVED');
-  const [reviewNotes, setReviewNotes] = useState<string>('Verified audit evidence and approved compensating ledger transaction.');
+  const [reviewNotes, setReviewNotes] = useState<string>('Verified audit report and approved compensating transaction.');
   const [rejectionReason, setRejectionReason] = useState<string>('');
   const [isSubmittingReview, setIsSubmittingReview] = useState<boolean>(false);
 
-  // History state
-  const [actionHistory, setActionHistory] = useState<CorrectiveAction[]>(SEED_ACTION_HISTORY);
+  // Real-time Notes
+  const [newNote, setNewNote] = useState<string>('');
+  const [isAddingNote, setIsAddingNote] = useState<boolean>(false);
 
-  // Post-Remediation Reconciliation Verification state
-  const [verifiedReconciliation, setVerifiedReconciliation] = useState<ReconciliationReport | null>({
-    account_id: 'LOY-CUST-000004',
-    customer_id: 'CUST-000004',
-    stored_balance: 1450,
-    ledger_derived_balance: 1450,
-    discrepancy_amount: 0,
-    is_reconciled: true,
-    status: 'RECONCILED',
-    breakdown: { credits: 2200, debits: 750 },
-    evaluation_time: new Date().toISOString()
-  });
-
-  // Error & Status alerts
+  // Feedback states
   const [error, setError] = useState<string | null>(null);
   const [successBanner, setSuccessBanner] = useState<string | null>(null);
+
+  // Post-remediation verification
+  const [verifiedReconciliation, setVerifiedReconciliation] = useState<ReconciliationReport | null>(null);
 
   // Load Open Findings
   const loadOpenFindings = async () => {
     try {
-      const data = await apiClient.getFindingsAwaitingInvestigation({ status: 'OPEN' });
-      if (data && data.length > 0) setOpenFindings(data);
+      const res = await apiClient.getAnomalies({ status: 'DETECTED', pageSize: 10 });
+      if (res && res.items && res.items.length > 0) {
+        setOpenFindings(res.items);
+      }
     } catch {
-      // Keep seed findings
+      // Use fallback
     }
   };
 
@@ -213,87 +180,82 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
   const loadPendingApprovals = async () => {
     try {
       const res = await apiClient.getPendingApprovals();
-      if (res && res.items && res.items.length > 0) setPendingApprovals(res.items);
-    } catch {
-      // Keep seed approvals
-    }
-  };
-
-  // Load Action History
-  const loadHistory = async () => {
-    try {
-      const res = await apiClient.getCorrectiveActionHistory();
-      if (res && res.items && res.items.length > 0) setActionHistory(res.items);
-    } catch {
-      // Keep seed history
-    }
-  };
-
-  // Load Investigation Details
-  const loadInvestigation = async (incidentId: string) => {
-    setError(null);
-    try {
-      const detail = await apiClient.getInvestigationDetail(incidentId);
-      if (detail) {
-        setInvestigationDetail(detail);
-        setActiveIncidentId(incidentId);
-        return;
+      if (res && res.items && res.items.length > 0) {
+        setPendingApprovals(res.items);
       }
     } catch {
-      // Fallback
+      // Use fallback
     }
-
-    const finding = openFindings.find(f => f.incident_id === incidentId) || SEED_OPEN_FINDINGS[0];
-    setInvestigationDetail({
-      incident_id: finding.incident_id,
-      issue_type: String(finding.category || finding.issue_type),
-      investigation_state: 'IN_REVIEW',
-      status: 'INVESTIGATING',
-      entity_id: finding.account_id || finding.entity_id || 'ACC-LOY-0004',
-      entity_type: finding.entity_type || 'LOYALTY_ACCOUNT',
-      variance_amount: Number(finding.variance_amount) || 0,
-      created_at: finding.created_at || new Date().toISOString(),
-      incident_details: finding.evidence || {
-        account_id: finding.account_id,
-        rule_violated: finding.rule_violated,
-        description: finding.description
-      },
-      notes_history: [
-        {
-          author: user.full_name || 'Eleanor Vance',
-          timestamp: new Date().toISOString(),
-          note: `Investigation opened for ${finding.incident_id}. Reviewing journal evidence.`
-        }
-      ]
-    });
-    setActiveIncidentId(incidentId);
   };
 
-  // Start Investigation Action
-  const handleStartInvestigation = async (incidentId: string) => {
+  // Load Compensating Ledger History
+  const loadHistory = async () => {
     try {
-      await apiClient.startInvestigation(incidentId, {
-        investigator_id: user.id,
-        notes: `Investigation opened by ${user.full_name || user.email}`
-      });
+      const res = await apiClient.getRemediationHistory();
+      if (res && res.items && res.items.length > 0) {
+        setActionHistory(res.items);
+      }
     } catch {
-      // Local fallback
+      // Use fallback
     }
-    await loadInvestigation(incidentId);
-    setActiveTab('workspace');
-    setSuccessBanner(`Investigation opened for incident ${incidentId}.`);
   };
 
-  // Add Note to Investigation
+  // Start or Open Investigation Case
+  const handleStartInvestigation = async (incidentId: string) => {
+    setActiveIncidentId(incidentId);
+    setError(null);
+    try {
+      let detail: InvestigationDetail | null = null;
+      try {
+        detail = await apiClient.getInvestigation(incidentId);
+      } catch {
+        // Fallback simulation
+      }
+
+      if (!detail) {
+        const finding = openFindings.find(f => f.incident_id === incidentId) || SEED_OPEN_FINDINGS[0];
+        detail = {
+          incident_id: incidentId,
+          investigation_state: 'IN_REVIEW',
+          investigator_id: user.id || 'USR-MGR-001',
+          issue_type: String(finding.issue_type || finding.category || 'ACCOUNTING_DISCREPANCY'),
+          entity_id: finding.entity_id,
+          entity_type: finding.entity_type,
+          variance_amount: finding.variance_amount,
+          status: 'INVESTIGATING',
+          incident_details: finding.evidence || {},
+          created_at: new Date().toISOString(),
+          notes_history: [
+            {
+              author: 'Sarah Chen (Analyst)',
+              timestamp: finding.created_at,
+              note: `Automated detection triggered: ${finding.rule_violated || finding.description}`
+            }
+          ]
+        };
+      }
+
+      setInvestigationDetail(detail);
+      setProposalReason(`Compensating entry to reconcile discrepancy for incident ${incidentId}.`);
+      setProposedPoints(Math.abs(Number(detail?.variance_amount ?? 250)) || 250);
+      setActiveTab('workspace');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to initialize investigation workspace.';
+      setError(msg);
+    }
+  };
+
+  // Add Investigator Note
   const handleAddNote = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!activeIncidentId || !newNote.trim()) return;
+
     setIsAddingNote(true);
     try {
       try {
         await apiClient.addInvestigationNote(activeIncidentId, newNote.trim());
       } catch {
-        // Local simulation
+        // Fallback
       }
 
       if (investigationDetail) {
@@ -436,60 +398,67 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
   return (
     <div className="space-y-6">
-      {/* Top Banner / Ops Manager Console Identity */}
-      <div className="bg-navy-950 text-white rounded-xl p-6 shadow-md border border-navy-800">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-3 bg-navy-800/80 rounded-lg text-platinum-200 border border-navy-700">
-              <ShieldAlert className="w-6 h-6 text-lavender-400" />
+      {/* Top Banner / Ops Manager Console Identity - Pastel Theme */}
+      <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-pastel-sage rounded-xl text-pastel-dark border border-pastel-border shrink-0">
+              <ShieldAlert className="w-6 h-6 text-pastel-sageDark" />
             </div>
             <div>
-              <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                Operations Manager Console
-                <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-900/60 text-emerald-300 border border-emerald-700 font-mono">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="text-xl font-bold tracking-tight text-pastel-dark">
+                  Operations Manager Console
+                </h2>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-pastel-sage text-pastel-sageDark border border-pastel-border font-mono font-semibold">
                   Dual-Key Governance Enforced
                 </span>
-              </h2>
-              <p className="text-xs text-platinum-400 mt-1">
-                Active Investigator: <strong className="text-lavender-300 font-mono">{user.full_name || user.email}</strong> &bull; Non-self-approval rule strictly verified.
+              </div>
+              <p className="text-xs text-pastel-muted mt-1 leading-relaxed">
+                Active Investigator: <strong className="text-pastel-dark font-mono">{user.full_name || user.email}</strong> &bull; Non-self-approval rule (BR-09) strictly verified.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-end flex-wrap">
+            <img
+              src="/assets/ops_governance_visual.svg"
+              alt="BR-09 Dual-Key Segregation"
+              className="h-12 w-auto hidden sm:block object-contain"
+            />
             <button
               onClick={() => {
                 loadOpenFindings();
                 loadPendingApprovals();
                 loadHistory();
               }}
-              className="px-3.5 py-2 bg-navy-800 hover:bg-navy-700 border border-navy-700 text-platinum-100 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition"
+              className="px-3.5 py-2 bg-white hover:bg-pastel-ivory border border-pastel-border text-pastel-dark rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-xs"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-lavender-400" />
+              <RefreshCw className="w-3.5 h-3.5 text-pastel-muted" />
               Refresh Console
             </button>
           </div>
         </div>
 
         {/* Console KPI Status Bar */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-4 border-t border-navy-800/80">
-          <div>
-            <span className="text-[10px] text-platinum-400 uppercase font-mono block">Awaiting Investigation</span>
-            <span className="text-xl font-bold font-mono text-amber-400 mt-0.5 block">{openFindings.length}</span>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-4 border-t border-pastel-border">
+          <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+            <span className="text-[10px] text-pastel-muted uppercase font-mono block font-medium">Awaiting Investigation</span>
+            <span className="text-xl font-bold font-mono text-pastel-peachDark mt-0.5 block">{openFindings.length}</span>
           </div>
-          <div>
-            <span className="text-[10px] text-platinum-400 uppercase font-mono block">Pending Dual-Key Approvals</span>
-            <span className="text-xl font-bold font-mono text-lavender-300 mt-0.5 block">{pendingApprovals.length}</span>
+          <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+            <span className="text-[10px] text-pastel-muted uppercase font-mono block font-medium">Pending Dual-Key Approvals</span>
+            <span className="text-xl font-bold font-mono text-pastel-lavenderDark mt-0.5 block">{pendingApprovals.length}</span>
           </div>
-          <div>
-            <span className="text-[10px] text-platinum-400 uppercase font-mono block">Executed Compensations</span>
-            <span className="text-xl font-bold font-mono text-emerald-400 mt-0.5 block">
+          <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+            <span className="text-[10px] text-pastel-muted uppercase font-mono block font-medium">Executed Compensations</span>
+            <span className="text-xl font-bold font-mono text-pastel-sageDark mt-0.5 block">
               {actionHistory.filter(a => a.execution_status === 'EXECUTED' || a.approval_status === 'APPROVED').length}
             </span>
           </div>
-          <div>
-            <span className="text-[10px] text-platinum-400 uppercase font-mono block">Two-Person Invariant</span>
-            <span className="text-xs font-bold text-emerald-400 mt-1 block flex items-center gap-1">
+          <div className="p-3 bg-pastel-sage/40 rounded-xl border border-pastel-border">
+            <span className="text-[10px] text-pastel-dark uppercase font-mono block font-semibold">Two-Person Invariant</span>
+            <span className="text-xs font-bold text-pastel-sageDark mt-1 block flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" /> Strict Non-Self-Approval
             </span>
           </div>
@@ -498,43 +467,43 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
       {/* Notifications / Alerts */}
       {successBanner && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-emerald-900 text-xs">
+        <div className="p-4 bg-pastel-sage/50 border border-pastel-border rounded-2xl flex items-center justify-between text-pastel-dark text-xs">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+            <CheckCircle2 className="w-5 h-5 text-pastel-sageDark shrink-0" />
             <span className="font-semibold">{successBanner}</span>
           </div>
-          <button onClick={() => setSuccessBanner(null)} className="text-emerald-700 hover:text-emerald-950">
+          <button onClick={() => setSuccessBanner(null)} className="text-pastel-muted hover:text-pastel-dark">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl flex items-center justify-between text-rose-900 text-xs">
+        <div className="p-4 bg-pastel-rose/50 border border-pastel-border rounded-2xl flex items-center justify-between text-pastel-dark text-xs">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+            <AlertCircle className="w-5 h-5 text-pastel-roseDark shrink-0" />
             <span className="font-semibold">{error}</span>
           </div>
-          <button onClick={() => setError(null)} className="text-rose-700 hover:text-rose-950">
+          <button onClick={() => setError(null)} className="text-pastel-muted hover:text-pastel-dark">
             <X className="w-4 h-4" />
           </button>
         </div>
       )}
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex border-b border-platinum-200 space-x-1 overflow-x-auto">
+      <div className="flex border-b border-pastel-border space-x-1 overflow-x-auto">
         <button
           onClick={() => setActiveTab('queue')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition ${
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition rounded-t-xl ${
             activeTab === 'queue'
-              ? 'border-lavender-600 text-navy-950 bg-lavender-50/60 font-semibold'
-              : 'border-transparent text-platinum-500 hover:text-navy-950 hover:border-platinum-300'
+              ? 'border-pastel-lavenderDark text-pastel-dark bg-pastel-lavender/40 font-bold'
+              : 'border-transparent text-pastel-muted hover:text-pastel-dark hover:bg-pastel-ivory'
           }`}
         >
           <Clock className="w-4 h-4" />
           Investigation Queue
           {openFindings.length > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold font-mono">
+            <span className="px-1.5 py-0.5 rounded-full bg-pastel-peach text-pastel-peachDark text-[10px] font-bold font-mono border border-pastel-border">
               {openFindings.length}
             </span>
           )}
@@ -542,16 +511,16 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
         <button
           onClick={() => setActiveTab('workspace')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition ${
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition rounded-t-xl ${
             activeTab === 'workspace'
-              ? 'border-lavender-600 text-navy-950 bg-lavender-50/60 font-semibold'
-              : 'border-transparent text-platinum-500 hover:text-navy-950 hover:border-platinum-300'
+              ? 'border-pastel-lavenderDark text-pastel-dark bg-pastel-lavender/40 font-bold'
+              : 'border-transparent text-pastel-muted hover:text-pastel-dark hover:bg-pastel-ivory'
           }`}
         >
           <FileCheck className="w-4 h-4" />
           Case Workspace & Proposal
           {activeIncidentId && (
-            <span className="px-1.5 py-0.5 rounded-full bg-lavender-100 text-lavender-900 text-[10px] font-bold font-mono">
+            <span className="px-1.5 py-0.5 rounded-full bg-pastel-lavender text-pastel-lavenderDark text-[10px] font-bold font-mono border border-pastel-border">
               Active: {activeIncidentId}
             </span>
           )}
@@ -559,16 +528,16 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
         <button
           onClick={() => setActiveTab('approvals')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition ${
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition rounded-t-xl ${
             activeTab === 'approvals'
-              ? 'border-lavender-600 text-navy-950 bg-lavender-50/60 font-semibold'
-              : 'border-transparent text-platinum-500 hover:text-navy-950 hover:border-platinum-300'
+              ? 'border-pastel-lavenderDark text-pastel-dark bg-pastel-lavender/40 font-bold'
+              : 'border-transparent text-pastel-muted hover:text-pastel-dark hover:bg-pastel-ivory'
           }`}
         >
           <UserCheck className="w-4 h-4" />
           Dual-Key Pending Approvals
           {pendingApprovals.length > 0 && (
-            <span className="px-1.5 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold font-mono">
+            <span className="px-1.5 py-0.5 rounded-full bg-pastel-rose text-pastel-roseDark text-[10px] font-bold font-mono border border-pastel-border">
               {pendingApprovals.length}
             </span>
           )}
@@ -576,10 +545,10 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
         <button
           onClick={() => setActiveTab('history')}
-          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition ${
+          className={`flex items-center gap-2 px-4 py-2.5 text-xs font-medium border-b-2 whitespace-nowrap transition rounded-t-xl ${
             activeTab === 'history'
-              ? 'border-lavender-600 text-navy-950 bg-lavender-50/60 font-semibold'
-              : 'border-transparent text-platinum-500 hover:text-navy-950 hover:border-platinum-300'
+              ? 'border-pastel-lavenderDark text-pastel-dark bg-pastel-lavender/40 font-bold'
+              : 'border-transparent text-pastel-muted hover:text-pastel-dark hover:bg-pastel-ivory'
           }`}
         >
           <RotateCcw className="w-4 h-4" />
@@ -589,20 +558,20 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
       {/* TAB 1: INVESTIGATION QUEUE */}
       {activeTab === 'queue' && (
-        <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-base font-semibold text-navy-950">Findings Awaiting Investigation</h3>
-              <p className="text-xs text-platinum-600 mt-1">
+              <h3 className="text-base font-bold text-pastel-dark">Findings Awaiting Investigation</h3>
+              <p className="text-xs text-pastel-muted mt-1">
                 Anomalies detected by LLIRE requiring formal assignment and forensic investigation.
               </p>
             </div>
-            <span className="text-xs font-mono text-platinum-500">{openFindings.length} open cases</span>
+            <span className="text-xs font-mono text-pastel-muted font-medium">{openFindings.length} open cases</span>
           </div>
 
-          <div className="border border-platinum-200 rounded-lg overflow-x-auto">
+          <div className="border border-pastel-border rounded-xl overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-platinum-50 border-b border-platinum-200 text-platinum-600 uppercase font-mono text-[10px]">
+              <thead className="bg-pastel-ivory border-b border-pastel-border text-pastel-muted uppercase font-mono text-[10px]">
                 <tr>
                   <th className="px-3 py-2.5">Incident ID</th>
                   <th className="px-3 py-2.5">Category / Issue</th>
@@ -612,30 +581,30 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                   <th className="px-3 py-2.5 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-platinum-100 font-mono">
+              <tbody className="divide-y divide-pastel-border/60 font-mono">
                 {openFindings.map((finding) => (
-                  <tr key={finding.incident_id} className="hover:bg-platinum-50/50">
-                    <td className="px-3 py-2.5 font-bold text-navy-950">{finding.incident_id}</td>
-                    <td className="px-3 py-2.5 font-sans font-semibold text-navy-900">
+                  <tr key={finding.incident_id} className="hover:bg-pastel-ivory/50 transition">
+                    <td className="px-3 py-2.5 font-bold text-pastel-dark">{finding.incident_id}</td>
+                    <td className="px-3 py-2.5 font-sans font-semibold text-pastel-dark">
                       {String(finding.category || finding.issue_type).replace(/_/g, ' ')}
                     </td>
                     <td className="px-3 py-2.5 font-sans">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                        finding.severity === 'CRITICAL' ? 'bg-rose-100 text-rose-800' :
-                        finding.severity === 'HIGH' ? 'bg-amber-100 text-amber-800' :
-                        'bg-lavender-100 text-lavender-800'
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                        finding.severity === 'CRITICAL' ? 'bg-pastel-rose text-pastel-roseDark border border-pastel-border' :
+                        finding.severity === 'HIGH' ? 'bg-pastel-peach text-pastel-peachDark border border-pastel-border' :
+                        'bg-pastel-lavender text-pastel-lavenderDark border border-pastel-border'
                       }`}>
                         {finding.severity}
                       </span>
                     </td>
-                    <td className="px-3 py-2.5 text-platinum-600">{finding.account_id || finding.entity_id || 'System'}</td>
-                    <td className="px-3 py-2.5 font-bold text-navy-950">{finding.variance_amount} PTS</td>
+                    <td className="px-3 py-2.5 text-pastel-muted">{finding.account_id || finding.entity_id || 'System'}</td>
+                    <td className="px-3 py-2.5 font-bold text-pastel-dark">{finding.variance_amount} PTS</td>
                     <td className="px-3 py-2.5 text-right font-sans">
                       <button
                         onClick={() => handleStartInvestigation(finding.incident_id)}
-                        className="px-3 py-1.5 bg-lavender-600 hover:bg-lavender-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 ml-auto transition shadow-sm"
+                        className="px-3 py-1.5 bg-pastel-lavender hover:bg-pastel-lavender/80 text-pastel-dark rounded-xl text-xs font-bold flex items-center gap-1.5 ml-auto transition border border-pastel-border shadow-xs"
                       >
-                        <FileCheck className="w-3.5 h-3.5" /> Start Case
+                        <FileCheck className="w-3.5 h-3.5 text-pastel-lavenderDark" /> Start Case
                       </button>
                     </td>
                   </tr>
@@ -653,67 +622,67 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left 2 Cols: Incident Details & Notes */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm space-y-4">
+                <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-xs text-platinum-500">{investigationDetail.incident_id}</span>
+                        <span className="font-mono text-xs text-pastel-muted">{investigationDetail.incident_id}</span>
                       </div>
-                      <h3 className="text-base font-bold text-navy-950 mt-1">
+                      <h3 className="text-base font-bold text-pastel-dark mt-1">
                         {investigationDetail.issue_type.replace(/_/g, ' ')}
                       </h3>
-                      <p className="text-xs text-platinum-600 mt-1">
-                        State: <strong className="font-mono text-navy-900">{investigationDetail.investigation_state}</strong>
+                      <p className="text-xs text-pastel-muted mt-1">
+                        State: <strong className="font-mono text-pastel-dark">{investigationDetail.investigation_state}</strong>
                       </p>
                     </div>
 
                     <div className="text-right">
-                      <span className="text-[10px] uppercase font-mono text-platinum-500 block">Status</span>
-                      <span className="px-2 py-0.5 rounded text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200 font-mono">
+                      <span className="text-[10px] uppercase font-mono text-pastel-muted block">Status</span>
+                      <span className="px-2 py-0.5 rounded-md text-xs font-semibold bg-pastel-blue text-pastel-blueDark border border-pastel-border font-mono">
                         {investigationDetail.status}
                       </span>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3 pt-2 text-xs">
-                    <div className="p-2.5 bg-platinum-50 rounded border border-platinum-200">
-                      <span className="text-[10px] text-platinum-500 block uppercase font-mono">Entity ID</span>
-                      <span className="font-bold font-mono text-navy-950">{investigationDetail.entity_id}</span>
+                    <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                      <span className="text-[10px] text-pastel-muted block uppercase font-mono">Entity ID</span>
+                      <span className="font-bold font-mono text-pastel-dark">{investigationDetail.entity_id}</span>
                     </div>
-                    <div className="p-2.5 bg-platinum-50 rounded border border-platinum-200">
-                      <span className="text-[10px] text-platinum-500 block uppercase font-mono">Entity Type</span>
-                      <span className="font-bold font-mono text-platinum-800">{investigationDetail.entity_type}</span>
+                    <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                      <span className="text-[10px] text-pastel-muted block uppercase font-mono">Entity Type</span>
+                      <span className="font-bold font-mono text-pastel-muted">{investigationDetail.entity_type}</span>
                     </div>
-                    <div className="p-2.5 bg-platinum-50 rounded border border-platinum-200">
-                      <span className="text-[10px] text-platinum-500 block uppercase font-mono">Variance</span>
-                      <span className="font-bold font-mono text-rose-700">{investigationDetail.variance_amount} PTS</span>
+                    <div className="p-3 bg-pastel-rose/40 rounded-xl border border-pastel-border">
+                      <span className="text-[10px] text-pastel-roseDark block uppercase font-mono">Variance</span>
+                      <span className="font-bold font-mono text-pastel-roseDark">{investigationDetail.variance_amount} PTS</span>
                     </div>
                   </div>
 
                   {/* Evidence Payload */}
                   <div className="space-y-1 pt-2">
-                    <span className="text-xs font-bold text-navy-950 block">Auditable Forensic Evidence</span>
-                    <div className="p-3 bg-navy-950 rounded-lg text-platinum-200 font-mono text-[11px] overflow-x-auto max-h-36 border border-navy-800">
+                    <span className="text-xs font-bold text-pastel-dark block">Auditable Forensic Evidence</span>
+                    <div className="p-3.5 bg-pastel-ivory rounded-xl text-pastel-dark font-mono text-[11px] overflow-x-auto max-h-36 border border-pastel-border">
                       <pre>{JSON.stringify(investigationDetail.incident_details || {}, null, 2)}</pre>
                     </div>
                   </div>
                 </div>
 
                 {/* Notes Stream */}
-                <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm space-y-4">
-                  <h4 className="text-xs font-bold text-navy-950 uppercase tracking-wider flex items-center gap-1.5">
-                    <MessageSquare className="w-4 h-4 text-lavender-600" />
+                <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
+                  <h4 className="text-xs font-bold text-pastel-dark uppercase tracking-wider flex items-center gap-1.5">
+                    <MessageSquare className="w-4 h-4 text-pastel-lavenderDark" />
                     Investigation Log & Notes Stream
                   </h4>
 
                   <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
                     {investigationDetail.notes_history.map((n, idx) => (
-                      <div key={idx} className="p-3 bg-platinum-50 rounded-lg border border-platinum-200 text-xs">
-                        <div className="flex justify-between items-center text-[10px] text-platinum-500 font-mono mb-1">
-                          <span className="font-semibold text-navy-900">{n.author}</span>
+                      <div key={idx} className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border text-xs">
+                        <div className="flex justify-between items-center text-[10px] text-pastel-muted font-mono mb-1">
+                          <span className="font-semibold text-pastel-dark">{n.author}</span>
                           <span>{new Date(n.timestamp || Date.now()).toLocaleTimeString()}</span>
                         </div>
-                        <p className="text-platinum-800">{n.note}</p>
+                        <p className="text-pastel-dark">{n.note}</p>
                       </div>
                     ))}
                   </div>
@@ -724,14 +693,14 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                       placeholder="Add an investigator note..."
                       value={newNote}
                       onChange={(e) => setNewNote(e.target.value)}
-                      className="flex-1 px-3 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500"
+                      className="flex-1 px-3 py-2 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark bg-white text-pastel-dark"
                     />
                     <button
                       type="submit"
                       disabled={isAddingNote || !newNote.trim()}
-                      className="px-3.5 py-2 bg-navy-950 hover:bg-navy-900 disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center gap-1 transition"
+                      className="px-3.5 py-2 bg-pastel-lavender hover:bg-pastel-lavender/80 disabled:opacity-50 text-pastel-dark border border-pastel-border rounded-xl text-xs font-bold flex items-center gap-1 transition shadow-xs"
                     >
-                      <Send className="w-3.5 h-3.5" />
+                      <Send className="w-3.5 h-3.5 text-pastel-lavenderDark" />
                       Log Note
                     </button>
                   </form>
@@ -740,22 +709,22 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
               {/* Right Col: Propose Corrective Action Form */}
               <div className="space-y-6">
-                <div className="bg-white border-2 border-lavender-200 rounded-xl p-6 shadow-sm space-y-4">
-                  <div className="flex items-center gap-2 text-lavender-900">
-                    <ShieldCheck className="w-5 h-5 text-lavender-600" />
+                <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
+                  <div className="flex items-center gap-2 text-pastel-dark">
+                    <ShieldCheck className="w-5 h-5 text-pastel-sageDark" />
                     <h3 className="text-sm font-bold">Propose Corrective Action</h3>
                   </div>
-                  <p className="text-xs text-platinum-600">
-                    Submit structured compensating action. Requires approval from a separate Operations Manager (BR-09 Dual-Key rule).
+                  <p className="text-xs text-pastel-muted leading-relaxed">
+                    Submit structured compensating action. Requires approval from an independent second Operations Manager (BR-09 Dual-Key rule).
                   </p>
 
                   <form onSubmit={handleProposeCorrection} className="space-y-4">
                     <div>
-                      <label className="block text-xs font-semibold text-navy-950 mb-1">Action Type</label>
+                      <label className="block text-xs font-semibold text-pastel-dark mb-1">Action Type</label>
                       <select
                         value={actionType}
                         onChange={(e) => setActionType(e.target.value)}
-                        className="w-full px-3 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500 font-mono font-semibold bg-white"
+                        className="w-full px-3 py-2 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark font-mono font-semibold bg-white text-pastel-dark"
                       >
                         <option value="ADJUSTMENT_CREDIT">ADJUSTMENT_CREDIT (Compensating Credit)</option>
                         <option value="ADJUSTMENT_DEBIT">ADJUSTMENT_DEBIT (Revoke Unearned Points)</option>
@@ -765,31 +734,31 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-navy-950 mb-1">Proposed Points</label>
+                      <label className="block text-xs font-semibold text-pastel-dark mb-1">Proposed Points</label>
                       <input
                         type="number"
                         value={proposedPoints}
                         onChange={(e) => setProposedPoints(parseInt(e.target.value) || 0)}
-                        className="w-full px-3 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500 font-mono"
+                        className="w-full px-3 py-2 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark font-mono bg-white text-pastel-dark"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-navy-950 mb-1">Audit Justification & Reason</label>
+                      <label className="block text-xs font-semibold text-pastel-dark mb-1">Audit Justification & Reason</label>
                       <textarea
                         rows={3}
                         required
                         placeholder="Audit justification (min. 10 characters)..."
                         value={proposalReason}
                         onChange={(e) => setProposalReason(e.target.value)}
-                        className="w-full px-3 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500"
+                        className="w-full px-3 py-2 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark bg-white text-pastel-dark"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmittingProposal}
-                      className="w-full py-2.5 bg-lavender-600 hover:bg-lavender-700 disabled:opacity-50 text-white rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-sm"
+                      className="w-full py-2.5 bg-pastel-sage hover:bg-pastel-sage/80 disabled:opacity-50 text-pastel-dark rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition border border-pastel-border shadow-xs"
                     >
                       <Check className="w-3.5 h-3.5" />
                       Submit for Dual-Key Approval
@@ -804,20 +773,20 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
       {/* TAB 3: DUAL-KEY PENDING APPROVALS QUEUE */}
       {activeTab === 'approvals' && (
-        <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm space-y-4">
+        <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
           <div className="flex justify-between items-center">
             <div>
-              <h3 className="text-base font-semibold text-navy-950">Pending Approvals Queue</h3>
-              <p className="text-xs text-platinum-600 mt-1">
-                BR-09 Dual-Key Governance: You cannot approve proposals you created. Switch to the second manager persona to review.
+              <h3 className="text-base font-bold text-pastel-dark">Pending Approvals Queue</h3>
+              <p className="text-xs text-pastel-muted mt-1">
+                BR-09 Dual-Key Governance: You cannot approve proposals you created. Switch to David Ross (Approver) to review.
               </p>
             </div>
-            <span className="text-xs font-mono text-platinum-500">{pendingApprovals.length} pending</span>
+            <span className="text-xs font-mono text-pastel-muted font-medium">{pendingApprovals.length} pending</span>
           </div>
 
-          <div className="border border-platinum-200 rounded-lg overflow-x-auto">
+          <div className="border border-pastel-border rounded-xl overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-platinum-50 border-b border-platinum-200 text-platinum-600 uppercase font-mono text-[10px]">
+              <thead className="bg-pastel-ivory border-b border-pastel-border text-pastel-muted uppercase font-mono text-[10px]">
                 <tr>
                   <th className="px-3 py-2.5">Action ID</th>
                   <th className="px-3 py-2.5">Incident ID</th>
@@ -828,36 +797,36 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                   <th className="px-3 py-2.5 text-right">Review Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-platinum-100 font-mono">
+              <tbody className="divide-y divide-pastel-border/60 font-mono">
                 {pendingApprovals.map((prop) => {
                   const isSelfProposal = prop.proposed_by === user.id;
 
                   return (
-                    <tr key={prop.action_id} className="hover:bg-platinum-50/50">
-                      <td className="px-3 py-2.5 font-bold text-navy-950">{prop.action_id}</td>
-                      <td className="px-3 py-2.5 text-platinum-600">{prop.incident_id}</td>
-                      <td className="px-3 py-2.5 font-bold text-lavender-900">{prop.action_type}</td>
-                      <td className="px-3 py-2.5 font-bold">{prop.proposed_points || 0} PTS</td>
+                    <tr key={prop.action_id} className="hover:bg-pastel-ivory/50 transition">
+                      <td className="px-3 py-2.5 font-bold text-pastel-dark">{prop.action_id}</td>
+                      <td className="px-3 py-2.5 text-pastel-muted">{prop.incident_id}</td>
+                      <td className="px-3 py-2.5 font-bold text-pastel-lavenderDark">{prop.action_type}</td>
+                      <td className="px-3 py-2.5 font-bold text-pastel-dark">{prop.proposed_points || 0} PTS</td>
                       <td className="px-3 py-2.5">
-                        <span className={`px-2 py-0.5 rounded text-[10px] ${
-                          isSelfProposal ? 'bg-amber-100 text-amber-800 font-bold' : 'bg-platinum-100 text-platinum-700'
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] ${
+                          isSelfProposal ? 'bg-pastel-peach text-pastel-peachDark font-bold border border-pastel-border' : 'bg-pastel-ivory text-pastel-dark border border-pastel-border'
                         }`}>
                           {isSelfProposal ? `${prop.proposed_by} (You)` : prop.proposed_by}
                         </span>
                       </td>
-                      <td className="px-3 py-2.5 font-sans text-platinum-600 max-w-xs truncate">
+                      <td className="px-3 py-2.5 font-sans text-pastel-muted max-w-xs truncate">
                         {prop.notes || prop.reason || 'Pending dual-key review'}
                       </td>
                       <td className="px-3 py-2.5 text-right font-sans">
                         <button
                           onClick={() => setSelectedProposal(prop)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 ml-auto transition ${
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 ml-auto transition border border-pastel-border ${
                             isSelfProposal
-                              ? 'bg-platinum-100 text-platinum-500 hover:bg-platinum-200'
-                              : 'bg-navy-950 hover:bg-navy-900 text-white shadow-sm'
+                              ? 'bg-pastel-ivory text-pastel-muted hover:bg-pastel-peach/30'
+                              : 'bg-pastel-sage hover:bg-pastel-sage/80 text-pastel-dark shadow-xs'
                           }`}
                         >
-                          {isSelfProposal ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
+                          {isSelfProposal ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5 text-pastel-sageDark" />}
                           {isSelfProposal ? 'Self Proposal' : 'Dual-Key Review'}
                         </button>
                       </td>
@@ -873,20 +842,20 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
       {/* TAB 4: COMPENSATING LEDGER HISTORY */}
       {activeTab === 'history' && (
         <div className="space-y-6">
-          <div className="bg-white border border-platinum-200 rounded-xl p-6 shadow-sm space-y-4">
+          <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-4">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-base font-semibold text-navy-950">Compensating Ledger & Remediation Audit Trail</h3>
-                <p className="text-xs text-platinum-600 mt-1">
+                <h3 className="text-base font-bold text-pastel-dark">Compensating Ledger & Remediation Audit Trail</h3>
+                <p className="text-xs text-pastel-muted mt-1">
                   Complete immutable log of approved corrective actions and their compensating ledger executions.
                 </p>
               </div>
-              <span className="text-xs font-mono text-platinum-500">{actionHistory.length} actions</span>
+              <span className="text-xs font-mono text-pastel-muted font-medium">{actionHistory.length} actions</span>
             </div>
 
-            <div className="border border-platinum-200 rounded-lg overflow-x-auto">
+            <div className="border border-pastel-border rounded-xl overflow-x-auto">
               <table className="w-full text-xs text-left">
-                <thead className="bg-platinum-50 border-b border-platinum-200 text-platinum-600 uppercase font-mono text-[10px]">
+                <thead className="bg-pastel-ivory border-b border-pastel-border text-pastel-muted uppercase font-mono text-[10px]">
                   <tr>
                     <th className="px-3 py-2.5">Action ID</th>
                     <th className="px-3 py-2.5">Incident ID</th>
@@ -898,21 +867,21 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                     <th className="px-3 py-2.5">Compensating Tx ID</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-platinum-100 font-mono">
+                <tbody className="divide-y divide-pastel-border/60 font-mono">
                   {actionHistory.map((action) => (
-                    <tr key={action.action_id} className="hover:bg-platinum-50/50">
-                      <td className="px-3 py-2.5 font-bold text-navy-950">{action.action_id}</td>
-                      <td className="px-3 py-2.5 text-platinum-600">{action.incident_id}</td>
-                      <td className="px-3 py-2.5 font-bold">{action.action_type}</td>
+                    <tr key={action.action_id} className="hover:bg-pastel-ivory/50 transition">
+                      <td className="px-3 py-2.5 font-bold text-pastel-dark">{action.action_id}</td>
+                      <td className="px-3 py-2.5 text-pastel-muted">{action.incident_id}</td>
+                      <td className="px-3 py-2.5 font-bold text-pastel-dark">{action.action_type}</td>
                       <td className="px-3 py-2.5 font-sans">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-pastel-sage text-pastel-sageDark border border-pastel-border">
                           {action.execution_status || action.approval_status}
                         </span>
                       </td>
-                      <td className="px-3 py-2.5 font-bold">{action.proposed_points || 0} PTS</td>
-                      <td className="px-3 py-2.5 text-platinum-600">{action.proposed_by}</td>
-                      <td className="px-3 py-2.5 text-navy-900 font-semibold">{action.approver_id || action.reviewed_by || '-'}</td>
-                      <td className="px-3 py-2.5 text-lavender-900 font-bold truncate max-w-xs">
+                      <td className="px-3 py-2.5 font-bold text-pastel-dark">{action.proposed_points || 0} PTS</td>
+                      <td className="px-3 py-2.5 text-pastel-muted">{action.proposed_by}</td>
+                      <td className="px-3 py-2.5 text-pastel-dark font-semibold">{action.approver_id || action.reviewed_by || '-'}</td>
+                      <td className="px-3 py-2.5 text-pastel-lavenderDark font-bold truncate max-w-xs">
                         {action.compensating_transaction_id || action.execution_tx_id || '-'}
                       </td>
                     </tr>
@@ -924,30 +893,30 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
           {/* Post-Remediation Verification Card */}
           {verifiedReconciliation && (
-            <div className="bg-white border-2 border-emerald-300 rounded-xl p-6 shadow-sm space-y-3">
-              <div className="flex items-center gap-2 text-emerald-900">
-                <ShieldCheck className="w-5 h-5 text-emerald-600" />
+            <div className="bg-white border border-pastel-border rounded-2xl p-6 shadow-xs space-y-3">
+              <div className="flex items-center gap-2 text-pastel-dark">
+                <ShieldCheck className="w-5 h-5 text-pastel-sageDark" />
                 <h4 className="font-bold text-sm">Post-Remediation Reconciliation Verification: Zero Discrepancy Verified</h4>
               </div>
-              <p className="text-xs text-platinum-600">
+              <p className="text-xs text-pastel-muted">
                 Executed compensating transaction automatically balanced the ledger. Account invariant is 100% satisfied.
               </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs font-mono">
-                <div className="p-2.5 bg-emerald-50 rounded">
-                  <span className="text-[10px] text-emerald-800 block">Balance</span>
-                  <span className="font-bold">{verifiedReconciliation.stored_balance} PTS</span>
+                <div className="p-3 bg-pastel-sage/30 rounded-xl border border-pastel-border">
+                  <span className="text-[10px] text-pastel-muted block">Balance</span>
+                  <span className="font-bold text-pastel-dark">{verifiedReconciliation.stored_balance} PTS</span>
                 </div>
-                <div className="p-2.5 bg-emerald-50 rounded">
-                  <span className="text-[10px] text-emerald-800 block">Journal Balance</span>
-                  <span className="font-bold">{verifiedReconciliation.ledger_derived_balance} PTS</span>
+                <div className="p-3 bg-pastel-sage/30 rounded-xl border border-pastel-border">
+                  <span className="text-[10px] text-pastel-muted block">Journal Balance</span>
+                  <span className="font-bold text-pastel-dark">{verifiedReconciliation.ledger_derived_balance} PTS</span>
                 </div>
-                <div className="p-2.5 bg-emerald-50 rounded">
-                  <span className="text-[10px] text-emerald-800 block">Drift Amount</span>
-                  <span className="font-bold text-emerald-700">0 PTS</span>
+                <div className="p-3 bg-pastel-sage/30 rounded-xl border border-pastel-border">
+                  <span className="text-[10px] text-pastel-muted block">Drift Amount</span>
+                  <span className="font-bold text-pastel-sageDark">0 PTS</span>
                 </div>
-                <div className="p-2.5 bg-emerald-50 rounded">
-                  <span className="text-[10px] text-emerald-800 block">Status</span>
-                  <span className="font-bold text-emerald-700">RECONCILED</span>
+                <div className="p-3 bg-pastel-sage/50 rounded-xl border border-pastel-border">
+                  <span className="text-[10px] text-pastel-sageDark block font-semibold">Status</span>
+                  <span className="font-bold text-pastel-sageDark">RECONCILED</span>
                 </div>
               </div>
             </div>
@@ -957,21 +926,21 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
       {/* DUAL-KEY REVIEW & DECISION MODAL */}
       {selectedProposal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950/60 p-4 backdrop-blur-xs">
-          <div className="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-platinum-200 p-6 space-y-6 animate-in fade-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-pastel-dark/40 p-4 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl max-w-xl w-full shadow-xl border border-pastel-border p-6 space-y-6 animate-in fade-in zoom-in-95 duration-150">
             {/* Modal Header */}
-            <div className="flex justify-between items-start border-b border-platinum-200 pb-4">
+            <div className="flex justify-between items-start border-b border-pastel-border pb-4">
               <div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-lavender-100 text-lavender-800 font-mono">
+                <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-pastel-lavender text-pastel-lavenderDark border border-pastel-border font-mono">
                   DUAL-KEY DECISION DESK
                 </span>
-                <h3 className="text-base font-bold text-navy-950 mt-1">
+                <h3 className="text-base font-bold text-pastel-dark mt-1">
                   Review Proposal: {selectedProposal.action_id}
                 </h3>
               </div>
               <button
                 onClick={() => setSelectedProposal(null)}
-                className="text-platinum-400 hover:text-navy-950"
+                className="text-pastel-muted hover:text-pastel-dark transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -979,22 +948,22 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
 
             {/* Invariant Warning if Self-Approval Attempted */}
             {selectedProposal.proposed_by === user.id ? (
-              <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl space-y-2 text-xs text-rose-900">
-                <div className="flex items-center gap-2 font-bold text-rose-800">
-                  <Ban className="w-4 h-4 text-rose-600" />
+              <div className="p-4 bg-pastel-rose/50 border border-pastel-border rounded-xl space-y-2 text-xs text-pastel-dark">
+                <div className="flex items-center gap-2 font-bold text-pastel-roseDark">
+                  <Ban className="w-4 h-4 text-pastel-roseDark" />
                   SELF-APPROVAL STRICTLY FORBIDDEN (BR-09)
                 </div>
                 <p>
                   You proposed this corrective action (User: <strong>{user.id}</strong>).
                   LoyaltyOS Dual-Key Governance requires a distinct second authorized Operations Manager to review and approve.
                 </p>
-                <p className="font-semibold text-rose-800">
+                <p className="font-semibold text-pastel-roseDark">
                   Switch to David Ross (Approver) using the switcher above to approve this action.
                 </p>
               </div>
             ) : (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-xs text-emerald-900">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="p-3 bg-pastel-sage/50 border border-pastel-border rounded-xl flex items-center gap-2 text-xs text-pastel-dark">
+                <CheckCircle2 className="w-4 h-4 text-pastel-sageDark shrink-0" />
                 <span>
                   Dual-Key Authorized: You ({user.full_name || user.id}) are an independent reviewer distinct from proposer ({selectedProposal.proposed_by}).
                 </span>
@@ -1004,90 +973,90 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
             {/* Proposal Details */}
             <div className="space-y-3 text-xs">
               <div className="grid grid-cols-2 gap-3 font-mono">
-                <div className="p-2.5 bg-platinum-50 rounded border border-platinum-200">
-                  <span className="text-[10px] text-platinum-500 uppercase block">Action Type</span>
-                  <span className="font-bold text-navy-950">{selectedProposal.action_type}</span>
+                <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                  <span className="text-[10px] text-pastel-muted uppercase block">Action Type</span>
+                  <span className="font-bold text-pastel-dark">{selectedProposal.action_type}</span>
                 </div>
-                <div className="p-2.5 bg-platinum-50 rounded border border-platinum-200">
-                  <span className="text-[10px] text-platinum-500 uppercase block">Points Adjustment</span>
-                  <span className="font-bold text-navy-950">{selectedProposal.proposed_points} PTS</span>
+                <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                  <span className="text-[10px] text-pastel-muted uppercase block">Points Adjustment</span>
+                  <span className="font-bold text-pastel-dark">{selectedProposal.proposed_points} PTS</span>
                 </div>
               </div>
 
-              <div className="p-3 bg-platinum-50 rounded-lg border border-platinum-200">
-                <span className="text-[10px] text-platinum-500 uppercase font-mono block mb-1">Audit Justification</span>
-                <p className="text-platinum-800 font-sans">{selectedProposal.notes || selectedProposal.reason || 'Pending approval'}</p>
+              <div className="p-3 bg-pastel-ivory rounded-xl border border-pastel-border">
+                <span className="text-[10px] text-pastel-muted uppercase font-mono block mb-1">Audit Justification</span>
+                <p className="text-pastel-dark font-sans">{selectedProposal.notes || selectedProposal.reason || 'Pending approval'}</p>
               </div>
             </div>
 
             {/* Decision Form */}
             <form onSubmit={handleReviewProposal} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-navy-950 mb-1">Dual-Key Decision</label>
+                <label className="block text-xs font-semibold text-pastel-dark mb-1">Dual-Key Decision</label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setReviewDecision('APPROVED')}
-                    className={`py-2 px-3 rounded-lg text-xs font-bold border flex items-center justify-center gap-1.5 transition ${
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border flex items-center justify-center gap-1.5 transition ${
                       reviewDecision === 'APPROVED'
-                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm'
-                        : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
+                        ? 'bg-pastel-sage text-pastel-dark border-pastel-border shadow-xs'
+                        : 'bg-white text-pastel-muted border-pastel-border hover:bg-pastel-ivory'
                     }`}
                   >
-                    <Check className="w-4 h-4" /> Approve & Execute
+                    <Check className="w-4 h-4 text-pastel-sageDark" /> Approve & Execute
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setReviewDecision('REJECTED')}
-                    className={`py-2 px-3 rounded-lg text-xs font-bold border flex items-center justify-center gap-1.5 transition ${
+                    className={`py-2 px-3 rounded-xl text-xs font-bold border flex items-center justify-center gap-1.5 transition ${
                       reviewDecision === 'REJECTED'
-                        ? 'bg-rose-600 text-white border-rose-700 shadow-sm'
-                        : 'bg-white text-platinum-700 border-platinum-300 hover:bg-platinum-50'
+                        ? 'bg-pastel-rose text-pastel-dark border-pastel-border shadow-xs'
+                        : 'bg-white text-pastel-muted border-pastel-border hover:bg-pastel-ivory'
                     }`}
                   >
-                    <Ban className="w-4 h-4" /> Reject Proposal
+                    <Ban className="w-4 h-4 text-pastel-roseDark" /> Reject Proposal
                   </button>
                 </div>
               </div>
 
               {reviewDecision === 'APPROVED' ? (
                 <div>
-                  <label className="block text-xs font-semibold text-navy-950 mb-1">Reviewer Approval Notes</label>
+                  <label className="block text-xs font-semibold text-pastel-dark mb-1">Reviewer Approval Notes</label>
                   <input
                     type="text"
                     value={reviewNotes}
                     onChange={(e) => setReviewNotes(e.target.value)}
-                    className="w-full px-3 py-2 text-xs border border-platinum-300 rounded-lg focus:outline-none focus:border-lavender-500"
+                    className="w-full px-3 py-2 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-lavenderDark bg-white text-pastel-dark"
                   />
                 </div>
               ) : (
                 <div>
-                  <label className="block text-xs font-semibold text-rose-900 mb-1">Mandatory Rejection Reason</label>
+                  <label className="block text-xs font-semibold text-pastel-roseDark mb-1">Mandatory Rejection Reason</label>
                   <input
                     type="text"
                     required
                     placeholder="Provide specific reason for rejection..."
                     value={rejectionReason}
                     onChange={(e) => setRejectionReason(e.target.value)}
-                    className="w-full px-3 py-2 text-xs border border-rose-300 rounded-lg focus:outline-none focus:border-rose-500"
+                    className="w-full px-3 py-2 text-xs border border-pastel-border rounded-xl focus:outline-none focus:border-pastel-roseDark bg-white text-pastel-dark"
                   />
                 </div>
               )}
 
-              <div className="flex justify-end gap-3 pt-2 border-t border-platinum-200">
+              <div className="flex justify-end gap-3 pt-2 border-t border-pastel-border">
                 <button
                   type="button"
                   onClick={() => setSelectedProposal(null)}
-                  className="px-4 py-2 bg-platinum-100 hover:bg-platinum-200 text-navy-950 rounded-lg text-xs font-semibold transition"
+                  className="px-4 py-2 bg-white hover:bg-pastel-ivory text-pastel-dark border border-pastel-border rounded-xl text-xs font-bold transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmittingReview || selectedProposal.proposed_by === user.id}
-                  className={`px-5 py-2 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition disabled:opacity-40 shadow-sm ${
-                    reviewDecision === 'APPROVED' ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-rose-600 hover:bg-rose-700'
+                  className={`px-5 py-2 text-pastel-dark border border-pastel-border rounded-xl text-xs font-bold flex items-center gap-1.5 transition disabled:opacity-40 shadow-xs ${
+                    reviewDecision === 'APPROVED' ? 'bg-pastel-sage hover:bg-pastel-sage/80' : 'bg-pastel-rose hover:bg-pastel-rose/80'
                   }`}
                 >
                   {isSubmittingReview ? (
@@ -1097,7 +1066,7 @@ export const OpsManagerDashboard: React.FC<OpsManagerDashboardProps> = ({ user }
                     </>
                   ) : (
                     <>
-                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-pastel-sageDark" />
                       Confirm {reviewDecision}
                     </>
                   )}
