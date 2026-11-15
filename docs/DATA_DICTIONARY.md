@@ -1,7 +1,7 @@
 # LoyaltyOS — Data Dictionary
 
 **Database:** Supabase PostgreSQL 15+
-**ORM:** SQLAlchemy 2.0 Async (`postgresql+asyncpg`)  
+**Architecture:** Supabase PostgreSQL Native (PostgreSQL Functions, Engine Triggers, Row-Level Security)
 **Total Entities:** 21 Relational Tables
 
 ---

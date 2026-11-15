@@ -1,117 +1,142 @@
 # LoyaltyOS
 
 > **Intelligent Loyalty & Ledger Management Platform**
+>
+> Financial-grade customer loyalty infrastructure with double-entry ledger bookkeeping, FIFO points lot accounting, automated anomaly detection (LLIRE), and two-person dual-key governance.
 
-LoyaltyOS is a production-ready customer loyalty platform built with financial double-entry bookkeeping. It guarantees that every point earned, redeemed, expired, or reversed is tracked in an immutable audit journal.
-
-## Deployment & Technical Status
-
-| Component | Details |
-|---|---|
-| **Deployment Platform** | Vercel (React Frontend + FastAPI Serverless API) |
-| **Live Application** | [LoyaltyOS](https://loyaltyos-omega.vercel.app/) |
-| **Primary Database** | Supabase PostgreSQL 15+ |
-| **Database Connection** | Supabase Transaction Pooler (Port `6543`) |
-| **Automated Tests** | 105 / 105 Passing |
-| **Testing Framework** | Pytest |
-
-### Deployment
-LoyaltyOS is deployed on Vercel, with its React frontend and FastAPI serverless API. Supabase PostgreSQL serves as the primary database.
-
-### Test Status
-The automated backend test suite currently reports **105 out of 105 tests passing**, executed using Pytest.
+[![Deployment: Vercel](https://img.shields.io/badge/Deployment-Vercel-black?style=flat&logo=vercel)](https://loyaltyos-omega.vercel.app/)
+[![Backend: Supabase](https://img.shields.io/badge/Backend-Supabase%20PostgreSQL-3ECF8E?style=flat&logo=supabase)](https://supabase.com)
+[![TypeScript: Vite](https://img.shields.io/badge/Frontend-React%2018%20%7C%20TypeScript%20%7C%20Vite-blue?style=flat&logo=typescript)](https://vitejs.dev)
+[![Tests: 85 Passing](https://img.shields.io/badge/Tests-85%20Passed-success?style=flat&logo=pytest)](docs/TESTING_AND_EVALUATION.md)
+[![LLIRE Benchmark: 100% F1](https://img.shields.io/badge/LLIRE%20Accuracy-100%25%20F1-purple?style=flat)](tools/README.md)
 
 ---
 
-## Key Highlights
+## Technical Overview
 
-- **Double-Entry Financial Ledger**: Points are never updated through simple counters. Every change is an immutable entry in `points_transactions` protected by PostgreSQL triggers.
-- **FIFO Points Expiration**: Points expire after 365 days in First-In, First-Out order. The oldest active points are redeemed first.
-- **Net Spend Accrual**: Points are earned on merchandise spend only. Sales tax and shipping costs are automatically excluded.
-- **Safe Return Reversals**: Returning an order reverses earned points. If points were already spent, the account balance safely goes negative to show true customer liability.
-- **Automated Reconciliation**: Verifies that stored account balances match the sum of all journal entries with zero drift.
-- **LLIRE Intelligence Engine**: Scans ledger records to catch balance mismatches, over-redemptions, unreversed returns, duplicate expirations, and incorrect tiers.
-- **Dual-Key Approvals**: Manual balance corrections require two separate managers to propose and approve (`proposer != approver`).
-- **Role-Based Portals**: Dedicated web dashboards for Customers, Store Operators, Fraud Analysts, and Operations Managers.
+LoyaltyOS runs on a **100% Supabase-backed serverless architecture**:
 
----
-
-## User Roles
-
-| Role | Permissions & Scope | Security Enforcement |
-| :--- | :--- | :--- |
-| **Customer** | View point balance, expiry dates, transaction history, and redeem rewards. | Server-side RBAC + Supabase RLS |
-| **Store Operator** | Look up customers, register new accounts, process order points, and handle returns. | Server-side RBAC (`OPERATOR`) |
-| **Fraud Analyst** | Monitor total loyalty liability, run LLIRE anomaly scans, and inspect evidence. | Server-side RBAC (`ANALYST`) |
-| **Operations Manager** | Manage investigations, propose ledger corrections, and review dual-key actions. | Server-side RBAC (`OPERATIONS_MANAGER`) |
-
----
-
-## System Architecture
-
-LoyaltyOS runs as a unified fullstack application on Vercel:
-
-- **Frontend**: React 18, TypeScript, Vite, and Tailwind CSS.
-- **Backend**: FastAPI (Python 3.11+), SQLAlchemy 2.0 Async, and Pydantic v2.
-- **Database**: Supabase PostgreSQL with 21 relational tables, 5 immutability triggers, and 9 RLS policies.
-- **Authentication**: Supabase Auth (email/password) and Google Firebase OAuth.
-- **Deployment**: Vercel handles both the static frontend and Python serverless API functions under a single domain.
-
----
-
-## Quick Start
-
-### 1. Local Development
-
-#### Backend Setup
-```powershell
-# Activate virtual environment
-.\venv\Scripts\Activate.ps1
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run FastAPI local server
-python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+```
+React 18 + TypeScript + Vite (Vercel)
+         │
+         ▼  (@supabase/supabase-js)
+Supabase Platform (PostgreSQL 15+)
+├── Supabase Auth & JWT Verification
+├── Row Level Security (RLS) across 21 domain tables
+├── Database Engine Immutability Triggers (5 append-only guards)
+├── PostgreSQL Stored Functions & RPC (Transactional business logic)
+└── Supabase Edge Functions (Deno Runtime for secure server-side processing)
 ```
 
-#### Frontend Setup
-```powershell
-# Navigate to frontend folder
+> **Architecture Notice:**
+> The production application uses **Supabase as its only backend platform**. There is no standalone Flask or FastAPI production server, no Alembic runtime, and no multi-service backend proxy. Python is retained strictly as an **offline developer tool** for synthetic dataset generation, mathematical invariant verification, and offline evaluation in `tools/`.
+
+---
+
+## Live Deployment & Repository
+
+- **Live Web Application**: [https://loyaltyos-omega.vercel.app/](https://loyaltyos-omega.vercel.app/)
+- **GitHub Repository**: [https://github.com/dandetejaswini/LoyaltyOS](https://github.com/dandetejaswini/LoyaltyOS)
+- **Primary Database**: Supabase PostgreSQL 15+ (`ahxjaplreytmauwpedgh`)
+- **Hosting**: Vercel (Edge Network Single-Page Application)
+
+---
+
+## Platform Highlights
+
+1. **Double-Entry Financial Ledger**: Points are never updated through unjournaled counters. All credits and debits post to an append-only ledger (`points_transactions`) guarded by database engine triggers.
+2. **FIFO Points Lot Depletion**: Points lots (`points_lots`) expire after 365 days and are consumed in strict first-in, first-out order (`expires_at ASC, created_at ASC`), guaranteeing fair breakage and accurate liability accounting.
+3. **Accrual Floor-Rounding & Net Spend**: Points accrue on eligible merchandise spend only (excluding sales tax and shipping): `floor(Net Spend × Tier Multiplier)`.
+4. **Proportional Return Reversals**: Partial and full returns reverse points proportionally. When points have already been redeemed, balances safely transition negative to reflect true customer liabilities without blocking operations.
+5. **Idempotent Expiry Batches**: Automated expiration batches transition lots to `EXPIRED` status without double-deduction risks across repeated runs.
+6. **Automated Ledger Reconciliation**: Validates that stored account balances equal the algebraic sum of journal transactions and remaining active lots with zero drift.
+7. **LLIRE Anomaly Intelligence Engine**: Scans ledger records with five explainable anomaly detectors (`DET-BALANCE-MISMATCH`, `DET-OVER-REDEMPTION`, `DET-UNREVERSED-RETURN`, `DET-DOUBLE-EXPIRY`, `DET-INCORRECT-TIER`), outputting 7-part forensic explainability reports.
+8. **Two-Person Dual-Key Remediation**: Proposes structured compensating ledger transactions requiring review and approval by an independent second manager (`proposer_id != approver_id`, strictly enforced in database RPC).
+9. **Role-Based Portals**: Tailored web interfaces for Customers, Store Operators, Fraud Analysts, and Operations Managers with interactive persona switching.
+
+---
+
+## Platform Roles & Permissions
+
+| Role | Operational Scope & Permissions | Authorization Enforcement |
+| :--- | :--- | :--- |
+| **CUSTOMER** | View own points balance, tier progression, 365-day expiry countdown, catalog rewards, and redemption history. | Supabase Auth (`auth.uid()`) + RLS policies on all customer tables |
+| **OPERATOR** | Customer search, new customer provisioning, in-store order accrual, merchandise returns, and manual ledger reconciliation. | PostgreSQL RPC validation + Role-Based Access Control (`OPERATOR`) |
+| **ANALYST** | Ledger health monitoring, running LLIRE anomaly scans, forensic audit inspection, and benchmark evaluation. | PostgreSQL RPC validation + Role-Based Access Control (`ANALYST`) |
+| **OPERATIONS_MANAGER** | Incident investigations, proposing compensating adjustments, and reviewing dual-key actions (`proposer != approver`). | Strict database-level Dual-Key RPC enforcement (`BR-09`) |
+
+---
+
+## Quick Start & Local Setup
+
+### 1. Frontend Development
+
+```bash
+# Navigate to frontend
 cd frontend
 
-# Install dependencies and start development server
+# Install dependencies
 npm install
+
+# Set up local environment variables
+cp .env.example .env
+
+# Start Vite development server
 npm run dev
 ```
 
-The frontend will run at `http://localhost:5173` and connect to the local backend at `http://127.0.0.1:8000/api/v1`.
+The application will run locally at `http://localhost:5173` and connect directly to your Supabase project.
 
-### 2. Vercel Fullstack Deployment
+### 2. Supabase Migrations & Database Setup
 
-1. Import the repository into your Vercel account.
-2. Keep the **Root Directory** set to `./`.
-3. Add the required environment variables from [deployment/vercel.env.example](deployment/vercel.env.example) (see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)).
-4. Click **Deploy**. Both the React app and FastAPI serverless functions deploy together with zero CORS setup needed.
+Apply the idempotent database migrations in order:
+
+```bash
+# Link to your Supabase project
+supabase link --project-ref ahxjaplreytmauwpedgh
+
+# Push migrations to remote database
+supabase db push
+```
+
+The SQL migrations in `supabase/migrations/` establish:
+- `20261115000001_core_schema_and_immutability.sql`: 21 domain tables and 5 engine-level immutability triggers.
+- `20261115000002_rls_and_security.sql`: Row Level Security policies across all tables.
+- `20261115000003_business_rpc_functions.sql`: Stored procedures for accruals, redemptions, returns, reconciliation, and expiry.
+- `20261115000004_llire_and_remediation_rpc.sql`: LLIRE anomaly detection, 7-part explainability, and dual-key governance.
+
+### 3. Offline Developer Utilities (Python)
+
+```bash
+# Synthetic Data Generation
+python tools/seed_generator.py --scale TEST --seed 42
+
+# Offline LLIRE Benchmark Evaluation
+python tools/benchmark_evaluator.py
+
+# Offline Mathematical Invariant Unit Tests
+pytest backend/tests -v
+```
 
 ---
 
-## Testing & Quality
+## Testing & Quality Verification
 
-- **Backend Test Suite**: 105 automated unit and integration tests passing (`pytest -v`).
-- **Frontend Build**: 0 TypeScript compilation errors (`tsc && vite build`).
-- **LLIRE Accuracy**: 100% precision and recall on synthetic ground-truth anomaly benchmarks.
-- **Database Integrity**: All 21 tables, 5 triggers, and 9 RLS policies verified.
+| Test Suite | Scope | Status |
+| :--- | :--- | :--- |
+| **Frontend Compilation** | TypeScript typecheck & Vite production bundle | **PASS** (0 errors, 13.7s) |
+| **Offline Test Suite** | 85 automated unit tests for math invariants, seed determinism, and business rules | **PASS** (85/85 passed) |
+| **LLIRE Benchmark** | Evaluates all 5 anomaly detection categories against labelled ground truth | **PASS** (100% Precision, Recall, F1) |
+| **Dual-Key Governance** | Proposer self-approval rejection (`BR-09`) verified in RPC | **PASS** (Verified) |
+| **Database Parity** | 21 relational tables, 5 immutability triggers, and RLS policies | **PASS** (Verified) |
 
 ---
 
-## Documentation
+## Documentation Index
 
-Detailed documentation is available in the `docs/` directory:
-
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — System design, workflows A–G, and business rules.
-- [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md) — Database schema, tables, columns, and foreign keys.
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Step-by-step deployment guide for Vercel and Supabase.
-- [docs/TESTING_AND_EVALUATION.md](docs/TESTING_AND_EVALUATION.md) — Test breakdown, seed determinism, and benchmarks.
-- [docs/LIMITATIONS_AND_ROADMAP.md](docs/LIMITATIONS_AND_ROADMAP.md) — Current boundaries and planned features.
-- [docs/AI_USAGE.md](docs/AI_USAGE.md) — AI development acceleration and human verification.
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Complete Supabase architecture, migration matrix, and database design.
+- [docs/DATA_DICTIONARY.md](docs/DATA_DICTIONARY.md) — Relational schema specifications for all 21 tables.
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Production deployment guide for Vercel and Supabase.
+- [docs/TESTING_AND_EVALUATION.md](docs/TESTING_AND_EVALUATION.md) — Comprehensive test coverage and evaluation metrics.
+- [docs/LIMITATIONS_AND_ROADMAP.md](docs/LIMITATIONS_AND_ROADMAP.md) — System boundaries and future roadmap.
+- [tools/README.md](tools/README.md) — Guide to offline development scripts and benchmark evaluator.

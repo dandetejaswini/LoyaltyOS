@@ -122,20 +122,20 @@ def test_expiry_batch_items_constraints():
     assert {"item_id", "batch_id", "lot_id", "points_expired"}.issubset(col_names)
 
 
-def test_immutability_triggers_parity_between_ddl_and_alembic():
+def test_immutability_triggers_parity_between_ddl_and_supabase():
     """
     Verifies that all 5 database engine immutability triggers are defined
-    identically in both scripts/001_initial_schema.sql and Alembic migration.
+    identically in both scripts/001_initial_schema.sql and Supabase core migration.
     """
     workspace_root = Path(__file__).resolve().parent.parent.parent
     sql_path = workspace_root / "scripts" / "001_initial_schema.sql"
-    alembic_path = workspace_root / "backend" / "alembic" / "versions" / "001_initial_loyaltyos_schema.py"
+    supabase_path = workspace_root / "supabase" / "migrations" / "20261115000001_core_schema_and_immutability.sql"
 
     assert sql_path.exists(), f"SQL DDL script missing at {sql_path}"
-    assert alembic_path.exists(), f"Alembic migration missing at {alembic_path}"
+    assert supabase_path.exists(), f"Supabase migration missing at {supabase_path}"
 
     sql_content = sql_path.read_text(encoding="utf-8")
-    alembic_content = alembic_path.read_text(encoding="utf-8")
+    supabase_content = supabase_path.read_text(encoding="utf-8")
 
     expected_triggers = [
         "tg_points_transactions_immutable",
@@ -147,20 +147,20 @@ def test_immutability_triggers_parity_between_ddl_and_alembic():
 
     for trigger in expected_triggers:
         assert trigger in sql_content, f"Trigger '{trigger}' missing in scripts/001_initial_schema.sql"
-        assert trigger in alembic_content, f"Trigger '{trigger}' missing in Alembic migration"
+        assert trigger in supabase_content, f"Trigger '{trigger}' missing in Supabase migration"
 
 
-def test_rls_policies_parity_between_ddl_and_alembic():
+def test_rls_policies_parity_between_ddl_and_supabase():
     """
     Verifies that Row Level Security (RLS) enablement and customer isolation policies
-    are defined in both scripts/001_initial_schema.sql and Alembic migration.
+    are defined in both scripts/001_initial_schema.sql and Supabase RLS migration.
     """
     workspace_root = Path(__file__).resolve().parent.parent.parent
     sql_path = workspace_root / "scripts" / "001_initial_schema.sql"
-    alembic_path = workspace_root / "backend" / "alembic" / "versions" / "001_initial_loyaltyos_schema.py"
+    supabase_path = workspace_root / "supabase" / "migrations" / "20261115000002_rls_and_security.sql"
 
     sql_content = sql_path.read_text(encoding="utf-8")
-    alembic_content = alembic_path.read_text(encoding="utf-8")
+    supabase_content = supabase_path.read_text(encoding="utf-8")
 
     expected_policies = [
         "user_read_own_record",
@@ -176,4 +176,12 @@ def test_rls_policies_parity_between_ddl_and_alembic():
 
     for policy in expected_policies:
         assert policy in sql_content, f"Policy '{policy}' missing in scripts/001_initial_schema.sql"
-        assert policy in alembic_content, f"Policy '{policy}' missing in Alembic migration"
+
+    # Verify RLS policies are enabled across all tables in Supabase migration
+    assert "ENABLE ROW LEVEL SECURITY" in supabase_content
+    assert "p_customers_select" in supabase_content
+    assert "p_loyalty_accounts_select" in supabase_content
+    assert "p_points_transactions_select" in supabase_content
+    assert "p_points_lots_select" in supabase_content
+    assert "p_redemptions_select" in supabase_content
+    assert "p_orders_select" in supabase_content

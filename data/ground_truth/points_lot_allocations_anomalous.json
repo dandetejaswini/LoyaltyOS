@@ -1,970 +1,658 @@
 [
   {
     "allocation_id": "ALC-2026-00000001",
-    "lot_id": "LOT-2026-00000014",
+    "lot_id": "LOT-2026-00000062",
     "redemption_id": "RDM-2026-000001",
-    "transaction_id": "PTS-2026-00000015",
-    "points_allocated": 500,
-    "created_at": "2026-06-15T15:03:50+00:00"
+    "transaction_id": "PTS-2026-00000066",
+    "points_allocated": 342,
+    "created_at": "2026-02-17T01:53:31+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000002",
-    "lot_id": "LOT-2026-00000017",
-    "redemption_id": "RDM-2026-000002",
-    "transaction_id": "PTS-2026-00000019",
-    "points_allocated": 349,
-    "created_at": "2026-10-12T01:15:50+00:00"
+    "lot_id": "LOT-2026-00000016",
+    "redemption_id": "RDM-2026-000001",
+    "transaction_id": "PTS-2026-00000066",
+    "points_allocated": 608,
+    "created_at": "2026-02-17T01:53:31+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000003",
-    "lot_id": "LOT-2026-00000004",
+    "lot_id": "LOT-2026-00000130",
     "redemption_id": "RDM-2026-000002",
-    "transaction_id": "PTS-2026-00000019",
-    "points_allocated": 151,
-    "created_at": "2026-10-12T01:15:50+00:00"
+    "transaction_id": "PTS-2026-00000138",
+    "points_allocated": 775,
+    "created_at": "2026-05-11T10:25:26+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000004",
     "lot_id": "LOT-2026-00000044",
-    "redemption_id": "RDM-2026-000003",
-    "transaction_id": "PTS-2026-00000047",
-    "points_allocated": 353,
-    "created_at": "2026-07-12T03:23:28+00:00"
+    "redemption_id": "RDM-2026-000002",
+    "transaction_id": "PTS-2026-00000138",
+    "points_allocated": 175,
+    "created_at": "2026-05-11T10:25:26+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000005",
-    "lot_id": "LOT-2026-00000040",
+    "lot_id": "LOT-2026-00000031",
     "redemption_id": "RDM-2026-000003",
-    "transaction_id": "PTS-2026-00000047",
-    "points_allocated": 147,
-    "created_at": "2026-07-12T03:23:28+00:00"
+    "transaction_id": "PTS-2026-00000141",
+    "points_allocated": 269,
+    "created_at": "2025-11-16T02:29:37+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000006",
-    "lot_id": "LOT-2026-00000048",
-    "redemption_id": "RDM-2026-000004",
-    "transaction_id": "PTS-2026-00000059",
-    "points_allocated": 500,
-    "created_at": "2026-05-06T00:17:56+00:00"
+    "lot_id": "LOT-2026-00000132",
+    "redemption_id": "RDM-2026-000003",
+    "transaction_id": "PTS-2026-00000141",
+    "points_allocated": 231,
+    "created_at": "2025-11-16T02:29:37+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000007",
-    "lot_id": "LOT-2026-00000007",
-    "redemption_id": "RDM-2026-000005",
-    "transaction_id": "PTS-2026-00000070",
-    "points_allocated": 344,
-    "created_at": "2026-11-05T12:50:24+00:00"
+    "lot_id": "LOT-2026-00000045",
+    "redemption_id": "RDM-2026-000004",
+    "transaction_id": "PTS-2026-00000144",
+    "points_allocated": 1160,
+    "created_at": "2026-04-28T13:23:31+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000008",
-    "lot_id": "LOT-2026-00000035",
-    "redemption_id": "RDM-2026-000005",
-    "transaction_id": "PTS-2026-00000070",
-    "points_allocated": 291,
-    "created_at": "2026-11-05T12:50:24+00:00"
+    "lot_id": "LOT-2026-00000025",
+    "redemption_id": "RDM-2026-000004",
+    "transaction_id": "PTS-2026-00000144",
+    "points_allocated": 687,
+    "created_at": "2026-04-28T13:23:31+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000009",
-    "lot_id": "LOT-2026-00000064",
-    "redemption_id": "RDM-2026-000005",
-    "transaction_id": "PTS-2026-00000070",
-    "points_allocated": 315,
-    "created_at": "2026-11-05T12:50:24+00:00"
+    "lot_id": "LOT-2026-00000038",
+    "redemption_id": "RDM-2026-000004",
+    "transaction_id": "PTS-2026-00000144",
+    "points_allocated": 1077,
+    "created_at": "2026-04-28T13:23:31+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000010",
-    "lot_id": "LOT-2026-00000087",
-    "redemption_id": "RDM-2026-000006",
-    "transaction_id": "PTS-2026-00000096",
-    "points_allocated": 500,
-    "created_at": "2026-06-20T19:27:01+00:00"
+    "lot_id": "LOT-2026-00000097",
+    "redemption_id": "RDM-2026-000004",
+    "transaction_id": "PTS-2026-00000144",
+    "points_allocated": 1076,
+    "created_at": "2026-04-28T13:23:31+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000011",
-    "lot_id": "LOT-2026-00000066",
-    "redemption_id": "RDM-2026-000007",
-    "transaction_id": "PTS-2026-00000116",
-    "points_allocated": 237,
-    "created_at": "2025-07-12T17:10:05+00:00"
+    "lot_id": "LOT-2026-00000148",
+    "redemption_id": "RDM-2026-000005",
+    "transaction_id": "PTS-2026-00000160",
+    "points_allocated": 539,
+    "created_at": "2025-09-08T11:14:22+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000012",
-    "lot_id": "LOT-2026-00000106",
-    "redemption_id": "RDM-2026-000007",
-    "transaction_id": "PTS-2026-00000116",
-    "points_allocated": 105,
-    "created_at": "2025-07-12T17:10:05+00:00"
+    "lot_id": "LOT-2026-00000132",
+    "redemption_id": "RDM-2026-000005",
+    "transaction_id": "PTS-2026-00000160",
+    "points_allocated": 365,
+    "created_at": "2025-09-08T11:14:22+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000013",
-    "lot_id": "LOT-2026-00000033",
-    "redemption_id": "RDM-2026-000007",
-    "transaction_id": "PTS-2026-00000116",
-    "points_allocated": 308,
-    "created_at": "2025-07-12T17:10:05+00:00"
+    "lot_id": "LOT-2026-00000129",
+    "redemption_id": "RDM-2026-000005",
+    "transaction_id": "PTS-2026-00000160",
+    "points_allocated": 46,
+    "created_at": "2025-09-08T11:14:22+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000014",
-    "lot_id": "LOT-2026-00000103",
-    "redemption_id": "RDM-2026-000007",
-    "transaction_id": "PTS-2026-00000116",
-    "points_allocated": 300,
-    "created_at": "2025-07-12T17:10:05+00:00"
+    "lot_id": "LOT-2026-00000163",
+    "redemption_id": "RDM-2026-000006",
+    "transaction_id": "PTS-2026-00000176",
+    "points_allocated": 413,
+    "created_at": "2025-02-26T22:14:32+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000015",
-    "lot_id": "LOT-2026-00000117",
-    "redemption_id": "RDM-2026-000008",
-    "transaction_id": "PTS-2026-00000154",
-    "points_allocated": 105,
-    "created_at": "2026-07-26T08:33:50+00:00"
+    "lot_id": "LOT-2026-00000021",
+    "redemption_id": "RDM-2026-000006",
+    "transaction_id": "PTS-2026-00000176",
+    "points_allocated": 215,
+    "created_at": "2025-02-26T22:14:32+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000016",
-    "lot_id": "LOT-2026-00000135",
-    "redemption_id": "RDM-2026-000008",
-    "transaction_id": "PTS-2026-00000154",
-    "points_allocated": 356,
-    "created_at": "2026-07-26T08:33:50+00:00"
+    "lot_id": "LOT-2026-00000108",
+    "redemption_id": "RDM-2026-000006",
+    "transaction_id": "PTS-2026-00000176",
+    "points_allocated": 261,
+    "created_at": "2025-02-26T22:14:32+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000017",
-    "lot_id": "LOT-2026-00000141",
-    "redemption_id": "RDM-2026-000008",
-    "transaction_id": "PTS-2026-00000154",
-    "points_allocated": 162,
-    "created_at": "2026-07-26T08:33:50+00:00"
+    "lot_id": "LOT-2026-00000144",
+    "redemption_id": "RDM-2026-000006",
+    "transaction_id": "PTS-2026-00000176",
+    "points_allocated": 61,
+    "created_at": "2025-02-26T22:14:32+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000018",
-    "lot_id": "LOT-2026-00000082",
-    "redemption_id": "RDM-2026-000008",
-    "transaction_id": "PTS-2026-00000154",
-    "points_allocated": 99,
-    "created_at": "2026-07-26T08:33:50+00:00"
+    "lot_id": "LOT-2026-00000140",
+    "redemption_id": "RDM-2026-000007",
+    "transaction_id": "PTS-2026-00000188",
+    "points_allocated": 360,
+    "created_at": "2026-10-23T05:59:51+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000019",
-    "lot_id": "LOT-2026-00000137",
-    "redemption_id": "RDM-2026-000008",
-    "transaction_id": "PTS-2026-00000154",
-    "points_allocated": 35,
-    "created_at": "2026-07-26T08:33:50+00:00"
+    "lot_id": "LOT-2026-00000091",
+    "redemption_id": "RDM-2026-000007",
+    "transaction_id": "PTS-2026-00000188",
+    "points_allocated": 140,
+    "created_at": "2026-10-23T05:59:51+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000020",
-    "lot_id": "LOT-2026-00000037",
+    "lot_id": "LOT-2026-00000169",
     "redemption_id": "RDM-2026-000008",
-    "transaction_id": "PTS-2026-00000154",
-    "points_allocated": 193,
-    "created_at": "2026-07-26T08:33:50+00:00"
+    "transaction_id": "PTS-2026-00000194",
+    "points_allocated": 118,
+    "created_at": "2026-05-02T13:32:11+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000021",
-    "lot_id": "LOT-2026-00000149",
-    "redemption_id": "RDM-2026-000009",
-    "transaction_id": "PTS-2026-00000163",
-    "points_allocated": 63,
-    "created_at": "2026-01-22T23:42:55+00:00"
+    "lot_id": "LOT-2026-00000167",
+    "redemption_id": "RDM-2026-000008",
+    "transaction_id": "PTS-2026-00000194",
+    "points_allocated": 224,
+    "created_at": "2026-05-02T13:32:11+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000022",
-    "lot_id": "LOT-2026-00000039",
-    "redemption_id": "RDM-2026-000009",
-    "transaction_id": "PTS-2026-00000163",
-    "points_allocated": 285,
-    "created_at": "2026-01-22T23:42:55+00:00"
+    "lot_id": "LOT-2026-00000178",
+    "redemption_id": "RDM-2026-000008",
+    "transaction_id": "PTS-2026-00000194",
+    "points_allocated": 158,
+    "created_at": "2026-05-02T13:32:11+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000023",
-    "lot_id": "LOT-2026-00000071",
+    "lot_id": "LOT-2026-00000100",
     "redemption_id": "RDM-2026-000009",
-    "transaction_id": "PTS-2026-00000163",
-    "points_allocated": 602,
-    "created_at": "2026-01-22T23:42:55+00:00"
+    "transaction_id": "PTS-2026-00000199",
+    "points_allocated": 188,
+    "created_at": "2025-09-03T13:13:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000024",
-    "lot_id": "LOT-2026-00000164",
-    "redemption_id": "RDM-2026-000010",
-    "transaction_id": "PTS-2026-00000180",
-    "points_allocated": 88,
-    "created_at": "2025-10-17T13:01:22+00:00"
+    "lot_id": "LOT-2026-00000055",
+    "redemption_id": "RDM-2026-000009",
+    "transaction_id": "PTS-2026-00000199",
+    "points_allocated": 179,
+    "created_at": "2025-09-03T13:13:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000025",
-    "lot_id": "LOT-2026-00000143",
-    "redemption_id": "RDM-2026-000010",
-    "transaction_id": "PTS-2026-00000180",
-    "points_allocated": 412,
-    "created_at": "2025-10-17T13:01:22+00:00"
+    "lot_id": "LOT-2026-00000182",
+    "redemption_id": "RDM-2026-000009",
+    "transaction_id": "PTS-2026-00000199",
+    "points_allocated": 133,
+    "created_at": "2025-09-03T13:13:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000026",
-    "lot_id": "LOT-2026-00000099",
-    "redemption_id": "RDM-2026-000011",
-    "transaction_id": "PTS-2026-00000198",
-    "points_allocated": 328,
-    "created_at": "2026-08-08T02:30:44+00:00"
+    "lot_id": "LOT-2026-00000070",
+    "redemption_id": "RDM-2026-000010",
+    "transaction_id": "PTS-2026-00000220",
+    "points_allocated": 84,
+    "created_at": "2026-10-23T09:14:28+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000027",
-    "lot_id": "LOT-2026-00000179",
-    "redemption_id": "RDM-2026-000011",
-    "transaction_id": "PTS-2026-00000198",
-    "points_allocated": 172,
-    "created_at": "2026-08-08T02:30:44+00:00"
+    "lot_id": "LOT-2026-00000085",
+    "redemption_id": "RDM-2026-000010",
+    "transaction_id": "PTS-2026-00000220",
+    "points_allocated": 134,
+    "created_at": "2026-10-23T09:14:28+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000028",
-    "lot_id": "LOT-2026-00000155",
-    "redemption_id": "RDM-2026-000012",
-    "transaction_id": "PTS-2026-00000214",
-    "points_allocated": 456,
-    "created_at": "2026-05-29T22:30:27+00:00"
+    "lot_id": "LOT-2026-00000202",
+    "redemption_id": "RDM-2026-000010",
+    "transaction_id": "PTS-2026-00000220",
+    "points_allocated": 282,
+    "created_at": "2026-10-23T09:14:28+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000029",
-    "lot_id": "LOT-2026-00000046",
-    "redemption_id": "RDM-2026-000012",
-    "transaction_id": "PTS-2026-00000214",
-    "points_allocated": 84,
-    "created_at": "2026-05-29T22:30:27+00:00"
+    "lot_id": "LOT-2026-00000074",
+    "redemption_id": "RDM-2026-000011",
+    "transaction_id": "PTS-2026-00000232",
+    "points_allocated": 433,
+    "created_at": "2026-08-25T20:01:03+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000030",
-    "lot_id": "LOT-2026-00000084",
-    "redemption_id": "RDM-2026-000012",
-    "transaction_id": "PTS-2026-00000214",
-    "points_allocated": 410,
-    "created_at": "2026-05-29T22:30:27+00:00"
+    "lot_id": "LOT-2026-00000213",
+    "redemption_id": "RDM-2026-000011",
+    "transaction_id": "PTS-2026-00000232",
+    "points_allocated": 67,
+    "created_at": "2026-08-25T20:01:03+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000031",
-    "lot_id": "LOT-2026-00000105",
-    "redemption_id": "RDM-2026-000013",
-    "transaction_id": "PTS-2026-00000230",
-    "points_allocated": 500,
-    "created_at": "2026-04-15T09:40:52+00:00"
+    "lot_id": "LOT-2026-00000235",
+    "redemption_id": "RDM-2026-000012",
+    "transaction_id": "PTS-2026-00000258",
+    "points_allocated": 348,
+    "created_at": "2025-11-30T13:01:27+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000032",
-    "lot_id": "LOT-2026-00000235",
-    "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 540,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "lot_id": "LOT-2026-00000060",
+    "redemption_id": "RDM-2026-000012",
+    "transaction_id": "PTS-2026-00000258",
+    "points_allocated": 299,
+    "created_at": "2025-11-30T13:01:27+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000033",
-    "lot_id": "LOT-2026-00000048",
-    "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 158,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "lot_id": "LOT-2026-00000222",
+    "redemption_id": "RDM-2026-000012",
+    "transaction_id": "PTS-2026-00000258",
+    "points_allocated": 303,
+    "created_at": "2025-11-30T13:01:27+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000034",
-    "lot_id": "LOT-2026-00000008",
-    "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 179,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "lot_id": "LOT-2026-00000151",
+    "redemption_id": "RDM-2026-000013",
+    "transaction_id": "PTS-2026-00000281",
+    "points_allocated": 500,
+    "created_at": "2026-03-22T05:56:52+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000035",
-    "lot_id": "LOT-2026-00000175",
+    "lot_id": "LOT-2026-00000014",
     "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 66,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 418,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000036",
-    "lot_id": "LOT-2026-00000034",
+    "lot_id": "LOT-2026-00000057",
     "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 414,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 501,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000037",
-    "lot_id": "LOT-2026-00000154",
+    "lot_id": "LOT-2026-00000170",
     "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 319,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 150,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000038",
-    "lot_id": "LOT-2026-00000055",
+    "lot_id": "LOT-2026-00000180",
     "redemption_id": "RDM-2026-000014",
-    "transaction_id": "PTS-2026-00000259",
-    "points_allocated": 524,
-    "created_at": "2025-06-30T15:16:17+00:00"
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 195,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000039",
-    "lot_id": "LOT-2026-00000071",
-    "redemption_id": "RDM-2026-000015",
-    "transaction_id": "PTS-2026-00000262",
-    "points_allocated": 3,
-    "created_at": "2026-10-19T04:52:43+00:00"
+    "lot_id": "LOT-2026-00000048",
+    "redemption_id": "RDM-2026-000014",
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 148,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000040",
-    "lot_id": "LOT-2026-00000159",
-    "redemption_id": "RDM-2026-000015",
-    "transaction_id": "PTS-2026-00000262",
-    "points_allocated": 497,
-    "created_at": "2026-10-19T04:52:43+00:00"
+    "lot_id": "LOT-2026-00000128",
+    "redemption_id": "RDM-2026-000014",
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 118,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000041",
-    "lot_id": "LOT-2026-00000049",
-    "redemption_id": "RDM-2026-000016",
-    "transaction_id": "PTS-2026-00000300",
-    "points_allocated": 384,
-    "created_at": "2026-06-10T15:14:13+00:00"
+    "lot_id": "LOT-2026-00000258",
+    "redemption_id": "RDM-2026-000014",
+    "transaction_id": "PTS-2026-00000283",
+    "points_allocated": 670,
+    "created_at": "2026-10-04T07:48:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000042",
-    "lot_id": "LOT-2026-00000162",
-    "redemption_id": "RDM-2026-000016",
-    "transaction_id": "PTS-2026-00000300",
-    "points_allocated": 116,
-    "created_at": "2026-06-10T15:14:13+00:00"
+    "lot_id": "LOT-2026-00000171",
+    "redemption_id": "RDM-2026-000015",
+    "transaction_id": "PTS-2026-00000285",
+    "points_allocated": 215,
+    "created_at": "2025-09-02T23:03:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000043",
-    "lot_id": "LOT-2026-00000250",
-    "redemption_id": "RDM-2026-000017",
-    "transaction_id": "PTS-2026-00000304",
-    "points_allocated": 652,
-    "created_at": "2026-10-01T16:59:13+00:00"
+    "lot_id": "LOT-2026-00000259",
+    "redemption_id": "RDM-2026-000015",
+    "transaction_id": "PTS-2026-00000285",
+    "points_allocated": 195,
+    "created_at": "2025-09-02T23:03:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000044",
-    "lot_id": "LOT-2026-00000267",
-    "redemption_id": "RDM-2026-000017",
-    "transaction_id": "PTS-2026-00000304",
-    "points_allocated": 298,
-    "created_at": "2026-10-01T16:59:13+00:00"
+    "lot_id": "LOT-2026-00000039",
+    "redemption_id": "RDM-2026-000015",
+    "transaction_id": "PTS-2026-00000285",
+    "points_allocated": 89,
+    "created_at": "2025-09-02T23:03:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000045",
-    "lot_id": "LOT-2026-00000190",
-    "redemption_id": "RDM-2026-000018",
-    "transaction_id": "PTS-2026-00000309",
-    "points_allocated": 950,
-    "created_at": "2026-08-10T13:01:57+00:00"
+    "lot_id": "LOT-2026-00000126",
+    "redemption_id": "RDM-2026-000015",
+    "transaction_id": "PTS-2026-00000285",
+    "points_allocated": 1,
+    "created_at": "2025-09-02T23:03:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000046",
-    "lot_id": "LOT-2026-00000105",
-    "redemption_id": "RDM-2026-000019",
-    "transaction_id": "PTS-2026-00000317",
-    "points_allocated": 42,
-    "created_at": "2026-10-21T16:33:35+00:00"
+    "lot_id": "LOT-2026-00000267",
+    "redemption_id": "RDM-2026-000016",
+    "transaction_id": "PTS-2026-00000294",
+    "points_allocated": 500,
+    "created_at": "2026-05-18T02:36:50+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000047",
-    "lot_id": "LOT-2026-00000208",
-    "redemption_id": "RDM-2026-000019",
-    "transaction_id": "PTS-2026-00000317",
-    "points_allocated": 273,
-    "created_at": "2026-10-21T16:33:35+00:00"
+    "lot_id": "LOT-2026-00000286",
+    "redemption_id": "RDM-2026-000017",
+    "transaction_id": "PTS-2026-00000314",
+    "points_allocated": 225,
+    "created_at": "2025-08-11T20:46:42+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000048",
-    "lot_id": "LOT-2026-00000231",
-    "redemption_id": "RDM-2026-000019",
-    "transaction_id": "PTS-2026-00000317",
-    "points_allocated": 185,
-    "created_at": "2026-10-21T16:33:35+00:00"
+    "lot_id": "LOT-2026-00000056",
+    "redemption_id": "RDM-2026-000017",
+    "transaction_id": "PTS-2026-00000314",
+    "points_allocated": 275,
+    "created_at": "2025-08-11T20:46:42+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000049",
-    "lot_id": "LOT-2026-00000267",
-    "redemption_id": "RDM-2026-000020",
-    "transaction_id": "PTS-2026-00000319",
-    "points_allocated": 44,
-    "created_at": "2026-06-30T10:44:24+00:00"
+    "lot_id": "LOT-2026-00000294",
+    "redemption_id": "RDM-2026-000018",
+    "transaction_id": "PTS-2026-00000323",
+    "points_allocated": 500,
+    "created_at": "2025-06-23T11:02:40+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000050",
-    "lot_id": "LOT-2026-00000286",
-    "redemption_id": "RDM-2026-000020",
-    "transaction_id": "PTS-2026-00000319",
-    "points_allocated": 180,
-    "created_at": "2026-06-30T10:44:24+00:00"
+    "lot_id": "LOT-2026-00000175",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 617,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000051",
-    "lot_id": "LOT-2026-00000217",
-    "redemption_id": "RDM-2026-000020",
-    "transaction_id": "PTS-2026-00000319",
-    "points_allocated": 583,
-    "created_at": "2026-06-30T10:44:24+00:00"
+    "lot_id": "LOT-2026-00000063",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 450,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000052",
-    "lot_id": "LOT-2026-00000179",
-    "redemption_id": "RDM-2026-000020",
-    "transaction_id": "PTS-2026-00000319",
-    "points_allocated": 7,
-    "created_at": "2026-06-30T10:44:24+00:00"
+    "lot_id": "LOT-2026-00000283",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 413,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000053",
-    "lot_id": "LOT-2026-00000276",
-    "redemption_id": "RDM-2026-000020",
-    "transaction_id": "PTS-2026-00000319",
-    "points_allocated": 136,
-    "created_at": "2026-06-30T10:44:24+00:00"
+    "lot_id": "LOT-2026-00000320",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 540,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000054",
-    "lot_id": "LOT-2026-00000290",
-    "redemption_id": "RDM-2026-000021",
-    "transaction_id": "PTS-2026-00000324",
-    "points_allocated": 479,
-    "created_at": "2025-12-08T11:20:31+00:00"
+    "lot_id": "LOT-2026-00000049",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 149,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000055",
-    "lot_id": "LOT-2026-00000127",
-    "redemption_id": "RDM-2026-000021",
-    "transaction_id": "PTS-2026-00000324",
-    "points_allocated": 21,
-    "created_at": "2025-12-08T11:20:31+00:00"
+    "lot_id": "LOT-2026-00000165",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 455,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000056",
-    "lot_id": "LOT-2026-00000097",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 500,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000269",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 908,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000057",
-    "lot_id": "LOT-2026-00000302",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 262,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000028",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 365,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000058",
-    "lot_id": "LOT-2026-00000134",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 152,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000313",
+    "redemption_id": "RDM-2026-000019",
+    "transaction_id": "PTS-2026-00000350",
+    "points_allocated": 103,
+    "created_at": "2026-02-21T08:12:43+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000059",
-    "lot_id": "LOT-2026-00000144",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 181,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000027",
+    "redemption_id": "RDM-2026-000020",
+    "transaction_id": "PTS-2026-00000352",
+    "points_allocated": 299,
+    "created_at": "2026-01-01T04:17:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000060",
-    "lot_id": "LOT-2026-00000142",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 491,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000321",
+    "redemption_id": "RDM-2026-000020",
+    "transaction_id": "PTS-2026-00000352",
+    "points_allocated": 485,
+    "created_at": "2026-01-01T04:17:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000061",
-    "lot_id": "LOT-2026-00000170",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 119,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000201",
+    "redemption_id": "RDM-2026-000020",
+    "transaction_id": "PTS-2026-00000352",
+    "points_allocated": 166,
+    "created_at": "2026-01-01T04:17:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000062",
-    "lot_id": "LOT-2026-00000058",
-    "redemption_id": "RDM-2026-000022",
-    "transaction_id": "PTS-2026-00000337",
-    "points_allocated": 495,
-    "created_at": "2025-11-17T06:04:24+00:00"
+    "lot_id": "LOT-2026-00000101",
+    "redemption_id": "RDM-2026-000021",
+    "transaction_id": "PTS-2026-00000357",
+    "points_allocated": 324,
+    "created_at": "2026-07-20T00:20:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000063",
-    "lot_id": "LOT-2026-00000218",
-    "redemption_id": "RDM-2026-000023",
-    "transaction_id": "PTS-2026-00000342",
-    "points_allocated": 130,
-    "created_at": "2026-05-04T03:18:38+00:00"
+    "lot_id": "LOT-2026-00000072",
+    "redemption_id": "RDM-2026-000021",
+    "transaction_id": "PTS-2026-00000357",
+    "points_allocated": 493,
+    "created_at": "2026-07-20T00:20:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000064",
-    "lot_id": "LOT-2026-00000306",
-    "redemption_id": "RDM-2026-000023",
-    "transaction_id": "PTS-2026-00000342",
-    "points_allocated": 370,
-    "created_at": "2026-05-04T03:18:38+00:00"
+    "lot_id": "LOT-2026-00000325",
+    "redemption_id": "RDM-2026-000021",
+    "transaction_id": "PTS-2026-00000357",
+    "points_allocated": 133,
+    "created_at": "2026-07-20T00:20:17+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000065",
-    "lot_id": "LOT-2026-00000167",
-    "redemption_id": "RDM-2026-000024",
-    "transaction_id": "PTS-2026-00000348",
-    "points_allocated": 418,
-    "created_at": "2026-07-27T15:31:31+00:00"
+    "lot_id": "LOT-2026-00000322",
+    "redemption_id": "RDM-2026-000022",
+    "transaction_id": "PTS-2026-00000382",
+    "points_allocated": 1076,
+    "created_at": "2026-02-22T10:38:44+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000066",
-    "lot_id": "LOT-2026-00000125",
-    "redemption_id": "RDM-2026-000024",
-    "transaction_id": "PTS-2026-00000348",
-    "points_allocated": 42,
-    "created_at": "2026-07-27T15:31:31+00:00"
+    "lot_id": "LOT-2026-00000241",
+    "redemption_id": "RDM-2026-000022",
+    "transaction_id": "PTS-2026-00000382",
+    "points_allocated": 35,
+    "created_at": "2026-02-22T10:38:44+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000067",
-    "lot_id": "LOT-2026-00000148",
-    "redemption_id": "RDM-2026-000024",
-    "transaction_id": "PTS-2026-00000348",
-    "points_allocated": 222,
-    "created_at": "2026-07-27T15:31:31+00:00"
+    "lot_id": "LOT-2026-00000033",
+    "redemption_id": "RDM-2026-000022",
+    "transaction_id": "PTS-2026-00000382",
+    "points_allocated": 225,
+    "created_at": "2026-02-22T10:38:44+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000068",
-    "lot_id": "LOT-2026-00000209",
-    "redemption_id": "RDM-2026-000024",
-    "transaction_id": "PTS-2026-00000348",
-    "points_allocated": 268,
-    "created_at": "2026-07-27T15:31:31+00:00"
+    "lot_id": "LOT-2026-00000348",
+    "redemption_id": "RDM-2026-000022",
+    "transaction_id": "PTS-2026-00000382",
+    "points_allocated": 864,
+    "created_at": "2026-02-22T10:38:44+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000069",
-    "lot_id": "LOT-2026-00000026",
-    "redemption_id": "RDM-2026-000025",
-    "transaction_id": "PTS-2026-00000355",
-    "points_allocated": 95,
-    "created_at": "2026-09-19T05:48:34+00:00"
+    "lot_id": "LOT-2026-00000348",
+    "redemption_id": "RDM-2026-000023",
+    "transaction_id": "PTS-2026-00000393",
+    "points_allocated": 10,
+    "created_at": "2026-07-05T10:51:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000070",
-    "lot_id": "LOT-2026-00000256",
-    "redemption_id": "RDM-2026-000025",
-    "transaction_id": "PTS-2026-00000355",
-    "points_allocated": 806,
-    "created_at": "2026-09-19T05:48:34+00:00"
+    "lot_id": "LOT-2026-00000147",
+    "redemption_id": "RDM-2026-000023",
+    "transaction_id": "PTS-2026-00000393",
+    "points_allocated": 56,
+    "created_at": "2026-07-05T10:51:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000071",
-    "lot_id": "LOT-2026-00000192",
-    "redemption_id": "RDM-2026-000025",
-    "transaction_id": "PTS-2026-00000355",
-    "points_allocated": 49,
-    "created_at": "2026-09-19T05:48:34+00:00"
+    "lot_id": "LOT-2026-00000358",
+    "redemption_id": "RDM-2026-000023",
+    "transaction_id": "PTS-2026-00000393",
+    "points_allocated": 56,
+    "created_at": "2026-07-05T10:51:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000072",
-    "lot_id": "LOT-2026-00000264",
-    "redemption_id": "RDM-2026-000026",
-    "transaction_id": "PTS-2026-00000374",
-    "points_allocated": 168,
-    "created_at": "2026-09-25T22:37:08+00:00"
+    "lot_id": "LOT-2026-00000215",
+    "redemption_id": "RDM-2026-000023",
+    "transaction_id": "PTS-2026-00000393",
+    "points_allocated": 378,
+    "created_at": "2026-07-05T10:51:24+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000073",
-    "lot_id": "LOT-2026-00000060",
-    "redemption_id": "RDM-2026-000026",
-    "transaction_id": "PTS-2026-00000374",
-    "points_allocated": 332,
-    "created_at": "2026-09-25T22:37:08+00:00"
+    "lot_id": "LOT-2026-00000010",
+    "redemption_id": "RDM-2026-000024",
+    "transaction_id": "PTS-2026-00000410",
+    "points_allocated": 44,
+    "created_at": "2026-07-31T09:09:21+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000074",
-    "lot_id": "LOT-2026-00000292",
-    "redemption_id": "RDM-2026-000027",
-    "transaction_id": "PTS-2026-00000376",
-    "points_allocated": 500,
-    "created_at": "2026-04-18T04:52:26+00:00"
+    "lot_id": "LOT-2026-00000245",
+    "redemption_id": "RDM-2026-000024",
+    "transaction_id": "PTS-2026-00000410",
+    "points_allocated": 539,
+    "created_at": "2026-07-31T09:09:21+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000075",
-    "lot_id": "LOT-2026-00000239",
-    "redemption_id": "RDM-2026-000028",
-    "transaction_id": "PTS-2026-00000382",
-    "points_allocated": 500,
-    "created_at": "2026-07-28T22:15:53+00:00"
+    "lot_id": "LOT-2026-00000256",
+    "redemption_id": "RDM-2026-000024",
+    "transaction_id": "PTS-2026-00000410",
+    "points_allocated": 296,
+    "created_at": "2026-07-31T09:09:21+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000076",
-    "lot_id": "LOT-2026-00000347",
-    "redemption_id": "RDM-2026-000029",
-    "transaction_id": "PTS-2026-00000391",
-    "points_allocated": 284,
-    "created_at": "2026-02-21T22:38:18+00:00"
+    "lot_id": "LOT-2026-00000373",
+    "redemption_id": "RDM-2026-000024",
+    "transaction_id": "PTS-2026-00000410",
+    "points_allocated": 71,
+    "created_at": "2026-07-31T09:09:21+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000077",
-    "lot_id": "LOT-2026-00000268",
-    "redemption_id": "RDM-2026-000029",
-    "transaction_id": "PTS-2026-00000391",
-    "points_allocated": 216,
-    "created_at": "2026-02-21T22:38:18+00:00"
+    "lot_id": "LOT-2026-00000219",
+    "redemption_id": "RDM-2026-000025",
+    "transaction_id": "PTS-2026-00000432",
+    "points_allocated": 710,
+    "created_at": "2026-11-01T04:18:46+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000078",
-    "lot_id": "LOT-2026-00000009",
-    "redemption_id": "RDM-2026-000030",
-    "transaction_id": "PTS-2026-00000423",
-    "points_allocated": 149,
-    "created_at": "2026-06-29T06:34:36+00:00"
+    "lot_id": "LOT-2026-00000329",
+    "redemption_id": "RDM-2026-000025",
+    "transaction_id": "PTS-2026-00000432",
+    "points_allocated": 235,
+    "created_at": "2026-11-01T04:18:46+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000079",
-    "lot_id": "LOT-2026-00000110",
-    "redemption_id": "RDM-2026-000030",
-    "transaction_id": "PTS-2026-00000423",
-    "points_allocated": 351,
-    "created_at": "2026-06-29T06:34:36+00:00"
+    "lot_id": "LOT-2026-00000394",
+    "redemption_id": "RDM-2026-000025",
+    "transaction_id": "PTS-2026-00000432",
+    "points_allocated": 5,
+    "created_at": "2026-11-01T04:18:46+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000080",
-    "lot_id": "LOT-2026-00000303",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 158,
-    "created_at": "2026-06-30T04:26:18+00:00"
+    "lot_id": "LOT-2026-00000395",
+    "redemption_id": "RDM-2026-000026",
+    "transaction_id": "PTS-2026-00000434",
+    "points_allocated": 500,
+    "created_at": "2026-01-10T21:50:13+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000081",
-    "lot_id": "LOT-2026-00000143",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 113,
-    "created_at": "2026-06-30T04:26:18+00:00"
+    "lot_id": "LOT-2026-00000300",
+    "redemption_id": "RDM-2026-000027",
+    "transaction_id": "PTS-2026-00000484",
+    "points_allocated": 480,
+    "created_at": "2026-08-29T14:35:03+00:00"
   },
   {
     "allocation_id": "ALC-2026-00000082",
-    "lot_id": "LOT-2026-00000299",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 87,
-    "created_at": "2026-06-30T04:26:18+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000083",
-    "lot_id": "LOT-2026-00000114",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 81,
-    "created_at": "2026-06-30T04:26:18+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000084",
-    "lot_id": "LOT-2026-00000387",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 283,
-    "created_at": "2026-06-30T04:26:18+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000085",
-    "lot_id": "LOT-2026-00000388",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 150,
-    "created_at": "2026-06-30T04:26:18+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000086",
-    "lot_id": "LOT-2026-00000242",
-    "redemption_id": "RDM-2026-000031",
-    "transaction_id": "PTS-2026-00000435",
-    "points_allocated": 78,
-    "created_at": "2026-06-30T04:26:18+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000087",
-    "lot_id": "LOT-2026-00000304",
-    "redemption_id": "RDM-2026-000032",
-    "transaction_id": "PTS-2026-00000437",
-    "points_allocated": 439,
-    "created_at": "2026-03-12T23:06:54+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000088",
-    "lot_id": "LOT-2026-00000389",
-    "redemption_id": "RDM-2026-000032",
-    "transaction_id": "PTS-2026-00000437",
-    "points_allocated": 292,
-    "created_at": "2026-03-12T23:06:54+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000089",
-    "lot_id": "LOT-2026-00000084",
-    "redemption_id": "RDM-2026-000032",
-    "transaction_id": "PTS-2026-00000437",
-    "points_allocated": 122,
-    "created_at": "2026-03-12T23:06:54+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000090",
-    "lot_id": "LOT-2026-00000198",
-    "redemption_id": "RDM-2026-000032",
-    "transaction_id": "PTS-2026-00000437",
-    "points_allocated": 97,
-    "created_at": "2026-03-12T23:06:54+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000091",
-    "lot_id": "LOT-2026-00000386",
-    "redemption_id": "RDM-2026-000033",
-    "transaction_id": "PTS-2026-00000446",
-    "points_allocated": 715,
-    "created_at": "2026-10-23T19:16:00+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000092",
-    "lot_id": "LOT-2026-00000069",
-    "redemption_id": "RDM-2026-000033",
-    "transaction_id": "PTS-2026-00000446",
-    "points_allocated": 235,
-    "created_at": "2026-10-23T19:16:00+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000093",
-    "lot_id": "LOT-2026-00000190",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 18,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000094",
-    "lot_id": "LOT-2026-00000088",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 446,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000095",
-    "lot_id": "LOT-2026-00000204",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 654,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000096",
-    "lot_id": "LOT-2026-00000318",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 446,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000097",
-    "lot_id": "LOT-2026-00000246",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 607,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000098",
-    "lot_id": "LOT-2026-00000319",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 1050,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000099",
-    "lot_id": "LOT-2026-00000070",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 157,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000100",
-    "lot_id": "LOT-2026-00000229",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 84,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000101",
-    "lot_id": "LOT-2026-00000107",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 299,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000102",
-    "lot_id": "LOT-2026-00000278",
-    "redemption_id": "RDM-2026-000034",
-    "transaction_id": "PTS-2026-00000472",
-    "points_allocated": 239,
-    "created_at": "2026-10-24T03:53:46+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000103",
-    "lot_id": "LOT-2026-00000372",
-    "redemption_id": "RDM-2026-000035",
-    "transaction_id": "PTS-2026-00000477",
-    "points_allocated": 181,
-    "created_at": "2026-08-05T01:25:16+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000104",
-    "lot_id": "LOT-2026-00000294",
-    "redemption_id": "RDM-2026-000035",
-    "transaction_id": "PTS-2026-00000477",
-    "points_allocated": 49,
-    "created_at": "2026-08-05T01:25:16+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000105",
-    "lot_id": "LOT-2026-00000423",
-    "redemption_id": "RDM-2026-000035",
-    "transaction_id": "PTS-2026-00000477",
-    "points_allocated": 270,
-    "created_at": "2026-08-05T01:25:16+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000106",
-    "lot_id": "LOT-2026-00000428",
-    "redemption_id": "RDM-2026-000036",
-    "transaction_id": "PTS-2026-00000483",
-    "points_allocated": 260,
-    "created_at": "2026-06-17T06:57:27+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000107",
-    "lot_id": "LOT-2026-00000278",
-    "redemption_id": "RDM-2026-000036",
-    "transaction_id": "PTS-2026-00000483",
-    "points_allocated": 628,
-    "created_at": "2026-06-17T06:57:27+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000108",
-    "lot_id": "LOT-2026-00000041",
-    "redemption_id": "RDM-2026-000036",
-    "transaction_id": "PTS-2026-00000483",
-    "points_allocated": 62,
-    "created_at": "2026-06-17T06:57:27+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000109",
-    "lot_id": "LOT-2026-00000156",
-    "redemption_id": "RDM-2026-000037",
-    "transaction_id": "PTS-2026-00000491",
-    "points_allocated": 528,
-    "created_at": "2026-02-04T03:21:30+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000110",
-    "lot_id": "LOT-2026-00000333",
-    "redemption_id": "RDM-2026-000037",
-    "transaction_id": "PTS-2026-00000491",
-    "points_allocated": 141,
-    "created_at": "2026-02-04T03:21:30+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000111",
-    "lot_id": "LOT-2026-00000158",
-    "redemption_id": "RDM-2026-000037",
-    "transaction_id": "PTS-2026-00000491",
-    "points_allocated": 597,
-    "created_at": "2026-02-04T03:21:30+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000112",
-    "lot_id": "LOT-2026-00000435",
-    "redemption_id": "RDM-2026-000037",
-    "transaction_id": "PTS-2026-00000491",
-    "points_allocated": 520,
-    "created_at": "2026-02-04T03:21:30+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000113",
-    "lot_id": "LOT-2026-00000368",
-    "redemption_id": "RDM-2026-000037",
-    "transaction_id": "PTS-2026-00000491",
-    "points_allocated": 42,
-    "created_at": "2026-02-04T03:21:30+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000114",
-    "lot_id": "LOT-2026-00000094",
-    "redemption_id": "RDM-2026-000037",
-    "transaction_id": "PTS-2026-00000491",
-    "points_allocated": 372,
-    "created_at": "2026-02-04T03:21:30+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000115",
-    "lot_id": "LOT-2026-00000422",
-    "redemption_id": "RDM-2026-000038",
-    "transaction_id": "PTS-2026-00000505",
-    "points_allocated": 217,
-    "created_at": "2026-07-28T18:17:25+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000116",
-    "lot_id": "LOT-2026-00000446",
-    "redemption_id": "RDM-2026-000038",
-    "transaction_id": "PTS-2026-00000505",
-    "points_allocated": 202,
-    "created_at": "2026-07-28T18:17:25+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000117",
-    "lot_id": "LOT-2026-00000433",
-    "redemption_id": "RDM-2026-000038",
-    "transaction_id": "PTS-2026-00000505",
-    "points_allocated": 42,
-    "created_at": "2026-07-28T18:17:25+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000118",
-    "lot_id": "LOT-2026-00000150",
-    "redemption_id": "RDM-2026-000038",
-    "transaction_id": "PTS-2026-00000505",
-    "points_allocated": 39,
-    "created_at": "2026-07-28T18:17:25+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000119",
-    "lot_id": "LOT-2026-00000357",
-    "redemption_id": "RDM-2026-000039",
-    "transaction_id": "PTS-2026-00000521",
-    "points_allocated": 355,
-    "created_at": "2026-10-22T03:47:53+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000120",
-    "lot_id": "LOT-2026-00000444",
-    "redemption_id": "RDM-2026-000039",
-    "transaction_id": "PTS-2026-00000521",
-    "points_allocated": 269,
-    "created_at": "2026-10-22T03:47:53+00:00"
-  },
-  {
-    "allocation_id": "ALC-2026-00000121",
-    "lot_id": "LOT-2026-00000448",
-    "redemption_id": "RDM-2026-000039",
-    "transaction_id": "PTS-2026-00000521",
-    "points_allocated": 326,
-    "created_at": "2026-10-22T03:47:53+00:00"
+    "lot_id": "LOT-2026-00000336",
+    "redemption_id": "RDM-2026-000027",
+    "transaction_id": "PTS-2026-00000484",
+    "points_allocated": 20,
+    "created_at": "2026-08-29T14:35:03+00:00"
   }
 ]

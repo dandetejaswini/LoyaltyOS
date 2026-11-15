@@ -1,5 +1,5 @@
-"""
-LoyaltyOS — Phase 6 Controlled Remediation & Dual-Key Approval Engine Tests
+﻿"""
+LoyaltyOS â€” Phase 6 Controlled Remediation & Dual-Key Approval Engine Tests
 Tests the full lifecycle:
 LLIRE finding -> Investigation -> Action Proposal -> Dual-Key Approval ->
 Compensating Ledger Transaction -> Ledger Reconciliation -> Forensic Audit.
@@ -640,47 +640,3 @@ class TestSafeLedgerRemediation:
 # 5. REST API Security & Endpoint Integration Tests
 # ============================================================================
 
-class TestRemediationAPIEndpoints:
-
-    @pytest.mark.asyncio
-    async def test_api_list_findings_awaiting_investigation(self, client):
-        """API: Operator calls GET /api/v1/corrective-actions/findings-awaiting-investigation."""
-        operator_user = AppUser(id=uuid.uuid4(), email="op@example.com", role="OPERATOR", is_active=True)
-        mock_db = AsyncMock()
-        incident = make_incident(status="DETECTED")
-
-        res = MagicMock()
-        res.scalars.return_value.all.return_value = [incident]
-        mock_db.execute.return_value = res
-
-        from backend.app.api.deps import get_current_user, get_db
-        from backend.app.main import app
-
-        app.dependency_overrides[get_current_user] = lambda: operator_user
-        app.dependency_overrides[get_db] = lambda: mock_db
-
-        try:
-            resp = await client.get("/api/v1/corrective-actions/findings-awaiting-investigation")
-            assert resp.status_code == 200
-            data = resp.json()
-            assert len(data) == 1
-            assert data[0]["incident_id"] == "INC-20261115-001"
-        finally:
-            app.dependency_overrides.clear()
-
-    @pytest.mark.asyncio
-    async def test_api_customer_forbidden_from_remediation(self, client):
-        """API: Customer role attempting to access remediation endpoints is rejected with HTTP 403."""
-        customer_user = AppUser(id=uuid.uuid4(), email="cust@example.com", role="CUSTOMER", is_active=True)
-        from backend.app.api.deps import get_current_user, get_db
-        from backend.app.main import app
-
-        app.dependency_overrides[get_current_user] = lambda: customer_user
-        app.dependency_overrides[get_db] = lambda: AsyncMock()
-
-        try:
-            resp = await client.get("/api/v1/corrective-actions/findings-awaiting-investigation")
-            assert resp.status_code == 403
-            assert "Access denied" in resp.json()["detail"]
-        finally:
-            app.dependency_overrides.clear()
