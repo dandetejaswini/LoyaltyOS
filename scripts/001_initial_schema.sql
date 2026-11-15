@@ -1,6 +1,6 @@
 -- ==============================================================================
 -- LoyaltyOS — Intelligent Loyalty & Ledger Management Platform
--- Initial Schema Migration Script (Phase 2)
+-- Initial Schema Migration Script (Phase 2 Security & Ledger Foundation)
 -- Target Engine: Supabase PostgreSQL (PostgreSQL 15+)
 -- Description: Establishes 21 core tables, foreign key constraints, indexes,
 --              PostgreSQL immutability triggers, and Row Level Security (RLS).
@@ -211,20 +211,7 @@ CREATE INDEX IF NOT EXISTS idx_pts_order ON points_transactions(order_id);
 CREATE INDEX IF NOT EXISTS idx_pts_related ON points_transactions(related_transaction_id);
 CREATE INDEX IF NOT EXISTS idx_pts_idempotency ON points_transactions(idempotency_key);
 
--- PostgreSQL Immutability Trigger Enforcement for Ledger
-CREATE OR REPLACE FUNCTION tg_fn_points_transactions_immutable()
-RETURNS TRIGGER AS $$
-BEGIN
-    RAISE EXCEPTION 'Immutability Violation: points_transactions is append-only. Modifying or deleting records is prohibited.';
-END;
-$$ LANGUAGE plpgsql;
-
-DROP TRIGGER IF EXISTS tg_points_transactions_immutable ON points_transactions;
-CREATE TRIGGER tg_points_transactions_immutable
-BEFORE UPDATE OR DELETE ON points_transactions
-FOR EACH ROW EXECUTE FUNCTION tg_fn_points_transactions_immutable();
-
--- 4.2 Points Lots (FIFO Tracking & Expiration)
+-- 4.2 Points Lots (FIFO Tracking & Expiration - Partially Mutable State)
 CREATE TABLE IF NOT EXISTS points_lots (
     lot_id VARCHAR(40) PRIMARY KEY,
     transaction_id VARCHAR(40) NOT NULL UNIQUE REFERENCES points_transactions(transaction_id) ON DELETE RESTRICT,
@@ -274,7 +261,7 @@ CREATE TABLE IF NOT EXISTS redemptions (
 CREATE INDEX IF NOT EXISTS idx_redemptions_account ON redemptions(account_id);
 CREATE INDEX IF NOT EXISTS idx_redemptions_voucher ON redemptions(voucher_code);
 
--- 4.5 Points Lot Allocations (Bridge)
+-- 4.5 Points Lot Allocations (Append-Only Bridge)
 CREATE TABLE IF NOT EXISTS points_lot_allocations (
     allocation_id VARCHAR(40) PRIMARY KEY,
     lot_id VARCHAR(40) NOT NULL REFERENCES points_lots(lot_id) ON DELETE RESTRICT,
@@ -299,7 +286,7 @@ CREATE TABLE IF NOT EXISTS expiry_batches (
     CONSTRAINT chk_expiry_batch_status CHECK (status IN ('IN_PROGRESS', 'COMPLETED', 'FAILED'))
 );
 
--- 4.7 Expiry Batch Items
+-- 4.7 Expiry Batch Items (Append-Only)
 CREATE TABLE IF NOT EXISTS expiry_batch_items (
     item_id VARCHAR(40) PRIMARY KEY,
     batch_id VARCHAR(32) NOT NULL REFERENCES expiry_batches(batch_id) ON DELETE CASCADE,
@@ -315,7 +302,7 @@ CREATE INDEX IF NOT EXISTS idx_expiry_items_batch ON expiry_batch_items(batch_id
 -- 5. AUDIT, LOGGING & OBSERVABILITY
 -- ==============================================================================
 
--- 5.1 Audit Events
+-- 5.1 Audit Events (Append-Only Audit Trail)
 CREATE TABLE IF NOT EXISTS audit_events (
     event_id VARCHAR(40) PRIMARY KEY,
     actor_id VARCHAR(64) NOT NULL,
@@ -380,10 +367,95 @@ CREATE TABLE IF NOT EXISTS corrective_actions (
 CREATE INDEX IF NOT EXISTS idx_corrective_incident ON corrective_actions(incident_id);
 
 -- ==============================================================================
--- 7. ROW-LEVEL SECURITY (RLS) POLICIES
+-- 7. DATABASE ENGINE IMMUTABILITY TRIGGERS
 -- ==============================================================================
 
--- Enable RLS on core customer/account tables
+-- 7.1 Ledger Journal Immutability: points_transactions (Append-Only)
+CREATE OR REPLACE FUNCTION tg_fn_points_transactions_immutable()
+RETURNS TRIGGER AS $$
+BEGIN
+    RAISE EXCEPTION 'Immutability Violation: points_transactions is append-only. Modifying or deleting records is prohibited.';
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tg_points_transactions_immutable ON points_transactions;
+CREATE TRIGGER tg_points_transactions_immutable
+BEFORE UPDATE OR DELETE ON points_transactions
+FOR EACH ROW EXECUTE FUNCTION tg_fn_points_transactions_immutable();
+
+-- 7.2 Audit Trail Immutability: audit_events (Append-Only)
+CREATE OR REPLACE FUNCTION tg_fn_audit_events_immutable()
+RETURNS TRIGGER AS $$
+BEGIN
+    RAISE EXCEPTION 'Immutability Violation: audit_events is append-only. Modifying or deleting audit history is prohibited.';
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tg_audit_events_immutable ON audit_events;
+CREATE TRIGGER tg_audit_events_immutable
+BEFORE UPDATE OR DELETE ON audit_events
+FOR EACH ROW EXECUTE FUNCTION tg_fn_audit_events_immutable();
+
+-- 7.3 Lot Allocations Immutability: points_lot_allocations (Append-Only)
+CREATE OR REPLACE FUNCTION tg_fn_points_lot_allocations_immutable()
+RETURNS TRIGGER AS $$
+BEGIN
+    RAISE EXCEPTION 'Immutability Violation: points_lot_allocations is append-only. Modifying or deleting allocations is prohibited.';
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tg_points_lot_allocations_immutable ON points_lot_allocations;
+CREATE TRIGGER tg_points_lot_allocations_immutable
+BEFORE UPDATE OR DELETE ON points_lot_allocations
+FOR EACH ROW EXECUTE FUNCTION tg_fn_points_lot_allocations_immutable();
+
+-- 7.4 Expiry Batch Items Immutability: expiry_batch_items (Append-Only)
+CREATE OR REPLACE FUNCTION tg_fn_expiry_batch_items_immutable()
+RETURNS TRIGGER AS $$
+BEGIN
+    RAISE EXCEPTION 'Immutability Violation: expiry_batch_items is append-only. Modifying or deleting batch items is prohibited.';
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tg_expiry_batch_items_immutable ON expiry_batch_items;
+CREATE TRIGGER tg_expiry_batch_items_immutable
+BEFORE UPDATE OR DELETE ON expiry_batch_items
+FOR EACH ROW EXECUTE FUNCTION tg_fn_expiry_batch_items_immutable();
+
+-- 7.5 Points Lots Guard: Protect immutable lot columns and prevent deletion
+CREATE OR REPLACE FUNCTION tg_fn_points_lots_immutability_guard()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'DELETE' THEN
+        RAISE EXCEPTION 'Immutability Violation: points_lots records cannot be deleted. Historical lot tracking must be preserved.';
+    ELSIF TG_OP = 'UPDATE' THEN
+        -- Verify that core immutable fields were not altered
+        IF OLD.lot_id <> NEW.lot_id OR
+           OLD.transaction_id <> NEW.transaction_id OR
+           OLD.account_id <> NEW.account_id OR
+           OLD.initial_points <> NEW.initial_points OR
+           OLD.created_at <> NEW.created_at THEN
+            RAISE EXCEPTION 'Immutability Violation: Immutable columns of points_lots (lot_id, transaction_id, account_id, initial_points, created_at) cannot be modified.';
+        END IF;
+        -- Ensure remaining_points does not exceed initial_points
+        IF NEW.remaining_points > OLD.initial_points THEN
+            RAISE EXCEPTION 'Constraint Violation: remaining_points cannot exceed initial_points.';
+        END IF;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS tg_points_lots_immutability_guard ON points_lots;
+CREATE TRIGGER tg_points_lots_immutability_guard
+BEFORE UPDATE OR DELETE ON points_lots
+FOR EACH ROW EXECUTE FUNCTION tg_fn_points_lots_immutability_guard();
+
+-- ==============================================================================
+-- 8. ROW-LEVEL SECURITY (RLS) POLICIES
+-- ==============================================================================
+
+-- Enable RLS across sensitive customer, identity, commerce and ledger tables
 ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_identity_mappings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
@@ -395,11 +467,7 @@ ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_lines ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit_events ENABLE ROW LEVEL SECURITY;
 
--- Helper policy for Supabase Service Role and Admin Backend
--- In production FastAPI backend, DB queries run with the service connection string which bypasses RLS,
--- but for direct PostgREST client queries via Supabase anon key, strict policies apply:
-
--- Direct Customer read policy: Customers may view only their own user record
+-- 8.1 App Users: Customers may only view their own user record
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'user_read_own_record' AND tablename = 'app_users') THEN
         CREATE POLICY user_read_own_record ON app_users
@@ -407,7 +475,15 @@ DO $$ BEGIN
     END IF;
 END $$;
 
--- Direct Customer read policy: Customers may view only their own customer profile
+-- 8.2 Identity Mappings: Customers may only inspect their own identity mappings
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'mapping_read_own_identities' AND tablename = 'user_identity_mappings') THEN
+        CREATE POLICY mapping_read_own_identities ON user_identity_mappings
+            FOR SELECT USING (auth.uid() = user_id);
+    END IF;
+END $$;
+
+-- 8.3 Customers: Profile read isolation
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_profile' AND tablename = 'customers') THEN
         CREATE POLICY customer_read_own_profile ON customers
@@ -415,7 +491,7 @@ DO $$ BEGIN
     END IF;
 END $$;
 
--- Direct Customer read policy: Customers may view only their own loyalty account
+-- 8.4 Loyalty Accounts: Customer read isolation
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_account' AND tablename = 'loyalty_accounts') THEN
         CREATE POLICY customer_read_own_account ON loyalty_accounts
@@ -423,13 +499,57 @@ DO $$ BEGIN
     END IF;
 END $$;
 
--- Direct Customer read policy: Customers may view only their own points transactions
+-- 8.5 Points Transactions: Ledger read isolation
 DO $$ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_transactions' AND tablename = 'points_transactions') THEN
         CREATE POLICY customer_read_own_transactions ON points_transactions
             FOR SELECT USING (account_id IN (
                 SELECT la.account_id FROM loyalty_accounts la
                 JOIN customers c ON c.customer_id = la.customer_id
+                WHERE c.user_id = auth.uid()
+            ));
+    END IF;
+END $$;
+
+-- 8.6 Points Lots: Lot tracking read isolation
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_lots' AND tablename = 'points_lots') THEN
+        CREATE POLICY customer_read_own_lots ON points_lots
+            FOR SELECT USING (account_id IN (
+                SELECT la.account_id FROM loyalty_accounts la
+                JOIN customers c ON c.customer_id = la.customer_id
+                WHERE c.user_id = auth.uid()
+            ));
+    END IF;
+END $$;
+
+-- 8.7 Redemptions: Voucher and redemption read isolation
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_redemptions' AND tablename = 'redemptions') THEN
+        CREATE POLICY customer_read_own_redemptions ON redemptions
+            FOR SELECT USING (account_id IN (
+                SELECT la.account_id FROM loyalty_accounts la
+                JOIN customers c ON c.customer_id = la.customer_id
+                WHERE c.user_id = auth.uid()
+            ));
+    END IF;
+END $$;
+
+-- 8.8 Orders: Customer order read isolation
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_orders' AND tablename = 'orders') THEN
+        CREATE POLICY customer_read_own_orders ON orders
+            FOR SELECT USING (customer_id IN (SELECT customer_id FROM customers WHERE user_id = auth.uid()));
+    END IF;
+END $$;
+
+-- 8.9 Order Lines: Line items read isolation
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'customer_read_own_order_lines' AND tablename = 'order_lines') THEN
+        CREATE POLICY customer_read_own_order_lines ON order_lines
+            FOR SELECT USING (order_id IN (
+                SELECT o.order_id FROM orders o
+                JOIN customers c ON c.customer_id = o.customer_id
                 WHERE c.user_id = auth.uid()
             ));
     END IF;

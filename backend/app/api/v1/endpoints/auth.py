@@ -12,6 +12,8 @@ from backend.app.schemas.auth import (
     LoyaltyAccountSummary,
     AuthSyncRequest,
     AuthSyncResponse,
+    LinkIdentityRequest,
+    LinkIdentityResponse,
 )
 
 router = APIRouter(prefix="/auth", tags=["Authentication & Identity"])
@@ -76,4 +78,25 @@ async def sync_user_identity(
     return AuthSyncResponse(
         user=_format_user_profile(user),
         message=f"Identity successfully synchronized for provider {payload.provider}.",
+    )
+
+
+@router.post("/link-identity", response_model=LinkIdentityResponse, status_code=status.HTTP_200_OK)
+async def link_secondary_identity(
+    req: LinkIdentityRequest,
+    current_user: AppUser = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> LinkIdentityResponse:
+    """
+    Explicitly links a secondary authenticated provider (e.g. Google OAuth) to the
+    currently authenticated user's account.
+    Requires cryptographic verification of the secondary token.
+    Role elevation is strictly prohibited.
+    """
+    secondary_payload = await decode_and_validate_token(req.link_token)
+    updated_user = await AuthService.link_provider_identity(db, current_user, secondary_payload)
+    return LinkIdentityResponse(
+        user=_format_user_profile(updated_user),
+        linked_provider=secondary_payload.provider,
+        message=f"Successfully linked {secondary_payload.provider} to your LoyaltyOS account.",
     )

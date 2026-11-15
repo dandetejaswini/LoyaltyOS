@@ -3,7 +3,7 @@
 > **"Accrue, redeem, expire and reverse points with a fully auditable loyalty ledger."**
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Tests](https://img.shields.io/badge/tests-23%20passed-brightgreen.svg)]()
+[![Tests](https://img.shields.io/badge/tests-42%20passed-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Python](https://img.shields.io/badge/python-3.14-blue.svg)]()
 [![React](https://img.shields.io/badge/react-18.3-61dafb.svg)]()

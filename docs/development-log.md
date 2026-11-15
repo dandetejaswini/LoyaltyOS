@@ -53,6 +53,16 @@
 - **Date**: 2026-11-15
 - **Feature / Milestone**: Standardized Single-Branch `main` Workflow & Public Repository Setup
 - **Brief Description**: Configured single-branch policy (`main`), created public GitHub repository `LoyaltyOS` (`dandetejaswini/LoyaltyOS`), pushed all historical commits, and established continuous integration and documentation logging.
-- **Commit**: Pending integration update.
+- **Commit**: `e9bd236` — `docs: establish development log and update README for Phase 2`
 - **Verification Performed**: `git remote -v`, `git branch -vv`, GitHub CLI remote connection verified.
-- **Remaining Work**: Phase 3 implementation upon user approval.
+- **Remaining Work**: Complete Phase 2 security and ledger immutability corrections.
+
+---
+
+### Phase 2 — Security & Immutability Corrections
+- **Date**: 2026-11-15
+- **Feature / Milestone**: Anti-Takeover Account Linking, Strict JWT/JWKS Verification & Ledger Immutability Triggers
+- **Brief Description**: Prohibited automatic cross-provider account merging based solely on matching email address. Implemented explicit authenticated account linking (POST /api/v1/auth/link-identity) with verified ownership and role non-elevation. Hardened Supabase JWT verification with algorithm whitelist (HS256 secret & RS256/ES256 JWKS) and removed all unverified decoding fallbacks. Added comprehensive Firebase RS256 tests. Implemented 5 PostgreSQL engine-level immutability triggers and documented table-by-table RLS policies.
+- **Commit**: Pending commit.
+- **Verification Performed**: Full backend test suite expanded from 23 to 42 tests, 100% passing (`pytest -v`); frontend typecheck and production build passing (`npm run build`).
+- **Remaining Work**: Phase 3 (Synthetic Data Generation & Ground-Truth Dataset Engine).

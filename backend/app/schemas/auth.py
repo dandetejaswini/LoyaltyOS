@@ -48,3 +48,13 @@ class AuthSyncRequest(BaseModel):
 class AuthSyncResponse(BaseModel):
     user: UserProfileResponse
     message: str
+
+
+class LinkIdentityRequest(BaseModel):
+    link_token: str
+
+
+class LinkIdentityResponse(BaseModel):
+    user: UserProfileResponse
+    linked_provider: str
+    message: str

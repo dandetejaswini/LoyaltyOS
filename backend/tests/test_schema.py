@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 import pytest
 from backend.app.core.database import Base
 # Import all models to ensure metadata registration
@@ -97,3 +99,81 @@ def test_identity_mappings_constraints():
         "last_sign_in_at",
     }
     assert required_columns.issubset(col_names)
+
+
+def test_audit_events_constraints():
+    """Verify audit_events table structure."""
+    table = Base.metadata.tables["audit_events"]
+    col_names = {c.name for c in table.columns}
+    assert {"event_id", "actor_id", "action", "entity_type", "entity_id", "created_at"}.issubset(col_names)
+
+
+def test_points_lot_allocations_constraints():
+    """Verify points_lot_allocations bridge table structure."""
+    table = Base.metadata.tables["points_lot_allocations"]
+    col_names = {c.name for c in table.columns}
+    assert {"allocation_id", "lot_id", "transaction_id", "points_allocated"}.issubset(col_names)
+
+
+def test_expiry_batch_items_constraints():
+    """Verify expiry_batch_items table structure."""
+    table = Base.metadata.tables["expiry_batch_items"]
+    col_names = {c.name for c in table.columns}
+    assert {"item_id", "batch_id", "lot_id", "points_expired"}.issubset(col_names)
+
+
+def test_immutability_triggers_parity_between_ddl_and_alembic():
+    """
+    Verifies that all 5 database engine immutability triggers are defined
+    identically in both scripts/001_initial_schema.sql and Alembic migration.
+    """
+    workspace_root = Path(__file__).resolve().parent.parent.parent
+    sql_path = workspace_root / "scripts" / "001_initial_schema.sql"
+    alembic_path = workspace_root / "backend" / "alembic" / "versions" / "001_initial_loyaltyos_schema.py"
+
+    assert sql_path.exists(), f"SQL DDL script missing at {sql_path}"
+    assert alembic_path.exists(), f"Alembic migration missing at {alembic_path}"
+
+    sql_content = sql_path.read_text(encoding="utf-8")
+    alembic_content = alembic_path.read_text(encoding="utf-8")
+
+    expected_triggers = [
+        "tg_points_transactions_immutable",
+        "tg_audit_events_immutable",
+        "tg_points_lot_allocations_immutable",
+        "tg_expiry_batch_items_immutable",
+        "tg_points_lots_immutability_guard",
+    ]
+
+    for trigger in expected_triggers:
+        assert trigger in sql_content, f"Trigger '{trigger}' missing in scripts/001_initial_schema.sql"
+        assert trigger in alembic_content, f"Trigger '{trigger}' missing in Alembic migration"
+
+
+def test_rls_policies_parity_between_ddl_and_alembic():
+    """
+    Verifies that Row Level Security (RLS) enablement and customer isolation policies
+    are defined in both scripts/001_initial_schema.sql and Alembic migration.
+    """
+    workspace_root = Path(__file__).resolve().parent.parent.parent
+    sql_path = workspace_root / "scripts" / "001_initial_schema.sql"
+    alembic_path = workspace_root / "backend" / "alembic" / "versions" / "001_initial_loyaltyos_schema.py"
+
+    sql_content = sql_path.read_text(encoding="utf-8")
+    alembic_content = alembic_path.read_text(encoding="utf-8")
+
+    expected_policies = [
+        "user_read_own_record",
+        "mapping_read_own_identities",
+        "customer_read_own_profile",
+        "customer_read_own_account",
+        "customer_read_own_transactions",
+        "customer_read_own_lots",
+        "customer_read_own_redemptions",
+        "customer_read_own_orders",
+        "customer_read_own_order_lines",
+    ]
+
+    for policy in expected_policies:
+        assert policy in sql_content, f"Policy '{policy}' missing in scripts/001_initial_schema.sql"
+        assert policy in alembic_content, f"Policy '{policy}' missing in Alembic migration"
